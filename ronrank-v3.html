@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Ron Rank</title>
+	<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'VT323', monospace;
+			background-color: #222034;
+			color: #22c6e9;
+		}
+		h1 {
+			font-size: 3em;
+			text-align: center;
+		}
+		label {
+			display: block;
+			margin: 10px 0;
+		}
+		select {
+			padding: 5px;
+			font-size: 1em;
+			width: 100px;
+		}
+		button {
+			padding: 10px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			margin-top: 10px;
+		}
+		#score {
+			margin-top: 10px;
+			padding: 5px;
+			background-color: #222034;
+			border-radius: 5px;
+			text-align: center;
+			font-size: 3em;
+			font-weight: bold;
+			width: 100px;
+			height: 50px;
+			display: none;
+		}
+	.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
+	</style>
+	<script>
+		function calculateScore() {
+			var element = parseInt(document.getElementById("element").value);
+			var resistance = parseInt(document.getElementById("resistance").value);
+			var weakness = parseInt(document.getElementById("weakness").value);
+			if (element && resistance && weakness) {
+				var score = element + resistance + weakness;
+				document.getElementById("score").innerHTML = score;
+				document.getElementById("score").style.display = "block";
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="container">
+	<h1>The Ron Rank</h1>
+	<div>
+		<label for="element">Element:</label>
+		<select id="element">
+			<option value="">Select Element</option>
+			<option value="19">Psycho</option>
+			<option value="18">Spirit</option>
+			<option value="17">Thunder</option>
+			<option value="15">Undead</option>
+			<option value="14">Sun</option>
+			<option value="12">Dark</option>
+			<option value="12">Acid</option>
+			<option value="12">Water</option>
+			<option value="11">Wind</option>
+			<option value="11">Ice</option>
+			<option value="8">Fire</option>
+			<option value="7">Earth</option>
+		</select>
+		<label for="resistance">Resistance:</label>
+		<select id="resistance">
+			<option value="">Select Resistance</option>
+			<option value="12">Spirit</option>
+			<option value="11">Psycho</option>
+			<option value="10">Earth</option>
+			<option value="9">Ice</option>
+			<option value="8">Fire</option>
+			<option value="7">Thunder</option>
+			<option value="6">Wind</option>
+			<option value="5">Water</option>
+			<option value="4">Acid</option>
+			<option value="3">Sun</option>
+			<option value="2">Undead</option>
+			<option value="1">Dark</option>
+		</select>
+		<label for="weakness">Weakness:</label>
+		<select id="weakness">
+			<option value="">Select Weakness</option>
+			<option value="12">Dark</option>
+			<option value="11">Undead</option>
+			<option value="10">Sun</option>
+			<option value="9">Acid</option>
+			<option value="8">Water</option>
+			<option value="7">Wind</option>
+			<option value="6">Thunder</option>
+			<option value="5">Fire</option>
+			<option value="4">Ice</option>
+			<option value="3">Earth</option>
+			<option value="2">Psycho</option>
+			<option value="1">Spirit</option>
+		</select>
+		<button onclick="calculateScore()">Calculate</button>
+		<div id="score"></div>
+	</div>
+	<div id="score-range">
+	Scores range from 12-43 and the median score is 22.5.
+</div>
+</body>
+</html>
+
