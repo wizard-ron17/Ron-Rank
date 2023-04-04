@@ -145,6 +145,19 @@
 	</div>
 	<div id="score-range" style="position: fixed; top: 400px; text-align: center;">
 	Scores range from 12 to 43 and the median score is 27.5. <br/>Donations: ron.kda k:76821f628c5d257ee32b9f4527490fd41847cb9267c6ba5611d7981616e4ed17
+	 <button onclick="copyToClipboard('k:76821f628c5d257ee32b9f4527490fd41847cb9267c6ba5611d7981616e4ed17')">Copy</button>
+	<script>
+    function copyToClipboard(text) {
+        var tempInput = document.createElement("input");
+        tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("Text copied to clipboard!");
+    }
+</script>
 </div>
 </body>
 </html>
