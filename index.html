@@ -95,9 +95,9 @@ function calculateScore() {
             var green = 198;
             var blue = 233;
             var percent = (score - 12) / 31;
-            red += Math.round(percent * (255 - 34));
-            green += Math.round(percent * (255 - 198));
-            blue += Math.round(percent * (255 - 233));
+            red += Math.round(percent * (255 + 34));
+            green += Math.round(percent * (255 + 198));
+            blue += Math.round(percent * (255 + 233));
             scoreColor = "rgb(" + red + "," + green + "," + blue + ")";
         }
         document.getElementById("score").style.color = scoreColor;
