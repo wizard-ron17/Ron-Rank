@@ -86,18 +86,14 @@ function calculateScore() {
         document.getElementById("score").style.display = "block";
 
         var scoreColor;
-        if (score <= 12) {
+        if (score >= 43) {
             scoreColor = "#22c6e9";
-        } else if (score >= 43) {
+        } else if (score <= 12) {
             scoreColor = "#FFFFFF"; // white
         } else {
-            var red = 34;
-            var green = 198;
-            var blue = 233;
-            var percent = (score - 12) / 31;
-            red += Math.round(percent * (255 - 34));
-            green += Math.round(percent * (255 - 198));
-            blue += Math.round(percent * (255 - 233));
+            var red = 34 + Math.round((1 - (score - 12) / 31) * (255 - 34));
+            var green = 198 + Math.round((1 - (score - 12) / 31) * (255 - 198));
+            var blue = 233 + Math.round((1 - (score - 12) / 31) * (255 - 233));
             scoreColor = "rgb(" + red + "," + green + "," + blue + ")";
         }
         document.getElementById("score").style.color = scoreColor;
