@@ -76,7 +76,7 @@
 }
 	</style>
 	<script>
-		function calculateScore() {
+	function calculateScore() {
     var element = parseInt(document.getElementById("element").value);
     var resistance = parseInt(document.getElementById("resistance").value);
     var weakness = parseInt(document.getElementById("weakness").value);
@@ -86,18 +86,18 @@
         document.getElementById("score").style.display = "block";
 
         var scoreColor;
-        if (score <= 12) {
-            scoreColor = "#FFFFFF"; // white
-        } else if (score >= 43) {
+        if (score >= 43) {
             scoreColor = "#22c6e9";
+        } else if (score <= 12) {
+            scoreColor = "#FFFFFF"; // white
         } else {
-            var red = 34;
-            var green = 198;
-            var blue = 233;
-            var percent = (score - 12) / 31;
-            red += Math.round(percent * (255 - 34));
-            green += Math.round(percent * (255 - 198));
-            blue += Math.round(percent * (255 - 233));
+            var red = 255;
+            var green = 255;
+            var blue = 255;
+            var percent = (43 - score) / 31;
+            red -= Math.round(percent * (255 - 34));
+            green -= Math.round(percent * (255 - 198));
+            blue -= Math.round(percent * (255 - 233));
             scoreColor = "rgb(" + red + "," + green + "," + blue + ")";
         }
         document.getElementById("score").style.color = scoreColor;
