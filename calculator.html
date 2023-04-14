@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #222034;
+      color: #22c6e9;
+      font-family: 'VT323', monospace;
+    }
+    input {
+      background-color: #2a2a44;
+      color: #22c6e9;
+      border: none;
+      border-radius: 5px;
+      padding: 15px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      width: 60px;
+      text-align: center;
+      font-family: 'VT323', monospace;
+      font-size: 30px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ron's Level Calculator</h1>
+  <form>
+    <label for="hp">HP:</label>
+    <input type="number" id="hp" name="hp" onchange="calculate()">
+    <label for="def">DEF:</label>
+    <input type="number" id="def" name="def" onchange="calculate()">
+    <label for="atk">ATK:</label>
+    <input type="number" id="atk" name="atk" onchange="calculate()">
+    <label for="dmg">DMG:</label>
+    <input type="number" id="dmg" name="dmg" onchange="calculate()">
+    <label for="spd">SPD:</label>
+    <input type="number" id="spd" name="spd" onchange="calculate()">
+    <label for="lvl">LVL:</label>
+    <input type="text" id="lvl" name="lvl" readonly>
+  </form>
+  <script>
+    function calculate() {
+      let hp = document.getElementById("hp").value;
+      let def = document.getElementById("def").value;
+      let atk = document.getElementById("atk").value;
+      let dmg = document.getElementById("dmg").value;
+      let spd = document.getElementById("spd").value;
+
+      let level = Math.round(hp * 1 + def * 4.67 + atk * 4.67 + dmg * 2.67 + spd * 2.67);
+
+      document.getElementById("lvl").value = level;
+    }
+  </script>
+</body>
+</html>
