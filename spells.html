@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ron's Spell Tracker</title>
+	<meta name="description" content="Track your wizard's spells with Ron's Spell Tracker">
+	<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/favicon-cleric.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<style>
+      .tooltip {
+    position: relative;
+    display: block;
+    height: 50%;
+    margin-bottom: 0;
+  }
+  /* Define tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 210px;
+    background-color: #ffff;
+    color: #000;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: -120%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  /* Show tooltip text on hover */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+		body {
+			font-family: 'VT323', monospace;
+			background-color: #222034;
+			color: #22c6e9;
+			margin: 0;
+			padding: 0;
+		}
+		nav {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 30px;
+			background-color: #2a2a44;
+			padding: 0 20px;
+		}
+		nav a {
+			color: white;
+			text-decoration: none;
+			font-size: 20px;
+			margin: 0 10px;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			font-weight: bold;
+		}
+		h1 {
+			font-size: 3em;
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+    table caption {
+      font-size: 28px;
+      text-align: left;
+      margin-bottom: 5px;
+    }
+		table {
+			border-collapse: collapse;
+			width: 40%;
+			margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      float: center;
+		}
+    .-table {
+        float: right;
+        display: flex;
+  flex-direction: column;
+     }
+		th, td {
+			text-align: center;
+			padding: 4px 20px;
+			border-bottom: ;
+			color: #22c6e9;
+			font-size: 20px;
+			font-weight: normal;
+		}
+		th {
+			background-color: #2a2a44;
+			color: white;
+			font-weight: bold;
+		}
+		.element {
+			padding: 10px;
+			margin-bottom: 40px;
+		}
+		.element h2 {
+			margin-top: 0;
+		}
+		@media only screen and (max-width: 768px) {
+			h1 {
+				font-size: 28px;
+			}
+			table {
+				font-size: 16px;
+        width: 80%;
+    max-width: 80%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<nav>
+		<a href="https://ronrank.xyz/">Rank</a>
+		<a href="https://ronrank.xyz/calculator">Calculator</a>
+	</nav>
+	<h1>Ron's Spell Tracker</h1>
+	<div class="element">
+		<table class="-table">
+      <caption>Dark</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Vindicate</td>
+				<td>None</td>
+				<td>5</td>
+				<td>7</td>
+      </tr>
+      <tr>
+				<td>Unholy Nova</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Bane</td>
+				<td class="tooltip">Slow
+      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's attack - Chance of success: 35%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Hallucination</td>
+				<td class="tooltip">Paralyze
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 30%</span>
+    </td>
+				<td>3</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Blight</td>
+				<td class="tooltip">Exhaust
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
+    </td>
+				<td>6</td>
+				<td>7</td>
+      </tr>
+      <tr>
+				<td>Hex</td>
+				<td class="tooltip">Curse
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's defense - Chance of success: 60%</span>
+    </td>
+				<td>6</td>
+				<td>7</td>
+      </tr>
+      </table>
+      <table class="-table">  
+      <caption>Acid</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Acid Beam</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Acid Arrow</td>
+				<td class="tooltip">Poison 1
+      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's defense - Chance of success: 40%</span>
+    </td>
+				<td>5</td>
+				<td>4</td>
+      </tr>
+      <tr>
+				<td>Poison Barrage</td>
+				<td class="tooltip">Poison 2
+      <span class="tooltiptext">Inflicts a penalty of 2 on the opponent's defense - Chance of success: 50%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Cloudkill</td>
+				<td class="tooltip">Poison 3
+      <span class="tooltiptext">The opponent is so poisoned that he misses his turn - Chance of success: 40%</span>
+    </td>
+				<td>2</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Corrosion</td>
+				<td>None</td>
+				<td>7</td>
+				<td>9</td>
+      </tr>
+      <tr>
+				<td>Infestation</td>
+				<td class="tooltip">Disease
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's defense - Chance of success: 70%</span>
+    </td>
+				<td>6</td>
+				<td>7</td>
+      </tr>
+        <table class="-table">
+      <caption>Ice</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Frost Missiles</td>
+				<td>None</td>
+				<td>5</td>
+				<td>7</td>
+      </tr>
+      <tr>
+				<td>Ice Spear</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Ice Storm</td>
+				<td class="tooltip">Freeze
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 30%</span>
+    </td>
+				<td>3</td>
+				<td>2</td>
+      </tr>
+      <tr>
+				<td>Frostbite</td>
+				<td class="tooltip">Slow
+      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's attack - Chance of success: 40%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Ice Shield</td>
+				<td class="tooltip">Harden
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's damage - Chance of success: 70%</span>
+    </td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Avalanche</td>
+				<td class="tooltip">Paralyze 2
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
+    </td>
+				<td>6</td>
+				<td>7</td>
+      </tr>
+          </table>
+      <table class="-table">
+      <caption>Fire</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Hellfire Strike</td>
+				<td>None</td>
+				<td>5</td>
+				<td>7</td>
+      </tr>
+      <tr>
+				<td>Fireball</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Fiery Smoke</td>
+				<td class="tooltip">Confuse
+      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
+    </td>
+				<td>3</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Ignite</td>
+				<td class="tooltip">Burn
+      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's damage - Chance of success: 30%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Hellish Flame</td>
+				<td class="tooltip">Burn 2
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's defense - Chance of success: 60%</span>
+    </td>
+				<td>6</td>
+				<td>7</td>
+      </tr>
+      <tr>
+				<td>Dragon's Breath</td>
+				<td class="tooltip">Fear 2
+      <span class="tooltiptext">The opponent is too scared to move and loses the turn - Chance of success: 30%</span>
+    </td>
+				<td>6</td>
+				<td>7</td>
+      </tr>
+            <table class="-table">
+      <caption>Wind</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Wind Strike</td>
+				<td>None</td>
+				<td>5</td>
+				<td>7</td>
+      </tr>
+      <tr>
+				<td>Tornado</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Wave of Nature</td>
+				<td class="tooltip">Confuse
+      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Wind Rupture</td>
+				<td class="tooltip">Slow
+      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's attack - Chance of success: 35%</span>
+    </td>
+				<td>4</td>
+				<td>4</td>
+      </tr>
+      <tr>
+				<td>Whirl</td>
+				<td>None</td>
+				<td>7</td>
+				<td>9</td>
+      </tr>
+      <tr>
+				<td>Wind Barrier</td>
+				<td class="tooltip">Protection
+      <span class="tooltiptext">Inflicts a penalty of 3 on the opponent's damage - Chance of success: 75%</span>
+    </td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+               <table class="-table">
+      <caption>Thunder</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Lightning</td>
+				<td>None</td>
+				<td>5</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Storm</td>
+				<td>None</td>
+				<td>6</td>
+				<td>5</td>
+      </tr>
+      <tr>
+				<td>Thunder</td>
+				<td class="tooltip">Paralyze
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 35%</span>
+    </td>
+				<td>3</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Thunder Spike</td>
+				<td class="tooltip">Confuse
+      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Shatter</td>
+				<td class="tooltip">Exhaust
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
+    </td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Shock</td>
+				<td class="tooltip">Confuse
+      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
+    </td>
+				<td>5</td>
+				<td>8</td>
+      </tr>
+		<table class="-table">
+      <caption>Psycho</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Nightmare</td>
+				<td>None</td>
+				<td>7</td>
+				<td>5</td>
+      </tr>
+      <tr>
+				<td>Madness</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Fear</td>
+				<td class="tooltip">Fear
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 55%</span>
+    </td>
+				<td>3</td>
+				<td>4</td>
+      </tr>
+      <tr>
+				<td>Command</td>
+				<td class="tooltip">Paralyze 2
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Deadly Illusion</td>
+				<td class="tooltip">Paralyze 2
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
+    </td>
+				<td>5</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Maddening Darkness</td>
+				<td class="tooltip">Fear 3
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's defense - Chance of success: 70%</span>
+    </td>
+				<td>6</td>
+				<td>5</td>
+      </tr>
+      <table class="-table">  
+      <caption>Earth</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Flesh to Stone</td>
+				<td>None</td>
+				<td>5</td>
+				<td>7</td>
+      </tr>
+      <tr>
+				<td>Erupting Earth</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Earthquake</td>
+				<td class="tooltip">Shock
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
+    </td>
+				<td>3</td>
+				<td>4</td>
+      </tr>
+      <tr>
+				<td>Earth Tremor</td>
+				<td class="tooltip">Slow 2
+      <span class="tooltiptext">Inflicts a penalty of 3 on the opponent's attack - Chance of success: 90%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Meteors</td>
+				<td>None</td>
+				<td>7</td>
+				<td>9</td>
+      </tr>
+      <tr>
+				<td>Rock Shield</td>
+				<td class="tooltip">Harden
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's damage - Chance of success: 70%</span>
+    </td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+        <table class="-table">
+      <caption>Sun</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Sacred Flame</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Solar Faith</td>
+				<td class="tooltip">Exhaust
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
+    </td>
+				<td>3</td>
+				<td>4</td>
+      </tr>
+      <tr>
+				<td>Dawn</td>
+				<td class="tooltip">Blind
+      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Sunbeam</td>
+				<td class="tooltip">Confuse
+      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
+    </td>
+				<td>6</td>
+				<td>7</td>
+      </tr>
+      <tr>
+				<td>Divine Light</td>
+				<td>None</td>
+				<td>7</td>
+				<td>9</td>
+      </tr>
+      <tr>
+				<td>Light Shield</td>
+				<td class="tooltip">Protection
+      <span class="tooltiptext">Inflicts a penalty of 3 on the opponent's damage - Chance of success: 75%</span>
+    </td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+          <table class="-table">
+      <caption>Spirit</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Summon Spirit</td>
+				<td>None</td>
+				<td>7</td>
+				<td>5</td>
+      </tr>
+      <tr>
+				<td>Wail of Spirits</td>
+				<td>None</td>
+				<td>6</td>
+				<td>7</td>
+      </tr>
+      <tr>
+				<td>Cursed Whispers</td>
+				<td class="tooltip">Fear
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 55%</span>
+    </td>
+				<td>3</td>
+				<td>4</td>
+      </tr>
+      <tr>
+				<td>Mental Prison</td>
+				<td class="tooltip">Paralyze 2
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Phantasmal Force</td>
+				<td class="tooltip">Exhaust
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
+    </td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Possession</td>
+				<td class="tooltip">Confuse
+      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
+    </td>
+				<td>6</td>
+				<td>8</td>
+      </tr>
+            <table class="-table">
+      <caption>Water</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Maelstrom</td>
+				<td>None</td>
+				<td>7</td>
+				<td>5</td>
+      </tr>
+      <tr>
+				<td>Tsunami</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Drown </td>
+				<td class="tooltip">Exhaust
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
+    </td>
+				<td>3</td>
+				<td>4</td>
+      </tr>
+      <tr>
+				<td>Watery Sphere </td>
+				<td class="tooltip">Paralyze 2
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
+    </td>
+				<td>4</td>
+				<td>3</td>
+      </tr>
+      <tr>
+				<td>Flood</td>
+				<td class="tooltip">Paralyze 2
+      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
+    </td>
+				<td>5</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Water Barrier</td>
+				<td class="tooltip">Protection
+      <span class="tooltiptext">Inflicts a penalty of 3 on the opponent's damage - Chance of success: 75%</span>
+    </td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+               <table class="-table">
+      <caption>Undead</caption>
+			<tr>
+				<th>SPELL</th>
+				<th>PERK</th>
+				<th>BASE ATK</th>
+				<th>BASE DMG</th>
+			</tr>
+			<tr>
+				<td>Circle of Death</td>
+				<td>None</td>
+				<td>7</td>
+				<td>5</td>
+      </tr>
+      <tr>
+				<td>Summon Undead</td>
+				<td>None</td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+    <td>Decay</td>
+    <td class="tooltip">Exhaust
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
+    </td>
+    <td>4</td>
+    <td>3</td>
+  </tr>
+      <tr>
+				<td>Whiter</td>
+				<td class="tooltip">Poison 3
+      <span class="tooltiptext">The opponent is so poisoned that he misses his turn - Chance of success: 40%</span>
+    </td>
+				<td>3</td>
+				<td>4</td>
+      </tr>
+      <tr>
+				<td>Danse Macabre</td>
+				<td class="tooltip">Fear
+      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 55%</span>
+    </td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      <tr>
+				<td>Finger of Death</td>
+				<td class="tooltip">Fear 2
+      <span class="tooltiptext">The opponent is too scared to move and loses the turn - Chance of success: 30%</span>
+    </td>
+				<td>6</td>
+				<td>6</td>
+      </tr>
+      
+
+		
+
+			
+
+      
+			
+
+
+
