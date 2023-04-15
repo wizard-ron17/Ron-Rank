@@ -109,10 +109,13 @@
 				font-size: 28px;
 			}
 			table {
-			font-size: 16px;
-        		width: 80%;
-   			max-width: 80%;
-			float: center;
+    font-size: 16px;
+    width: 80%;
+    max-width: 80%;
+    float: none; /* override float property */
+    display: table; /* override display property */
+    margin: 0 auto; /* center the table */
+  }
 			}
 			.-table {
         		float: center;
