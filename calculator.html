@@ -94,8 +94,15 @@
 
       let level = Math.round(hp * 1 + def * 4.67 + atk * 4.67 + dmg * 2.67 + spd * 2.67);
 
-      document.getElementById("lvl").value = level;
-    }
+      let lvlField = document.getElementById("lvl");
+  lvlField.value = level;
+  
+  if (level > 350) {
+    lvlField.style.color = "red";
+  } else {
+    lvlField.style.color = "";
+  }
+}
   </script>
 </body>
 </html>
