@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <title>Ron's Level Calculator</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'VT323', monospace;
+        background-color: #222034;
+        color: #22c6e9;
+        width: 
+      }
+  nav {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 30px;
+			background-color: #2a2a44;
+			padding: 0 20px;
+		}
+		nav a {
+			color: white;
+			text-decoration: none;
+			font-size: 20px;
+			margin: 0 10px;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			font-weight: bold;
+		}
+      h1 {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 50px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #2a2a44;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 0px 70px;
+      }
+
+      .form-group {
+        flex-basis: calc(50% - 10px);
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .form-group input {
+        display: block;
+        width: 50%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #222034;
+        font-size: 30px;
+        color: #22c6e9;
+        font-family: 'VT323', monospace;
+      }
+
+
+      button {
+        display: block;
+        margin: 0 auto;
+        background-color: #22c6e9;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-family: 'VT323', monospace;
+      }
+
+
+      #lvl {
+        text-align: center;
+        margin-top: 30px;
+        width: 120px;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        color: #22c6e9;
+        transition: color 0.3s ease;
+        margin-left: 170px;
+        background-color: #222034;
+        border: none;
+      }
+
+      #lvl.red {
+        color: #f44336;
+      }
+
+      .mode {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .mode label {
+        display: block;
+        cursor: pointer;
+      }
+
+      .mode label input {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+     <nav>
+		<a href="http://ronrank.xyz/">Rank</a>
+	  	<a href="http://ronrank.xyz/spells/">Spells</a>
+	</nav>
+    <h1>Ron's Level Calculator</h1>
+    <div class="container">
+      <form>
+        <div class="form-group">
+          <label for="hp">HP</label>
+<input type="number" id="hp" name="hp" required>
+</div>
+<div class="form-group">
+<label for="def">Defense</label>
+<input type="number" id="def" name="def" required>
+</div>
+<div class="form-group">
+<label for="atk">Attack</label>
+<input type="number" id="atk" name="atk" required>
+</div>
+<div class="form-group">
+<label for="dmg">Damage</label>
+<input type="number" id="dmg" name="dmg" required>
+</div>
+<div class="form-group">
+<label for="spd">Speed</label>
+<input type="number" id="spd" name="spd" required>
+</div>
+</form>
+<div class="mode">
+<label>
+<input type="radio" name="mode" value="apprentice" checked>
+Apprentice (LVL 250)
+</label>
+<label>
+<input type="radio" name="mode" value="elite">
+Elite (LEVEL 350)
+</label>
+</div>
+<button id="calculate-btn">Calculate</button>
+<input type="text" id="lvl" name="lvl" readonly>
+</div>
+<script>
+const calculateBtn = document.getElementById("calculate-btn");
+calculateBtn.addEventListener("click", function() {
+let hp = document.getElementById("hp").value;
+let def = document.getElementById("def").value;
+let atk = document.getElementById("atk").value;
+let dmg = document.getElementById("dmg").value;
+let spd = document.getElementById("spd").value;
+ let level = Math.round(hp * 1 + def * 4.67 + atk * 4.67 + dmg * 2.67 + spd * 2.67);
+
+    let lvlField = document.getElementById("lvl");
+    lvlField.value = level;
+
+    let mode = document.querySelector('input[name="mode"]:checked').value;
+    if (mode === "apprentice") {
+      if (level > 250) {
+        lvlField.classList.add("red");
+      } else {
+        lvlField.classList.remove("red");
+      }
+    } else {
+      if (level > 350) {
+        lvlField.classList.add("red");
+      } else {
+        lvlField.classList.remove("red");
+      }
+    }
+  });
+</script>
+  </body>
+</html>
