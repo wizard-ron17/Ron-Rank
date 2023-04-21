@@ -14,6 +14,7 @@
 			color: #22c6e9;
 			margin: 0;
 			padding: 0;
+      margin-bottom: 10px;
 		}
 		nav {
 			display: flex;
@@ -39,23 +40,26 @@
 			font-size: 50px;
 			text-align: center;
 			margin-bottom: 10px;
-      			margin-top: 40px;
+      margin-top: 0px;
 			text-transform: uppercase;
+      padding: 0px;
+      letter-spacing: 2px;
 		}
 		label {
 			display: block;
 			margin: 10px 0;
 			text-transform: uppercase;
-      			text-align: auto;
+      text-align: center;
+      font-size: 20px;
 		}
 		select {
 			padding: 5px;
 			font-size: 1em;
-			width: 100px;
+			width: 150px;
 			margin-top: 0;
-			font-family: 'VT323', monospace;
-      			background-color: #2a2a44;
-      			color: white;
+			font-family: 'VT323',               monospace;
+      background-color: #222034;
+      color: white;
 		}
 		button {
 			padding: 10px;
@@ -65,16 +69,17 @@
 			border-radius: 5px;
 			cursor: pointer;
 			margin-top: 10px;
-			font-family: 'VT323', monospace;
+			font-family: 'VT323',               monospace;
 			text-transform: uppercase;
 		}
 		#score {
-			margin-top: 10px;
+			margin-top: 0px;
+      margin-left: 25px;
 			padding: 5px;
-			background-color: #222034;
+			background-color: #2a2a44;
 			border-radius: 5px;
 			text-align: center;
-			font-size: 3em;
+			font-size: 50px;
 			font-weight: bold;
 			width: 100px;
 			height: 50px;
@@ -82,7 +87,7 @@
 		}
 	.container {
 			position: absolute;
-			top: 0;
+			top: 80px;
 			left: 50%;
 			transform: translateX(-50%);
 			display: flex;
@@ -90,16 +95,25 @@
 			align-items: center;
 			justify-content: flex-start;
 			height: 100vh;
+      width: 450px;
+      clippath: inset(80px 0 0 0);
+      background-color: #2a2a44;
+      border-radius: 15px;
+      margin-bottom: 10px;
 		}
+    .container:after {
+  content: "Scores range from 12 to 43 and the median score is 27.5."; /* add your text */
+  position: absolute; /* make text position absolute */
+  bottom: 0px; /* adjust bottom value to place it just below the container */
+  left: 10; /* align text to the left */
+}
 		@media (max-width: 600px) {
     h1 {
         font-size: 2em;
     }
-
     select {
         width: 80px;
     }
-
     #score {
         font-size: 2em;
         width: 80px;
@@ -136,11 +150,11 @@ function calculateScore() {
 <body>
 	<nav>
 		<a href="http://ronrank.xyz/calculator/">Calculator</a>
-		<a href="http://ronrank.xyz/tournament">Tournament</a>
+		<a href="http://ronrank.xyz/tournament/">Tournament</a>
 		<a href="http://ronrank.xyz/spells/">Spells</a>
 	</nav>
-	<div class="container">
 	<h1>The Ron Rank</h1>
+  <div class="container">
 	<div>
 		<label for="element">Element:</label>
 		<select id="element">
@@ -190,24 +204,11 @@ function calculateScore() {
 			<option value="7">Wind</option>
 			<option value="6">Thunder</option>
 		</select>
-		<button onclick="calculateScore()" style="font-size: 14px; padding: 7px 10px; margin: 0">Calculate</button>
-<div id="score"></div>
+    </br>
+		<button onclick="calculateScore()" style="font-size: 18px; width: 150px; padding: 7px 10px; margin: 10;">Calculate</button>
+<div id="score"></div>   
 	</div>
 	<div id="score-range" style="position: fixed; top: 400px; text-align: center;">
-	Scores range from 12 to 43 and the median score is 27.5. <br/>Donations: ron.kda k:76821f628c5d257ee32b9f4527490fd41847cb9267c6ba5611d7981616e4ed17
-	 <button onclick="copyToClipboard('k:76821f628c5d257ee32b9f4527490fd41847cb9267c6ba5611d7981616e4ed17')">Copy</button>
-	<script>
-    function copyToClipboard(text) {
-        var tempInput = document.createElement("input");
-        tempInput.style = "position: absolute; left: -1000px; top: -1000px";
-        tempInput.value = text;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
-        alert("Ron's k:address has been copied to your clipboard!");
-    }
-</script>
 </div>
 </body>
 </html>
