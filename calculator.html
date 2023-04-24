@@ -20,7 +20,7 @@
         background-color: #222034;
         color: #22c6e9; 
       }
-  nav {
+  		nav {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
@@ -37,8 +37,11 @@
 			letter-spacing: 2px;
 			font-weight: bold;
 		}
-	    nav a:hover {
-  		color: #22c6e9;
+	    	nav a:hover {
+  			color: #22c6e9;
+      		}
+	    	nav a.active {
+        	color: #22c6e9;
       		}
       h1 {
         text-align: center;
@@ -152,10 +155,12 @@
   </head>
   <body>
      <nav>
-	     	<a href="http://ronrank.xyz/tournament/">Tournament</a>
 	     	<a href="http://ronrank.xyz/">Rank</a>
+        	<a class="active" href="http://ronrank.xyz/calculator/">Calculator</a>
 	  	<a href="http://ronrank.xyz/spells/">Spells</a>
-	</nav>
+        	<a href="http://ronrank.xyz/tournament/">Tournament</a>
+        	<a href="http://ronrank.xyz/info/">Info</a>
+    </nav>
     <h1>Ron's Level Calculator</h1>
     <div class="container">
       <form>
