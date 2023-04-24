@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate the stats and corresponding Level for your Wizards!">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/favicon-cleric.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <title>Ron Rank Info</title>
+    <style>
+      nav {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 30px;
+			background-color: #2a2a44;
+			padding: 0 20px;
+		}
+		nav a {
+			color: white;
+			text-decoration: none;
+			font-size: 20px;
+			margin: 0 10px;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			font-weight: bold;
+		}
+	    nav a:hover {
+  		color: #22c6e9;
+      		}
+
+      nav a.active {
+        color: #22c6e9;
+      }
+
+      /* Page styles */
+      body {
+        font-family: 'VT323', monospace;
+        background-color: #222034;
+        color: #22c6e9;
+        margin-top: 0px;
+      }
+
+      .about {
+        max-width: 450px;
+        margin: 5px auto;
+        margin-top: 0px;
+        padding: 15px;
+        background-color: #2a2a44;
+        font-size: 20px;
+        border-radius: 15px;
+      }
+      .about h2 {
+        font-size: 30px;
+        margin-top: 0;
+        color: white;
+        margin-bottom: 0px;
+      }
+      .donate {
+        max-width: 450px;
+        margin: 5px auto;
+        margin-top: 0px;
+        padding: 15px;
+        background-color: #2a2a44;
+        font-size: 20px;
+        border-radius: 15px;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .donate h2 {
+        font-size: 30px;
+        margin-top: 0;
+        color: white;
+        margin-bottom: 0px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-size: 50px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      /* Info page styles */
+      .info {
+        max-width: 450px;
+        margin: 0 auto;
+        padding: 15px;
+        background-color: #2a2a44;
+        border-radius: 15px;
+        display: block;
+        margin: 0 auto;
+        font-size: 20px;
+        align-items: center;
+      }
+
+      .info h2 {
+        font-size: 30px;
+        margin-top: 0;
+        color: white;
+      }
+
+      .info a {
+        display: block;
+        margin: 0 10px;
+        margin-bottom: 20px;
+      }
+      .info p {
+        display: block;
+        margin-bottom: 5px;
+        text-align: center;
+      }
+      button {
+			padding: 5px;
+			background-color: #22c6e9;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-family: 'VT323', monospace;
+			text-transform: uppercase;
+      font-size: 20px;
+      margin: 0 auto;
+      justify-content: center;
+      display: block;
+      width: 80px;
+		}
+    </style>
+  </head>
+  <body link=#22c6e9 alink=#22c6e9 vlink=#22c6e9>
+    <nav>
+	     	<a href="http://ronrank.xyz/">Rank</a>
+        <a href="http://ronrank.xyz/calculator/">Calculator</a>
+	  	  <a href="http://ronrank.xyz/spells/">Spells</a>
+        <a href="http://ronrank.xyz/tournament/">Tournament</a>
+        <a class="active" href="http://ronrank.xyz/info/">Info</a>
+    </nav>
+    <h1>Ron Rank Info</h1>
+    <div class="about">
+      <h2>About & Disclaimer</h2>
+      <p>The Ron Rank was developed as a community contribution by ron.kda. It provides free to use tools for the community members of Wizards Arena.</p>
+      <p>DISCLAIMER: Ron is not responsible for Wizards Arena NFTs with high Ron Ranks who underperform in tournaments and battles.</p>
+    </div>
+    
+    <div class="donate">
+      <h2>Donate</h2>
+      <p>Ron accepts donations of any kind for his work - KDA tokens, NFTs, and KDA are all accepted and welcomed. Press the "COPY" button below to copy Ron's k: address to your clipboard!</p>
+      <button onclick="copyToClipboard('k:76821f628c5d257ee32b9f4527490fd41847cb9267c6ba5611d7981616e4ed17')">Copy</button>
+	<script>
+    function copyToClipboard(text) {
+        var tempInput = document.createElement("input");
+        tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("Ron's k:address has been copied to your clipboard!");
+    }
+</script>
+
+    </div>
+
+    <div class="info">
+      <h2>Links</h2>
+      <a href="https://twitter.com/wizard_ron17"><img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/twitter-512.png" alt="Twitter logo" height="55" >Follow Ron on Twitter</a>
+      <a href="https://kadefi.money/dashboard/k:76821f628c5d257ee32b9f4527490fd41847cb9267c6ba5611d7981616e4ed17"><img src="https://kadefi.money/_next/image?url=%2Fassets%2Flogo.png&w=3840&q=75" height="55">View Ron's KDA portfolio</a>
+       <a href="https://www.wizardsarena.net/collection"><img src="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/wiz-hat.jpg" height="55">Visit the Wizards Arena website</a>
+      <a href="https://discord.gg/wizardsarena"><img src="https://cdn3.iconfinder.com/data/icons/social-network-flat-3/100/Discord-1024.png" height="55">Join the Wizards Arena Discord server</a>
+      <a href="https://www.kaderare.com/collection/WizardsArena"><img src="https://www.kaderare.com/static/media/logo_k_bianco.dad29cf2.png" height="55">Wizards Arena NFT Rarity Tool</a>
