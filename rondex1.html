@@ -9,14 +9,13 @@
         background-color: #1a1a1a;
         color: #fff;
       }
-      h1 {
+      h1, h2 {
         text-align: center;
-        margin-bottom: 10px;
-        margin-top: 10px;
+        margin: 10px 0;
         font-size: 35px;
       }
       .tradingview-widget-container {
-        margin: 10px 10px;
+        margin: 10px;
         height: 500px;
         width: auto;
         border: 1px solid #eee;
@@ -25,40 +24,55 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       }
       .swap-container {
-        
+        margin: 10px;
+        height: 300px;
+        width: auto;
+        border: 1px solid #eee;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        padding: 10px 10px;
       }
       }
     </style>
   </head>
   <body>
     <h1>RonDEX</h1>
+
     <!-- TradingView Widget BEGIN -->
     <div class="tradingview-widget-container">
-      <div class="tradingview-widget-copyright">
-        <a href="https://in.tradingview.com/symbols/KDAUSD/?exchange=BINANCE" rel="noopener" target="_blank">
+      <div class="tradingview-widget-content">
+        <div id="tradingview_69c82"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+        <script type="text/javascript">
+          new TradingView.widget(
+            {
+              "width": "auto",
+              "height": "500px",
+              "symbol": "BINANCE:KDAUSD",
+              "interval": "D",
+              "timezone": "Etc/UTC",
+              "theme": "dark",
+              "style": "1",
+              "locale": "in",
+              "toolbar_bg": "#f1f3f6",
+              "enable_publishing": false,
+              "allow_symbol_change": false,
+              "hide_side_toolbar": false,
+              "withdateranges": true,
+              "container_id": "tradingview_69c82"
+            }
+          );
+        </script>
       </div>
-      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-      <script type="text/javascript">
-        new TradingView.widget(
-          {
-            "width": "auto",
-            "height": "500px",
-            "symbol": "BINANCE:KDAUSD",
-            "interval": "D",
-            "timezone": "Etc/UTC",
-            "theme": "dark",
-            "style": "1",
-            "locale": "in",
-            "toolbar_bg": "#f1f3f6",
-            "enable_publishing": false,
-            "allow_symbol_change": false,
-            "hide_side_toolbar": false,
-            "withdateranges": true,
-            "container_id": "tradingview_69c82"
-          }
-        );
-      </script>
     </div>
     <!-- TradingView Widget END -->
-  </body>
-</html> 
+
+    <!-- Swap Container BEGIN -->
+    <div class="swap-container">
+      <h2>Swap</h2>
+      Coming soon
+</div>
+<!-- Swap Container END -->
+</body>
+</html>
