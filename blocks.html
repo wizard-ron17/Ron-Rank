@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View your Blocks mining rewards">
+    <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/favicon-cleric.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap" rel="stylesheet">
+    <title>Blocks Mining Dashboard</title>
+    <style>
+        body {
+            background-color:rgb(37, 37, 39);
+            font-family: 'Rajdhani', sans-serif;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 50px;
+            text-align: center;
+            margin: 0 0;
+            padding: 0;
+        }
+        
+        h2 {
+            font-size: 30px;
+            margin: 0 0;
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 17px;
+            margin: 0;
+            color: white;
+            text-align: center;
+        }
+
+        .container1 {
+            height: 500px;
+            width: 50%;
+            margin: 0 10px;
+            background-color: rgb(45, 45, 50);
+            border-radius: 15px;
+            padding: 0px;
+        }
+
+        .container2 {
+            height: 500px;
+            width: 50%;
+            margin: 0 10px;
+            background-color: rgb(45, 45, 50);
+            border-radius: 15px;
+        }
+
+        .container3 {
+            height: 70px;
+            width: 50%;
+            margin: 0 auto;
+            margin-bottom: 10px;
+            background-color: rgb(45, 45, 50);
+            border-radius: 5px;
+            display: flex;
+        }
+
+        .section {
+            width: 33.33%;
+            padding: 5px;
+            box-sizing: border-box;
+            margin: 0 0;
+        }
+      
+        .section p {
+            font-size: 30px;
+            text-align: center;
+            margin: 0 0;
+        }
+
+        .section:not(:last-child) {
+            border-right: 1px solid white;
+        }
+
+        .nft-input-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .nft-label {
+            flex: 1.5;
+            text-align: right;
+            margin-right: 20px;
+            font-size: 20px;
+        }
+
+        .nft-input {
+            flex: 1.3;
+        }
+      
+        input {
+            background-color: rgb(37,37,39);
+            font-size: 20px;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 3px;
+            height: 25px;
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+<h1>Blocks Mining Dashboard</h1>
+<div class="container3">
+    <div class="section">
+        <h3>My NFTs:</h3>
+        <p id="nft-count">0</p>
+    </div>
+    <div class="section">
+        <h3>My Mining Power:</h3>
+        <p id="mining-power">0 TH/s</p>
+    </div>
+    <div class="section">
+        <h3>Total Mined:</h3>
+        <p id="total-mined">0 KDA</p>
+    </div>
+</div>
+<div style="display: flex; justify-content: center;">
+    <div class="container1">
+        <h2>My Blocks</h2>
+        <div class="nft-input-row">
+            <div class="nft-label">
+                <label for="common-input">Common (1.5 TH/s):</label>
+            </div>
+            <div class="nft-input">
+                <input type="number" id="common-input" min="0" value="0">
+            </div>
+        </div>
+        <div class="nft-input-row">
+            <div class="nft-label">
+                <label for="uncommon-input">Uncommon (2 TH/s):</label>
+            </div>
+            <div class="nft-input">
+                <input type="number" id="uncommon-input" min="0" value="0">
+            </div>
+        </div>
+        <div class="nft-input-row">
+            <div class="nft-label">
+                <label for="rare-input">Rare (10 TH/s):</label>
+            </div>
+            <div class="nft-input">
+                <input type="number" id="rare-input" min="0" value="0">
+            </div>
+        </div>
+        <div class="nft-input-row">
+            <div class="nft-label">
+                <label for="epic-input">Epic (20 TH/s):</label>
+            </div>
+            <div class="nft-input">
+                <input type="number" id="epic-input" min="0" value="0">
+            </div>
+        </div>
+        <div class="nft-input-row">
+            <div class="nft-label">
+                <label for="legendary-input">Legendary (40 TH/s):</label>
+            </div>
+            <div class="nft-input">
+                <input type="number" id="legendary-input" min="0" value="0">
+            </div>
+        </div>
+    </div>
+    <div class="container2">
+        <h2>Rewards</h2>
+    </div>
+</div>
+
+<script>
+    const nftCountElement = document.getElementById("nft-count");
+    const miningPowerElement = document.getElementById("mining-power");
+    const totalMinedElement = document.getElementById("total-mined");
+
+    const commonInput = document.getElementById("common-input");
+    const uncommonInput = document.getElementById("uncommon-input");
+    const rareInput = document.getElementById("rare-input");
+    const epicInput = document.getElementById("epic-input");
+    const legendaryInput = document.getElementById("legendary-input");
+
+    // Event listeners for the NFT inputs
+    commonInput.addEventListener("input", updateNFTCount);
+    uncommonInput.addEventListener("input", updateNFTCount);
+    rareInput.addEventListener("input", updateNFTCount);
+    epicInput.addEventListener("input", updateNFTCount);
+    legendaryInput.addEventListener("input", updateNFTCount);
+
+    // Function to update the NFT count
+    function updateNFTCount() {
+        const commonCount = parseInt(commonInput.value) || 0;
+        const uncommonCount = parseInt(uncommonInput.value) || 0;
+        const rareCount = parseInt(rareInput.value) || 0;
+        const epicCount = parseInt(epicInput.value) || 0;
+        const legendaryCount = parseInt(legendaryInput.value) || 0;
+
+        const totalCount = commonCount + uncommonCount + rareCount + epicCount + legendaryCount;
+        nftCountElement.textContent = totalCount.toString();
+
+        updateMiningPower();
+    }
+
+    // Function to update the mining power and total mined
+    function updateMiningPower() {
+        const commonPower = 1.125;
+        const uncommonPower = 1.5;
+        const rarePower = 7.5;
+        const epicPower = 15;
+        const legendaryPower = 30;
+
+        const commonCount = parseInt(commonInput.value) || 0;
+        const uncommonCount = parseInt(uncommonInput.value) || 0;
+        const rareCount = parseInt(rareInput.value) || 0;
+        const epicCount = parseInt(epicInput.value) || 0;
+        const legendaryCount = parseInt(legendaryInput.value) || 0;
+
+        const miningPower =
+            commonCount * commonPower +
+            uncommonCount * uncommonPower +
+            rareCount * rarePower +
+            epicCount * epicPower +
+            legendaryCount * legendaryPower;
+
+        miningPowerElement.textContent = miningPower.toFixed(3) + " TH/s";
+
+        const totalMined = miningPower * 3.1523;
+        totalMinedElement.textContent = totalMined.toFixed(3) + " KDA";
+    }
+</script>
+</body>
+</html>
