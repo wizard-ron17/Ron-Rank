@@ -177,8 +177,13 @@
     </div>
     <div class="container2">
         <h2>Rewards</h2>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
     const nftCountElement = document.getElementById("nft-count");
@@ -190,54 +195,82 @@
     const rareInput = document.getElementById("rare-input");
     const epicInput = document.getElementById("epic-input");
     const legendaryInput = document.getElementById("legendary-input");
-
-    // Event listeners for the NFT inputs
+  
     commonInput.addEventListener("input", updateNFTCount);
     uncommonInput.addEventListener("input", updateNFTCount);
     rareInput.addEventListener("input", updateNFTCount);
     epicInput.addEventListener("input", updateNFTCount);
     legendaryInput.addEventListener("input", updateNFTCount);
 
-    // Function to update the NFT count
-    function updateNFTCount() {
-        const commonCount = parseInt(commonInput.value) || 0;
-        const uncommonCount = parseInt(uncommonInput.value) || 0;
-        const rareCount = parseInt(rareInput.value) || 0;
-        const epicCount = parseInt(epicInput.value) || 0;
-        const legendaryCount = parseInt(legendaryInput.value) || 0;
+    // Create initial chart data
+    const initialData = {
+        labels: ["5/9/23","5/20/23",],
+        datasets: [
+            {
+                label: "Rewards",
+                backgroundColor: ['rgba(237,10,143,1)'],
+                borderColor: "white",
+                borderWidth: 1,
+                data: [0]
+            }
+        ]
+    };
 
-        const totalCount = commonCount + uncommonCount + rareCount + epicCount + legendaryCount;
-        nftCountElement.textContent = totalCount.toString();
+    const chartConfig = {
+        type: 'bar',
+        data: initialData,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
 
-        updateMiningPower();
-    }
+    const ctx = document.getElementById("myChart").getContext("2d");
+    const myChart = new Chart(ctx, chartConfig);
 
-    // Function to update the mining power and total mined
-    function updateMiningPower() {
-        const commonPower = 1.125;
-        const uncommonPower = 1.5;
-        const rarePower = 7.5;
-        const epicPower = 15;
-        const legendaryPower = 30;
+    // Update chart data based on inputs
+    function updateChartData() {
+        const common = parseFloat(commonInput.value) || 0;
+        const uncommon = parseFloat(uncommonInput.value) || 0;
+        const rare = parseFloat(rareInput.value) || 0;
+        const epic = parseFloat(epicInput.value) || 0;
+        const legendary = parseFloat(legendaryInput.value) || 0;
 
-        const commonCount = parseInt(commonInput.value) || 0;
-        const uncommonCount = parseInt(uncommonInput.value) || 0;
-        const rareCount = parseInt(rareInput.value) || 0;
-        const epicCount = parseInt(epicInput.value) || 0;
-        const legendaryCount = parseInt(legendaryInput.value) || 0;
+        const miningPower = common * 1.125 + uncommon * 1.5 + rare * 7.5 + epic * 15 + legendary * 30;
+        const minedTotal = miningPower * 3.1523;
+        const mined1 = miningPower * 1.9873;
+        const mined2 = miningPower * 1.165;
 
-        const miningPower =
-            commonCount * commonPower +
-            uncommonCount * uncommonPower +
-            rareCount * rarePower +
-            epicCount * epicPower +
-            legendaryCount * legendaryPower;
+        myChart.data.datasets[0].data = [mined1,mined2];
+        myChart.update();
 
         miningPowerElement.textContent = miningPower.toFixed(3) + " TH/s";
-
-        const totalMined = miningPower * 3.1523;
-        totalMinedElement.textContent = totalMined.toFixed(3) + " KDA";
+        totalMinedElement.textContent = minedTotal.toFixed(3) + " KDA";
     }
+  
+    function updateNFTCount() {
+            const commonCount = parseInt(commonInput.value) || 0;
+            const uncommonCount = parseInt(uncommonInput.value) || 0;
+            const rareCount = parseInt(rareInput.value) || 0;
+            const epicCount = parseInt(epicInput.value) || 0;
+            const legendaryCount = parseInt(legendaryInput.value) || 0;
+
+            const totalCount = commonCount + uncommonCount + rareCount + epicCount + legendaryCount;
+            document.getElementById("nft-count").textContent = totalCount.toString();
+
+            updateMiningPower();
+        }
+
+    // Update data when inputs change
+    commonInput.addEventListener("input", updateChartData);
+    uncommonInput.addEventListener("input", updateChartData);
+    rareInput.addEventListener("input", updateChartData);
+    epicInput.addEventListener("input", updateChartData);
+    legendaryInput.addEventListener("input", updateChartData);
 </script>
 </body>
 </html>
