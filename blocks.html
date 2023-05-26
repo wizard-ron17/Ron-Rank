@@ -149,7 +149,6 @@
 </head>
 <body>
 <h1>Blocks Mining Dashboard</h1>
-  <div id="countdown" style="text-align: center; font-size: 18px; margin-bottom: 0px;"></div>
 <div class="container3">
     <div class="section">
         <h3>My NFTs:</h3>
@@ -327,32 +326,6 @@
     rareInput.addEventListener("input", updateChartData);
     epicInput.addEventListener("input", updateChartData);
     legendaryInput.addEventListener("input", updateChartData);
-</script>
-
-<script>
-  // Set the date for the countdown
-  const countdownDate = new Date("2026-04-22T00:00:00Z");
-
-  // Update the countdown every second
-  setInterval(updateCountdown, 1000);
-
-  function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = countdownDate - now;
-
-    // Calculate years, months, weeks, days, hours, minutes, and seconds
-    const years = Math.floor(distance / (1000 * 60 * 60 * 24 * 365));
-    const months = Math.floor((distance % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30.44));
-    const weeks = Math.floor((distance % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24 * 7));
-    const days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    // Display the countdown
-    const countdownElement = document.getElementById("countdown");
-    countdownElement.innerHTML = `Your Blocks are mining for the next: ${years} years, ${months} months, ${weeks} weeks, ${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds`;
-  }
 </script>
 
 </body>
