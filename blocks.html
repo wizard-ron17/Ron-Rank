@@ -275,14 +275,41 @@
                     color: 'white' // Set font color for y-axis labels
                 }
             },
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                    color: 'white' // Set font color for y-axis labels
+                }
+            },
             x: {
                 ticks: {
                     color: 'white' // Set font color for x-axis labels
                 }
                 }
+             },
+        onClick: (event, elements) => {
+            if (elements.length > 0) {
+                const index = elements[0].index;
+                const label = initialData.labels[index];
+                switch (label) {
+                    case "5/9/23":
+                        window.location.href = "https://kdaexplorer.com/tx-details/Leu-psBD1CUUbuQ0g99XNoJ8TZpBhqTpkaC09DqD3pU";
+                        break;
+                    case "5/20/23":
+                        window.location.href = "https://kdaexplorer.com/tx-details/XnSSsU1CuGCYolDu3Z_PCxrzvlmaMWD7RSg12mIHjXE";
+                        break;
+                    case "6/03/23":
+                        window.location.href = "https://kdaexplorer.com/tx-details/GJjBAMD_oFvRUdYFC8CVYUBTS8d3Ve355xJaKbTzewE";
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-    };
+    }
+};
 
     const ctx = document.getElementById("myChart").getContext("2d");
     const myChart = new Chart(ctx, chartConfig);
