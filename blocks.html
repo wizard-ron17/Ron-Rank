@@ -243,7 +243,7 @@
 
     // Create initial chart data
     const initialData = {
-        labels: ["5/9/23","5/20/23","6/03/23"],
+        labels: ["5/9/23","5/20/23","6/03/23","6/20/23"],
         datasets: [
             {
                 label: "KDA",
@@ -295,6 +295,9 @@
                     case "6/03/23":
                         url = "https://kdaexplorer.com/tx-details/GJjBAMD_oFvRUdYFC8CVYUBTS8d3Ve355xJaKbTzewE";
                         break;
+                    case "6/29/23":
+                        url = "https://kdaexplorer.com/tx-details/ZyuoEFtb33f9isXolW5UI6cywOfsbz0R_Eg_KzkBNpc";
+                        break;
                     default:
                         break;
                 }
@@ -318,12 +321,13 @@
         const legendary = parseFloat(legendaryInput.value) || 0;
 
         const miningPower = common * 1.125 + uncommon * 1.5 + rare * 7.5 + epic * 15 + legendary * 30;
-        const minedTotal = miningPower * 4.8827;
+        const minedTotal = miningPower * 6.8547;
         const mined1 = miningPower * 1.9873;
         const mined2 = miningPower * 1.165;
         const mined3 = miningPower * 1.7304;
+        const mined4 = miningPower * 1.972;
 
-        myChart.data.datasets[0].data = [mined1,mined2,mined3];
+        myChart.data.datasets[0].data = [mined1,mined2,mined3,mined4];
         myChart.update();
 
         miningPowerElement.textContent = miningPower.toFixed(3) + " TH/s";
