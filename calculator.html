@@ -206,7 +206,7 @@ let def = document.getElementById("def").value;
 let atk = document.getElementById("atk").value;
 let dmg = document.getElementById("dmg").value;
 let spd = document.getElementById("spd").value;
- let level = hp * 1 + def * 4.67 + atk * 4.67 + dmg * 2.67 + spd * 2.67;
+ let level = (hp * 1 + def * 4.67 + atk * 4.67 + dmg * 2.67 + spd * 2.67) + 0.000001;
 	level = Math.round(level.toFixed(6));
 
     let lvlField = document.getElementById("lvl");
