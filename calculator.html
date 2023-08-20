@@ -1,237 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Calculate the stats and corresponding Level for your Wizards!">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/favicon-cleric.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <title>Ron's Level Calculator</title>
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate the stats and corresponding Level for your Wizards!">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/favicon-cleric.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <title>Ron's Level Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'VT323', monospace;
+      background-color: #222034;
+      color: #22c6e9; 
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 30px;
+      background-color: #2a2a44;
+      padding: 0 0px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      margin: 0 2px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #22c6e9;
+    }
+    nav a.active {
+      color: #22c6e9;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 0px;
+      font-size: 50px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .container {
+      max-width: 450px;
+      margin: 0 auto;
+      padding: 10px;
+      background-color: #2a2a44;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin: 0px 80px;
+      margin-left: 100px;
+    }
+
+    .form-group {
+      flex-basis: calc(50% - 10px);
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+
+    .form-group input {
+      display: block;
+      width: 70%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #222034;
+      font-size: 30px;
+      color: #22c6e9;
+      font-family: 'VT323', monospace;
+    }
+
+    button {
+      display: block;
+      margin: 0 auto;
+      background-color: #22c6e9;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-family: 'VT323', monospace;
+      text-transform: uppercase;
+    }
+
+    select {
+      width: 70%;
+      margin: auto;
+      background-color: #222034;
+      color: #ffffff;
+      font-family: 'VT323', monospace;
+      font-size: 16px;
+    }
+
+    #lvl {
+      text-align: center;
+      margin-top: 15px;
+      width: 120px;
+      font-size: 60px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #22c6e9;
+      transition: color 0.3s ease;
+      margin-left: 37%;
+      background-color: #222034;
+      border: none;
+      font-family: 'VT323', monospace;
+    }
+
+    .lvl-label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fff;
+      text-align: center; 
+    }
+
+    #lvl.red {
+      color: #f44336;
+    }
+
+    .mode {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mode label {
+      display: block;
+      cursor: pointer;
+    }
+
+    .mode label input {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="http://ronrank.xyz/">Info</a>    
+    <a href="http://ronrank.xyz/rank/">Rank</a>
+    <a class="active" href="http://ronrank.xyz/calculator/">Calculator</a>
+    <a href="http://ronrank.xyz/spells/">Spells</a>
+    <a href="http://ronrank.xyz/tournament/">Tournament</a>
+  </nav>
+  <h1>Ron's Level Calculator</h1>
+  <div class="container">
+    <form>
+      <div class="form-group">
+        <label for="hp">HP</label>
+        <input type="number" id="hp" name="hp" value="0" required onclick="selectInputContent(this)">
+        <div>Final: <span id="finalhp"></span></div>
+      </div>
+      <div class="form-group">
+        <label for="def">Defense</label>
+        <input type="number" id="def" name="def" value="0" required onclick="selectInputContent(this)">
+        <div>Final: <span id="finaldef"></span></div>
+      </div>
+      <div class="form-group">
+        <label for="atk">Attack</label>
+        <input type="number" id="atk" name="atk" value="0" required onclick="selectInputContent(this)">
+        <div>Final: <span id="finalatk"></span></div>
+      </div>
+      <div class="form-group">
+        <label for="dmg">Damage</label>
+        <input type="number" id="dmg" name="dmg" value="0" required onclick="selectInputContent(this)">
+        <div>Final: <span id="finaldmg"></span></div>
+      </div>
+      <div class="form-group">
+        <label for="spd">Speed</label>
+        <input type="number" id="spd" name="spd" value="0" required onclick="selectInputContent(this)">
+        <div>Final: <span id="finalspd"></span></div>
+      </div>
+      <div class="form-group">
+        <label for="spellatk">Spell ATK</label>
+        <input type="number" id="spellatk" name="spellatk" value="0" required onclick="selectInputContent(this)">
+      </div>
+      <div class="form-group">
+        <label for="spelldmg">Spell DMG</label>
+        <input type="number" id="spelldmg" name="spelldmg" value="0" required onclick="selectInputContent(this)">
+      </div>
+      <div class="form-group">
+        <label for="ring">Ring</label>
+        <select id="ring" name="ring">
+          <!-- None -->
+          <option value="">None</option>
+          <!-- One of ones -->
+          <option value="*Ring of Accuracy*">Accuracy</option>
+          <option value="*Ring of Destruction*">Destruction</option>
+          <option value="*Ring of Force*">Force</option>
+          <option value="*Ring of Last Defense*">Last Defense</option>
+          <option value="*Ring of Life*">Life</option>
+          <option value="*Ring of Lightning*">Lightning</option>
+          <option value="*Ring of Magic Shield*">Magic Shield</option>
+          <option value="*Ring of Power*">Power</option>
+          <option value="*Ring of Swift Death*">Swift Death</option>
+          <!-- HP -->
+          <option value="HP +4">HP +4</option>
+          <option value="HP +8">HP +8</option>
+          <option value="HP +12">HP +12</option>
+          <option value="HP +16">HP +16</option>
+          <option value="HP +20">HP +20</option>
+          <!-- DEF -->
+          <option value="DEF +1">DEF +1</option>
+          <option value="DEF +2">DEF +2</option>
+          <option value="DEF +3">DEF +3</option>
+          <option value="DEF +4">DEF +4</option>
+          <option value="DEF +5">DEF +5</option>
+          <!-- ATK -->
+          <option value="ATK +1">ATK +1</option>
+          <option value="ATK +2">ATK +2</option>
+          <option value="ATK +3">ATK +3</option>
+          <option value="ATK +4">ATK +4</option>
+          <option value="ATK +5">ATK +5</option>
+          <!-- DMG -->
+          <option value="DMG +2">DMG +2</option>
+          <option value="DMG +4">DMG +4</option>
+          <option value="DMG +6">DMG +6</option>
+          <option value="DMG +8">DMG +8</option>
+          <option value="DMG +10">DMG +10</option>
+          <!-- SPD -->
+          <option value="SPD +2">SPD +2</option>
+          <option value="SPD +4">SPD +4</option>
+          <option value="SPD +6">SPD +6</option>
+          <option value="SPD +8">SPD +8</option>
+          <option value="SPD +10">SPD +10</option>
+        </select>
+      </div>
+    </form>
+    <div class="mode">
+      <label>
+        <input type="radio" name="mode" value="apprentice" checked>
+        Apprentice (LEVEL 275)
+      </label>
+      <label>
+        <input type="radio" name="mode" value="elite">
+        Elite (LEVEL 375)
+      </label>
+    </div>
+    <div class="form-group">
+      <div class="lvl-label">
+        <label for="lvl">Level:</label>
+        <input type="text" id="lvl" name="lvl" value="0" readonly>
+      </div>
+    </div>
+  </div>
+  <script>
+    function calculateStats() {
+      let hp = parseFloat(document.getElementById("hp").value);
+      let def = parseFloat(document.getElementById("def").value);
+      let atk = parseFloat(document.getElementById("atk").value);
+      let dmg = parseFloat(document.getElementById("dmg").value);
+      let spd = parseFloat(document.getElementById("spd").value);
+      let spellatk = parseFloat(document.getElementById("spellatk").value);
+      let spelldmg = parseFloat(document.getElementById("spelldmg").value);
+  
+      let selectedRing = document.getElementById("ring").value;
+      let ringBonuses = getRingBonuses(selectedRing);
+      let finalhp = hp + ringBonuses.hp;
+      let finaldef = def + ringBonuses.def;
+      let finalatk = atk + spellatk + ringBonuses.atk;
+      let finaldmg = dmg + spelldmg + ringBonuses.dmg;
+      let finalspd = spd + ringBonuses.spd;
+  
+      document.getElementById("finalhp").textContent = finalhp;
+      document.getElementById("finaldef").textContent = finaldef;
+      document.getElementById("finalatk").textContent = finalatk;
+      document.getElementById("finaldmg").textContent = finaldmg;
+      document.getElementById("finalspd").textContent = finalspd;
+  
+      let mode = document.querySelector('input[name="mode"]:checked').value;
+      let level = calculateLevel(hp, def, atk, dmg, spd);
+      updateLevelColor(level, mode);
+  
+      let lvlField = document.getElementById("lvl");
+      lvlField.value = level;
+    }
+  
+    function getRingBonuses(selectedRing) {
+      let bonuses = {
+        hp: 0,
+        def: 0,
+        atk: 0,
+        dmg: 0,
+        spd: 0
+      };
+  
+      switch (selectedRing) {
+        case "*Ring of Accuracy*":
+          bonuses.atk = 6;
+          break;
+        case "*Ring of Destruction*":
+          bonuses.atk = 4;
+          bonuses.dmg = 8;
+          break;
+        case "*Ring of Force*":
+          bonuses.dmg = 12;
+          break;
+        case "*Ring of Last Defense*":
+          bonuses.hp = 16;
+          bonuses.def = 4;
+          break;
+        case "*Ring of Life*":
+          bonuses.hp = 24;
+          break;
+        case "*Ring of Lightning*":
+          bonuses.spd = 12;
+          break;
+        case "*Ring of Magic Shield*":
+          bonuses.def = 6;
+          break;
+        case "*Ring of Power*":
+          bonuses.hp = 12;
+          bonuses.def = 3;
+          bonuses.atk = 3;
+          bonuses.dmg = 6;
+          bonuses.spd = 4;
+          break;
+        case "*Ring of Swift Death*":
+          bonuses.atk = 4;
+          bonuses.spd = 8;
+          break;
+        case "HP +4":
+          bonuses.hp = 4;
+          break;
+        case "HP +8":
+          bonuses.hp = 8;
+          break;
+        case "HP +12":
+          bonuses.hp = 12;
+          break;
+        case "HP +16":
+          bonuses.hp = 16;
+          break;
+        case "HP +20":
+          bonuses.hp = 20;
+          break;
+        case "DEF +1":
+          bonuses.def = 1;
+          break;
+        case "DEF +2":
+          bonuses.def = 2;
+          break;
+        case "DEF +3":
+          bonuses.def = 3;
+          break;
+        case "DEF +4":
+          bonuses.def = 4;
+          break;
+        case "DEF +5":
+          bonuses.def = 5;
+          break;
+        case "ATK +1":
+          bonuses.atk = 1;
+          break;
+        case "ATK +2":
+          bonuses.atk = 2;
+          break;
+        case "ATK +3":
+          bonuses.atk = 3;
+          break;
+        case "ATK +4":
+          bonuses.atk = 4;
+          break;
+        case "ATK +5":
+          bonuses.atk = 5;
+          break;
+        case "DMG +2":
+          bonuses.dmg = 2;
+          break;
+        case "DMG +4":
+          bonuses.dmg = 4;
+          break;
+        case "DMG +6":
+          bonuses.dmg = 6;
+          break;
+        case "DMG +8":
+          bonuses.dmg = 8;
+          break;
+        case "DMG +10":
+          bonuses.dmg = 10;
+          break;
+        case "SPD +2":
+          bonuses.spd = 2;
+          break;
+        case "SPD +4":
+          bonuses.spd = 4;
+          break;
+        case "SPD +6":
+          bonuses.spd = 6;
+          break;
+        case "SPD +8":
+          bonuses.spd = 8;
+          break;
+        case "SPD +10":
+          bonuses.spd = 10;
+          break;
       }
-
-      body {
-        font-family: 'VT323', monospace;
-        background-color: #222034;
-        color: #22c6e9; 
-      }
-  		nav {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			height: 30px;
-			background-color: #2a2a44;
-			padding: 0 0px;
-		}
-		nav a {
-			color: white;
-			text-decoration: none;
-			font-size: 20px;
-			margin: 0 2px;
-			text-transform: uppercase;
-			letter-spacing: 2px;
-			font-weight: bold;
-		}
-	    	nav a:hover {
-  			color: #22c6e9;
-      		}
-	    	nav a.active {
-        	color: #22c6e9;
-      		}
-      h1 {
-        text-align: center;
-        margin-top: 0px;
-        font-size: 50px;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-      }
-
-      .container {
-        max-width: 450px;
-        margin: 0 auto;
-        padding: 10px;
-        background-color: #2a2a44;
-        border-radius: 15px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-
-      form {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin: 0px 80px;
-        margin-left: 100px;
-      }
-
-      .form-group {
-        flex-basis: calc(50% - 10px);
-        margin-bottom: 20px;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 10px;
-        font-size: 24px;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-	color: #fff;
-      }
-
-      .form-group input {
-        display: block;
-        width: 70%;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: #222034;
-        font-size: 30px;
-        color: #22c6e9;
-        font-family: 'VT323', monospace;
-      }
-
-
-      button {
-        display: block;
-        margin: 0 auto;
-        background-color: #22c6e9;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 24px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        font-family: 'VT323', monospace;
-	text-transform: uppercase;
-      }
-
-
-      #lvl {
-        text-align: center;
-        margin-top: 15px;
-        width: 120px;
-        font-size: 60px;
-        font-weight: bold;
-        letter-spacing: 2px;
-        color: #22c6e9;
-        transition: color 0.3s ease;
-        margin-left: 37%;
-        background-color: #222034;
-        border: none;
-        font-family: 'VT323', monospace;
-      }
-
-      #lvl.red {
-        color: #f44336;
-      }
-
-      .mode {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px 0;
-        font-size: 18px;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      .mode label {
-        display: block;
-        cursor: pointer;
-      }
-
-      .mode label input {
-        margin-right: 10px;
-      }
-    </style>
-  </head>
-  <body>
-     <nav>
-	 	<a href="http://ronrank.xyz/">Info</a>    
-	     	<a href="http://ronrank.xyz/rank/">Rank</a>
-        	<a class="active" href="http://ronrank.xyz/calculator/">Calculator</a>
-	  	<a href="http://ronrank.xyz/spells/">Spells</a>
-        	<a href="http://ronrank.xyz/tournament/">Tournament</a>
-    </nav>
-    <h1>Ron's Level Calculator</h1>
-    <div class="container">
-      <form>
-        <div class="form-group">
-          <label for="hp">HP</label>
-<input type="number" id="hp" name="hp" required>
-</div>
-<div class="form-group">
-<label for="def">Defense</label>
-<input type="number" id="def" name="def" required>
-</div>
-<div class="form-group">
-<label for="atk">Attack</label>
-<input type="number" id="atk" name="atk" required>
-</div>
-<div class="form-group">
-<label for="dmg">Damage</label>
-<input type="number" id="dmg" name="dmg" required>
-</div>
-<div class="form-group">
-<label for="spd">Speed</label>
-<input type="number" id="spd" name="spd" required>
-</div>
-</form>
-<div class="mode">
-<label>
-<input type="radio" name="mode" value="apprentice" checked>
-Apprentice (LEVEL 275)
-</label>
-<label>
-<input type="radio" name="mode" value="elite">
-Elite (LEVEL 375)
-</label>
-</div>
-<button id="calculate-btn">CALCULATE</button>
-<input type="text" id="lvl" name="lvl" readonly>
-</div>
-<script>
-const calculateBtn = document.getElementById("calculate-btn");
-calculateBtn.addEventListener("click", function() {
-let hp = document.getElementById("hp").value;
-let def = document.getElementById("def").value;
-let atk = document.getElementById("atk").value;
-let dmg = document.getElementById("dmg").value;
-let spd = document.getElementById("spd").value;
- let level = (hp * 1 + def * 4.67 + atk * 4.67 + dmg * 2.67 + spd * 2.67) + 0.000001;
-	level = Math.round(level.toFixed(6));
-
-    let lvlField = document.getElementById("lvl");
-    lvlField.value = level;
-
-    let mode = document.querySelector('input[name="mode"]:checked').value;
-    if (mode === "apprentice") {
-      if (level > 275) {
-        lvlField.classList.add("red");
+  
+      return bonuses;
+    }
+  
+    function selectInputContent(input) {
+      input.select();
+    }
+    
+    function calculateLevel(hp, def, atk, dmg, spd) {
+      let level = (hp * 1 + def * 4.67 + atk * 4.67 + dmg * 2.67 + spd * 2.67) + 0.000001;
+      return Math.round(level.toFixed(6));
+    }
+  
+    function updateLevelColor(level, mode) {
+      let lvlField = document.getElementById("lvl");
+      if (mode === "apprentice") {
+        if (level > 275) {
+          lvlField.classList.add("red");
+        } else {
+          lvlField.classList.remove("red");
+        }
       } else {
-        lvlField.classList.remove("red");
-      }
-    } else {
-      if (level > 375) {
-        lvlField.classList.add("red");
-      } else {
-        lvlField.classList.remove("red");
+        if (level > 375) {
+          lvlField.classList.add("red");
+        } else {
+          lvlField.classList.remove("red");
+        }
       }
     }
-  });
-</script>
-  </body>
+  
+    const inputFields = document.querySelectorAll("input[type='number']");
+    inputFields.forEach(input => {
+      input.addEventListener("input", calculateStats);
+    });
+  
+    const selectRing = document.getElementById("ring");
+    selectRing.addEventListener("change", calculateStats);
+
+  </script>
+  
+</body>
 </html>
-
-
-
-
-
