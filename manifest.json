@@ -6,8 +6,8 @@
   "scope": "/pages/",
   "icons": [
     {
-      "src": "favicon-cleric.ico",
-      "sizes": "192x192"
+      "src": "apple-touch-icon.png",
+      "sizes": "180"
     }
   ],
   "browser_action": {
