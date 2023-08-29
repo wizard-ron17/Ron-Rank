@@ -1,0 +1,16 @@
+{
+  "name": "Ron Rank",
+  "short_name": "Ron Rank",
+  "description": "Ron's Website for Wizards Arena tools",
+  "start_url": "https://ronrank.xyz/",
+  "scope": "/pages/",
+  "icons": [
+    {
+      "src": "favicon-cleric.ico",
+      "sizes": "192x192"
+    }
+  ],
+  "browser_action": {
+    "open_new_tab": true
+  }
+}
