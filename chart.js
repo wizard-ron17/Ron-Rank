@@ -65,7 +65,7 @@ async function fetchPriceData() {
 // Call the function with your desired 'period'
 fetchPriceData();
 
-
+function initializeChart() {
 var options = {
           series: [{
           name: 'WIZA Price',
@@ -127,7 +127,7 @@ var options = {
             enabled: true
           },
         }
-        };
+        }};
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
