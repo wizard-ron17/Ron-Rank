@@ -16,7 +16,7 @@
         margin: 10px 0;
         font-size: 35px;
       }
-      .tradingview-widget-container {
+      .chart-container {
         margin: 10px;
         height: 500px;
         width: auto;
@@ -35,6 +35,11 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         padding: 10px 10px;
       }
+      #chart {
+        width: auto;
+        height: 500px;
+        margin: 5px 0px;
+      }
       }
     </style>
   </head>
@@ -42,31 +47,10 @@
     <h1>RonDEX</h1>
 
     <!-- TradingView Widget BEGIN -->
-    <div class="tradingview-widget-container">
-      <div class="tradingview-widget-content">
-        <div id="tradingview_69c82"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-        <script type="text/javascript">
-          new TradingView.widget(
-            {
-              "width": "auto",
-              "height": "500px",
-              "symbol": "BINANCE:KDAUSD",
-              "interval": "D",
-              "timezone": "Etc/UTC",
-              "theme": "dark",
-              "style": "1",
-              "locale": "in",
-              "toolbar_bg": "#f1f3f6",
-              "enable_publishing": false,
-              "allow_symbol_change": false,
-              "hide_side_toolbar": false,
-              "withdateranges": true,
-              "container_id": "tradingview_69c82"
-            }
-          );
-        </script>
-      </div>
+    <div class="chart-container">
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <div id="chart"></div>
+        
     </div>
     <!-- TradingView Widget END -->
 
