@@ -132,6 +132,9 @@ var options = {
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
 
+        // Attach the function to the "DOMContentLoaded" event
+        document.addEventListener("DOMContentLoaded", initializeChart);
+
         $.getJSON('https://kdswap-fd-prod-cpeabrdfgdg9hzen.z01.azurefd.net/graphql', function(dataPoints) {
         chart.updateSeries([{
         name: 'WIZA Price',
