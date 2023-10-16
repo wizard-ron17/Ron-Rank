@@ -112,6 +112,10 @@ var options = {
         noData: {
           text: 'Loading...'
         },
+        tooltip: {
+          enabled: true,
+          theme: true
+        },
         xaxis: {
           type: 'datetime'
         },
@@ -122,6 +126,12 @@ var options = {
           tooltip: {
             enabled: true
           },
+          labels: {
+            formatter: function (value) {
+            // Use the toFixed method to control decimal places (e.g., 2 decimal places)
+            return value.toFixed(4);
+            }
+          }
         }
         };
 
