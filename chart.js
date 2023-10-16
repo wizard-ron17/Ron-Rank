@@ -150,7 +150,7 @@ var options = {
         type: 'datetime'
     },
     yaxis: {
-        tickAmount: 5,
+        tickAmount: 10,
         min: 0.008,
         max: 0.035,
         tooltip: {
