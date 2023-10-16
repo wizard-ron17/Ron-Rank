@@ -38,23 +38,33 @@ async function fetchPriceData(period) {
         // Initialize variables to store the transformed data
         dataPoints = [];
 
-        // Iterate over the prices and create groups of 4
+        // Iterate over the prices and create groups of 4 & calculate OHLC
         for (let i = 0; i < prices.length; i += 4) {
-            if (i + 3 < prices.length) {
-                // Extract Open, High, Low, and Close values
-                const open = parseFloat(prices[i].priceInKda);
-                const high = parseFloat(prices[i + 1].priceInKda);
-                const low = parseFloat(prices[i + 2].priceInKda);
-                const close = parseFloat(prices[i + 3].priceInKda);
+          if (i + 3 < prices.length) {
+            // Calculate Open, High, Low, and Close
+            const open = parseFloat(prices[i].priceInKda);
+            const high = Math.max(
+              parseFloat(prices[i].priceInKda),
+              parseFloat(prices[i + 1].priceInKda),
+              parseFloat(prices[i + 2].priceInKda),
+              parseFloat(prices[i + 3].priceInKda)
+            );
+            const low = Math.min(
+              parseFloat(prices[i].priceInKda),
+              parseFloat(prices[i + 1].priceInKda),
+              parseFloat(prices[i + 2].priceInKda),
+              parseFloat(prices[i + 3].priceInKda)
+            );
+            const close = parseFloat(prices[i + 3].priceInKda);
 
-                // Extract timestamp
-                const intervalStamp = parseFloat(prices[i].intervalStamp);
+            // Extract timestamp
+            const intervalStamp = parseFloat(prices[i].intervalStamp);
 
-                // Create a data point with x (timestamp) and y (Open, High, Low, Close)
-                const dataPoint = {
-                    x: intervalStamp,
-                    y: [open, high, low, close]
-                };
+            // Create a data point with x (timestamp) and y (Open, High, Low, Close)
+            const dataPoint = {
+                x: intervalStamp,
+                y: [open, high, low, close]
+            };
 
                 // Add the data point to the array
                 dataPoints.push(dataPoint);
