@@ -282,7 +282,7 @@
     <div class="mode">
       <label>
         <input type="radio" name="mode" value="apprentice" checked>
-        Apprentice (LEVEL 275)
+        Apprentice (LEVEL 295)
       </label>
       <label>
         <input type="radio" name="mode" value="elite">
@@ -464,7 +464,7 @@
     function updateLevelColor(level, mode) {
       let lvlField = document.getElementById("lvl");
       if (mode === "apprentice") {
-        if (level > 275) {
+        if (level > 295) {
           lvlField.classList.add("red");
         } else {
           lvlField.classList.remove("red");
