@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate the stats and corresponding Level for your Wizards!">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/favicon-cleric.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Twitter-Proof Tool</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            font-family: 'VT323', monospace;
+            background-color: #222034;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 50px;
+            color: #22c6e9;
+            margin-bottom: 20px;
+            margin-top: 0px;
+        }
+
+        #switchList {
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 800px;
+        }
+
+        .switch {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: relative;
+            cursor: pointer;
+            width: 50px;
+            height: 25px;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 25px;
+            margin-right: 10px;
+        }
+
+        .slider:before {
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        input:checked + .slider {
+            background-color: #22c6e9;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(25px);
+        }
+
+        span {
+            font-size: 24px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 15px;
+            font-size: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Archmage's Twitter-Proof Tool</h1>
+
+<div id="switchList">
+    <!-- Switches and Names will be added here dynamically -->
+</div>
+
+<button onclick="copyArray()">Copy Array</button>
+
+<script>
+    const namesData = [
+        { name: "42.kda", key: "k:afe2b39cf4633290281d52015bf0dfd1700043b1b36424aebe4fb2b07a37566b" },
+        { name: "adry11", key: "k:ae40c3b5bd5df98e77a620178d1f805c252ccf7c1a9e06cdc00acdeaf27a2ffc" },
+        { name: "Azzacalabazza", key: "k:94922948af50bdfbe20e76bc0e01c9bd963f593a91d8608af20af03ebd6f5c17" },
+        { name: "crafty", key: "k:99aedabdcc4cfa2bd4a4a345309d78f468611d9f0dc9002dccfa0a7754f2213c" },
+        { name: "diablo", key: "k:7fb0d75f027f0eb57cef4990c440661b14d6f8a2bd7176a8a650df21a82bbe73" },
+        { name: "Dragon Eye", key: "k:99908824529a2e4b1446d3bd8e3276d413865496b6b036ac79432451412e9437" },
+        { name: "Ezal", key: "k:6a599963c2dc099c6ef90dfa9788c8a226771edb38b3d6755c406c64d400f706" },
+        { name: "HankDTank", key: "k:ad4d60533ca0cd53e7c27264f8e1efd0db1ab7be126895db2807305028185942" },
+        { name: "hazen", key: "k:22ce975d3132bfd480191b1827904c7914faa3e9a6a230b3c8e3ac947f2df560" },
+        { name: "Highlander", key: "k:92e4864f47b0e0dcb4b84549309f854a16fc2256a7a534ad3b68a3c15a330cc2" },
+        { name: "johnny be good", key: "k:59c26562a516a365428d557fcad29f8b27a22e670152fa4abc04d95265d75ec4" },
+        { name: "Kaushal", key: "k:669d2ac485cd419043ffa36b69dd5fa76c853f162c65891a6d224aa191e8d138" },
+        { name: "Lucky Plaid", key: "k:0e3aa620854606481864ade05973cf30b2dfafc1ab40ce890c5201cee7a73911" },
+        { name: "Legonze", key: "k:2b959bf1a69f2f1ecef082ff3cb40b1393a07a44e5d3f89cbe4bbd6e4ef87520" },
+        { name: "thicckNRich", key: "k:ec81c5a5b6dced74b82219b91e4e1afde05dd498c216ce3e779da49f368a78ba" },
+    ];
+
+    let dataArray = [];
+
+    function createSwitches() {
+        const switchListDiv = document.getElementById("switchList");
+
+        // Separate names into three columns
+        const columns = [[], [], []];
+        namesData.forEach((data, index) => columns[index % 3].push(data));
+
+        columns.forEach(column => {
+            const columnDiv = document.createElement("div");
+            column.forEach(data => {
+                const label = document.createElement("label");
+                label.innerHTML = `
+                    <div class="switch">
+                        <input type="checkbox" id="${data.name}" onchange="updateArray('${data.name}', '${data.key}')">
+                        <div class="slider"></div>
+                        <span>${data.name}</span>
+                    </div>
+                `;
+                columnDiv.appendChild(label);
+            });
+            switchListDiv.appendChild(columnDiv);
+        });
+    }
+
+    function updateArray(name, key) {
+        const checkbox = document.getElementById(name);
+        const amount = 30.0;
+
+        if (checkbox.checked) {
+            dataArray.push({ account: key, amount });
+        } else {
+            const index = dataArray.findIndex(item => item.account === key);
+            if (index !== -1) {
+                dataArray.splice(index, 1);
+            }
+        }
+    }
+
+    function copyArray() {
+        const copyText = JSON.stringify(dataArray);
+        navigator.clipboard.writeText(copyText).then(() => {
+            alert("Array copied to clipboard!");
+        }).catch(err => {
+            console.error('Unable to copy to clipboard', err);
+        });
+    }
+
+    createSwitches();
+</script>
+
+</body>
+</html>
