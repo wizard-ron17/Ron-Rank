@@ -287,9 +287,11 @@
                 }
             }
 
-            // Update array display
+            // Update array display and auto-scroll when entries are added
             const arrayDisplay = document.getElementById("arrayDisplay");
             arrayDisplay.textContent = JSON.stringify(dataArray, null, 2);
+            arrayDisplay.scrollTop = arrayDisplay.scrollHeight;
+
         }
 
         function copyArray() {
