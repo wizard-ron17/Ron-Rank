@@ -310,9 +310,10 @@
             if (key !== "") {
                 dataArray.push({ account: key, amount: 30.0 });
 
-                // Update array display
+                // Update array display and auto-scroll when entries are added
                 const arrayDisplay = document.getElementById("arrayDisplay");
                 arrayDisplay.textContent = JSON.stringify(dataArray, null, 2);
+                arrayDisplay.scrollTop = arrayDisplay.scrollHeight;
 
                 // Clear input
                 newEntryInput.value = "";
