@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 20px;
+            margin: 0px;
             font-family: 'VT323', monospace;
             background-color: #222034;
             color: white;
@@ -81,11 +82,11 @@
             position: absolute;
         }
 
-        input:checked + .slider {
+        input:checked+.slider {
             background-color: #22c6e9;
         }
 
-        input:checked + .slider:before {
+        input:checked+.slider:before {
             transform: translateX(25px);
         }
 
@@ -93,108 +94,248 @@
             font-size: 24px;
         }
 
-        input:checked + .slider + span {
+        input:checked+.slider+span {
             color: #22c6e9;
         }
-      
+
         span:hover {
             color: #22c6e9;
         }
 
-        button {
-            display: block;
-            margin: 0px auto;
+        #container2 {
+            background-color: #2a2a44;
+            border-radius: 15px;
             padding: 10px;
-            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+            width: 645px;
+        }
+
+        #buttonContainer {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        #arrayDisplay {
+            margin-top: 5px;
+            width: 100%;
+            min-height: 150px;
+            background-color: #1f2329;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+            color: #fff;
+            font-size: 10px;
+            border: 2px solid #22c6e9;
+            resize: none;
+        }
+
+        #inputBox {
+            margin-top: 0px;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            width: 645px;
+        }
+
+        #newEntryInput {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-right: 10px;
+            font-size: 18px;
+            width: 305px;
+            background-color: #1f2329;
+            color: white;
+            border: 2px solid #22c6e9;
+        }
+
+        #addEntryButton {
+            padding: 10px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
+            font-size: 20px;
+            height: 43px;
+            margin-right: 10px;
+        }
+
+        #deleteEntryButton {
+            padding: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            height: 43px;
+            margin-right: 10px;
+        }
+      
+        #copyButton {
+            margin-top: 0px;
+            margin-left: 90px;
+            padding: 10px;
+            font-size: 20px;
+            background-color: #22c6e9;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
             font-family: 'VT323', monospace;
+            height: 43px;
+      }
+      
+        button {
+            margin-top: 0px;
+            margin-left: 0px;
+            padding: 10px;
+            font-size: 20px;
+            background-color: #22c6e9;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            height: 43px;
         }
     </style>
 </head>
+
 <body>
 
     <h1>Archmage's Twitter-Proof Tool</h1>
-        <div id="container">
-            <div id="switchList">
+    <div id="container">
+        <div id="switchList">
             <!-- Switches and Names will be added here dynamically -->
-            </div>
-
-            <button onclick="copyArray()">Copy Array</button>
         </div>
-<script>
-    const namesData = [
-        { name: "42.kda", key: "k:afe2b39cf4633290281d52015bf0dfd1700043b1b36424aebe4fb2b07a37566b" },
-        { name: "adry11", key: "k:ae40c3b5bd5df98e77a620178d1f805c252ccf7c1a9e06cdc00acdeaf27a2ffc" },
-        { name: "Azzacalabazza", key: "k:94922948af50bdfbe20e76bc0e01c9bd963f593a91d8608af20af03ebd6f5c17" },
-        { name: "crafty", key: "k:99aedabdcc4cfa2bd4a4a345309d78f468611d9f0dc9002dccfa0a7754f2213c" },
-        { name: "diablo", key: "k:7fb0d75f027f0eb57cef4990c440661b14d6f8a2bd7176a8a650df21a82bbe73" },
-        { name: "Dragon Eye", key: "k:99908824529a2e4b1446d3bd8e3276d413865496b6b036ac79432451412e9437" },
-        { name: "Ezal", key: "k:6a599963c2dc099c6ef90dfa9788c8a226771edb38b3d6755c406c64d400f706" },
-        { name: "HankDTank", key: "k:ad4d60533ca0cd53e7c27264f8e1efd0db1ab7be126895db2807305028185942" },
-        { name: "hazen", key: "k:22ce975d3132bfd480191b1827904c7914faa3e9a6a230b3c8e3ac947f2df560" },
-        { name: "Highlander", key: "k:92e4864f47b0e0dcb4b84549309f854a16fc2256a7a534ad3b68a3c15a330cc2" },
-        { name: "johnny be good", key: "k:59c26562a516a365428d557fcad29f8b27a22e670152fa4abc04d95265d75ec4" },
-        { name: "Kaushal", key: "k:669d2ac485cd419043ffa36b69dd5fa76c853f162c65891a6d224aa191e8d138" },
-        { name: "Lucky Plaid", key: "k:0e3aa620854606481864ade05973cf30b2dfafc1ab40ce890c5201cee7a73911" },
-        { name: "Legonze", key: "k:2b959bf1a69f2f1ecef082ff3cb40b1393a07a44e5d3f89cbe4bbd6e4ef87520" },
-        { name: "thicckNRich", key: "k:ec81c5a5b6dced74b82219b91e4e1afde05dd498c216ce3e779da49f368a78ba" },
-    ];
+    </div>
 
-    let dataArray = [];
+    <div id="container2">
+        <div id="buttonContainer">
+            <div id="inputBox">
+                <input type="text" id="newEntryInput" placeholder="Paste new k:address and click 'ADD'">
+                <button id="addEntryButton" onclick="addNewEntry()">ADD</button>
+                <button id="deleteEntryButton" onclick="deleteLastEntry()">UNDO</button>
+                <button id="copyButton" onclick="copyArray()">COPY ARRAY</button>
+            </div>
+        </div>
+        <textarea id="arrayDisplay" readonly></textarea>
+    </div>
 
-    function createSwitches() {
-        const switchListDiv = document.getElementById("switchList");
+    <script>
+        const namesData = [
+            { name: "42.kda", key: "k:afe2b39cf4633290281d52015bf0dfd1700043b1b36424aebe4fb2b07a37566b" },
+            { name: "adry11", key: "k:ae40c3b5bd5df98e77a620178d1f805c252ccf7c1a9e06cdc00acdeaf27a2ffc" },
+            { name: "Azzacalabazza", key: "k:94922948af50bdfbe20e76bc0e01c9bd963f593a91d8608af20af03ebd6f5c17" },
+            { name: "crafty", key: "k:99aedabdcc4cfa2bd4a4a345309d78f468611d9f0dc9002dccfa0a7754f2213c" },
+            { name: "diablo", key: "k:7fb0d75f027f0eb57cef4990c440661b14d6f8a2bd7176a8a650df21a82bbe73" },
+            { name: "Dragon Eye", key: "k:99908824529a2e4b1446d3bd8e3276d413865496b6b036ac79432451412e9437" },
+            { name: "Ezal", key: "k:6a599963c2dc099c6ef90dfa9788c8a226771edb38b3d6755c406c64d400f706" },
+            { name: "HankDTank", key: "k:ad4d60533ca0cd53e7c27264f8e1efd0db1ab7be126895db2807305028185942" },
+            { name: "hazen", key: "k:22ce975d3132bfd480191b1827904c7914faa3e9a6a230b3c8e3ac947f2df560" },
+            { name: "Highlander", key: "k:92e4864f47b0e0dcb4b84549309f854a16fc2256a7a534ad3b68a3c15a330cc2" },
+            { name: "johnny be good", key: "k:59c26562a516a365428d557fcad29f8b27a22e670152fa4abc04d95265d75ec4" },
+            { name: "Kaushal", key: "k:669d2ac485cd419043ffa36b69dd5fa76c853f162c65891a6d224aa191e8d138" },
+            { name: "Lucky Plaid", key: "k:0e3aa620854606481864ade05973cf30b2dfafc1ab40ce890c5201cee7a73911" },
+            { name: "Legonze", key: "k:2b959bf1a69f2f1ecef082ff3cb40b1393a07a44e5d3f89cbe4bbd6e4ef87520" },
+            { name: "thicckNRich", key: "k:ec81c5a5b6dced74b82219b91e4e1afde05dd498c216ce3e779da49f368a78ba" },
+        ];
 
-        // Separate names into three columns
-        const columns = [[], [], []];
-        namesData.forEach((data, index) => columns[index % 3].push(data));
+        let dataArray = [];
 
-        columns.forEach(column => {
-            const columnDiv = document.createElement("div");
-            column.forEach(data => {
-                const label = document.createElement("label");
-                label.innerHTML = `
+        function createSwitches() {
+            const switchListDiv = document.getElementById("switchList");
+
+            // Separate names into three columns
+            const columns = [[], [], []];
+            namesData.forEach((data, index) => columns[index % 3].push(data));
+
+            columns.forEach(column => {
+                const columnDiv = document.createElement("div");
+                column.forEach(data => {
+                    const label = document.createElement("label");
+                    label.innerHTML = `
                     <div class="switch">
                         <input type="checkbox" id="${data.name}" onchange="updateArray('${data.name}', '${data.key}')">
                         <div class="slider"></div>
                         <span>${data.name}</span>
                     </div>
                 `;
-                columnDiv.appendChild(label);
+                    columnDiv.appendChild(label);
+                });
+                switchListDiv.appendChild(columnDiv);
             });
-            switchListDiv.appendChild(columnDiv);
-        });
-    }
+        }
 
-    function updateArray(name, key) {
-        const checkbox = document.getElementById(name);
-        const amount = 30.0;
+        function updateArray(name, key) {
+            const checkbox = document.getElementById(name);
+            const amount = 30.0;
 
-        if (checkbox.checked) {
-            dataArray.push({ account: key, amount });
-        } else {
-            const index = dataArray.findIndex(item => item.account === key);
-            if (index !== -1) {
-                dataArray.splice(index, 1);
+            if (checkbox.checked) {
+                dataArray.push({ account: key, amount });
+            } else {
+                const index = dataArray.findIndex(item => item.account === key);
+                if (index !== -1) {
+                    dataArray.splice(index, 1);
+                }
+            }
+
+            // Update array display
+            const arrayDisplay = document.getElementById("arrayDisplay");
+            arrayDisplay.textContent = JSON.stringify(dataArray, null, 2);
+        }
+
+        function copyArray() {
+            const copyText = JSON.stringify(dataArray);
+            navigator.clipboard.writeText(copyText).then(() => {
+                alert("Array copied to clipboard!");
+            }).catch(err => {
+                console.error('Unable to copy to clipboard', err);
+            });
+        }
+
+        function addNewEntry() {
+            const newEntryInput = document.getElementById("newEntryInput");
+            const key = newEntryInput.value.trim();
+
+            if (key !== "") {
+                dataArray.push({ account: key, amount: 30.0 });
+
+                // Update array display
+                const arrayDisplay = document.getElementById("arrayDisplay");
+                arrayDisplay.textContent = JSON.stringify(dataArray, null, 2);
+
+                // Clear input
+                newEntryInput.value = "";
             }
         }
-    }
 
-    function copyArray() {
-        const copyText = JSON.stringify(dataArray);
-        navigator.clipboard.writeText(copyText).then(() => {
-            alert("Array copied to clipboard!");
-        }).catch(err => {
-            console.error('Unable to copy to clipboard', err);
-        });
-    }
+        function deleteLastEntry() {
+            if (dataArray.length > 0) {
+                const lastEntry = dataArray.pop();
 
-    createSwitches();
-</script>
+                // If the last entry was added via switch, turn off the switch
+                const checkbox = document.getElementById(lastEntry.account);
+                if (checkbox) {
+                    checkbox.checked = false;
+                }
+
+                // Update array display
+                const arrayDisplay = document.getElementById("arrayDisplay");
+                arrayDisplay.textContent = JSON.stringify(dataArray, null, 2);
+            }
+        }
+
+        createSwitches();
+    </script>
 
 </body>
+
 </html>
