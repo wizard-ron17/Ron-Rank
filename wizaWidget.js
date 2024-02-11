@@ -20,13 +20,13 @@ if (isDarkTheme) {
 }
 
 async function buildWidget() {
-    const ethereumImage = await loadImage('https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/wizhat-zoomed.png');
+    const wizaImage = await loadImage('https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/wizhat-zoomed.png');
     
-    const ethereumPriceInfo = await getTokenPriceInfo();
+    const wizaPriceInfo = await getTokenPriceInfo();
  
-    const roundedEthereumPrice = ethereumPriceInfo.price;
+    const wizaPrice = wizaPriceInfo.price;
   
-    addCrypto(ethereumImage, 'WIZA',`${roundedEthereumPrice} KDA`, ethereumPriceInfo.grow);
+    addCrypto(wizaImage, 'WIZA',`${wizaPrice} KDA`, wizaPriceInfo.grow);
 }
 
 function addCrypto(image, symbol, price, grow) {
