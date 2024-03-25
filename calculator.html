@@ -214,6 +214,29 @@
     .mode label input {
       margin-right: 5px;
     }
+    
+    .mode label:hover {
+      color: #22c6e9;
+    }
+    
+    .mode label.active {
+      color: #22c6e9;
+    }
+    
+    input[type='radio']:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #22c6e9;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+    
   </style>
 </head>
 <body>
@@ -338,7 +361,7 @@
         <input type="radio" name="mode" value="farmer">
         LVL 190
       </label>
-      <label>
+      <label class="active">
         <input type="radio" name="mode" value="apprentice" checked>
         LVL 300
       </label>
@@ -583,6 +606,17 @@ selectAura.addEventListener("change", calculateStats);
   
     const selectRing = document.getElementById("ring");
     selectRing.addEventListener("change", calculateStats);
+    
+    const labels = document.querySelectorAll('.mode label');
+
+    labels.forEach(label => {
+      label.addEventListener('click', function() {
+        // Remove active class from all labels
+        labels.forEach(l => l.classList.remove('active'));
+        // Add active class to the clicked label
+        label.classList.add('active');
+      });
+    });
 
   </script>
   
