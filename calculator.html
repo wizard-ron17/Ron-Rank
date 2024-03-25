@@ -20,7 +20,8 @@
     body {
       font-family: 'VT323', monospace;
       background-color: #222034;
-      color: #22c6e9; 
+      color: white;
+      font-size: 20px;
     }
     nav {
       display: flex;
@@ -52,6 +53,7 @@
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 2px;
+      color: #22c6e9;
     }
 
     .container {
@@ -73,7 +75,19 @@
 
     .form-group {
       flex-basis: calc(50% - 10px);
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+    }
+    
+    #formgroup-ringAndAura {
+      margin-bottom: 0px;
+    }
+    
+    #formgroup-spellAtk {
+      margin-bottom: 0px;
+    }
+    
+    #formgroup-spellDmg {
+      margin-bottom: 0px;
     }
 
     .form-group label {
@@ -83,7 +97,7 @@
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: #fff;
+      color: white;
     }
 
     .form-group input {
@@ -96,6 +110,32 @@
       font-size: 30px;
       color: #22c6e9;
       font-family: 'VT323', monospace;
+    }
+    
+    .form-group span {
+      font-size: 20px;
+      color: #22c6e9;
+    }
+    
+    label[for="aura"] {
+      margin-top: 10px;
+      padding-top: 0px;
+      margin-bottom: 0px;
+      color: white;
+    }
+    
+    label[for="ring"] {
+      margin-top: 0px;
+      padding-top: 0px;
+      margin-bottom: 0px;
+      color: white;
+    }
+    
+    select[for="aura"] {
+      margin-top: 0px;
+      padding-top: 0px;
+      margin-bottom: 0px;
+      color: #ff0000;
     }
 
     button {
@@ -117,10 +157,12 @@
     select {
       width: 70%;
       margin: auto;
+      margin-bottom: 0px;
       background-color: #222034;
       color: #ffffff;
       font-family: 'VT323', monospace;
       font-size: 16px;
+      border-radius: 5px;
     }
 
     #lvl {
@@ -155,8 +197,8 @@
 
     .mode {
       display: flex;
-      justify-content: space-between;
-      margin: 20px 0;
+      justify-content: center;
+      margin: 20px 0px;
       font-size: 18px;
       font-weight: bold;
       text-transform: uppercase;
@@ -166,10 +208,11 @@
     .mode label {
       display: block;
       cursor: pointer;
+      margin-right: 30px;
     }
 
     .mode label input {
-      margin-right: 10px;
+      margin-right: 5px;
     }
   </style>
 </head>
@@ -210,7 +253,7 @@
         <div>Final: <span id="finalspd"></span></div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" id="formgroup-ringAndAura">
         <label for="ring">Ring</label>
         <select id="ring" name="ring">
           <!-- None -->
@@ -268,25 +311,40 @@
           <option value="SPD +10">SPD +10</option>
           </optgroup>
         </select>
-      </div>
+      <!-- AURA -->
       <div class="form-group">
+        <label for="aura">Aura</label>
+        <select id="aura" name="aura">
+          <option value="DEF +0">None</option>
+          <option value="DEF +1">DEF +1</option>
+          <option value="DEF +2">DEF +2</option>
+          <option value="DEF +3">DEF +3</option>
+          <option value="DEF +4">DEF +4</option>
+        </select>
+      </div>
+      </div>
+      <div class="form-group" id="formgroup-spellAtk">
         <label for="spellatk">Spell ATK</label>
         <input type="number" id="spellatk" name="spellatk" value="0" required onclick="selectInputContent(this)">
       </div>
-      <div class="form-group">
+      <div class="form-group" id="formgroup-spellDmg">
         <label for="spelldmg">Spell DMG</label>
         <input type="number" id="spelldmg" name="spelldmg" value="0" required onclick="selectInputContent(this)">
       </div>
-      
+ 
     </form>
     <div class="mode">
       <label>
+        <input type="radio" name="mode" value="farmer">
+        LVL 190
+      </label>
+      <label>
         <input type="radio" name="mode" value="apprentice" checked>
-        Apprentice (LEVEL 295)
+        LVL 300
       </label>
       <label>
         <input type="radio" name="mode" value="elite">
-        Elite (LEVEL 375)
+        LVL 375
       </label>
     </div>
     <div class="form-group">
@@ -298,35 +356,69 @@
   </div>
   <script>
     function calculateStats() {
-      let hp = parseFloat(document.getElementById("hp").value);
-      let def = parseFloat(document.getElementById("def").value);
-      let atk = parseFloat(document.getElementById("atk").value);
-      let dmg = parseFloat(document.getElementById("dmg").value);
-      let spd = parseFloat(document.getElementById("spd").value);
-      let spellatk = parseFloat(document.getElementById("spellatk").value);
-      let spelldmg = parseFloat(document.getElementById("spelldmg").value);
+  let hp = parseFloat(document.getElementById("hp").value);
+  let def = parseFloat(document.getElementById("def").value);
+  let atk = parseFloat(document.getElementById("atk").value);
+  let dmg = parseFloat(document.getElementById("dmg").value);
+  let spd = parseFloat(document.getElementById("spd").value);
+  let spellatk = parseFloat(document.getElementById("spellatk").value);
+  let spelldmg = parseFloat(document.getElementById("spelldmg").value);
+
+  let selectedRing = document.getElementById("ring").value;
+  let selectedAura = document.getElementById("aura").value;
   
-      let selectedRing = document.getElementById("ring").value;
-      let ringBonuses = getRingBonuses(selectedRing);
-      let finalhp = hp + ringBonuses.hp;
-      let finaldef = def + ringBonuses.def;
-      let finalatk = atk + spellatk + ringBonuses.atk;
-      let finaldmg = dmg + spelldmg + ringBonuses.dmg;
-      let finalspd = spd + ringBonuses.spd;
-  
-      document.getElementById("finalhp").textContent = finalhp;
-      document.getElementById("finaldef").textContent = finaldef;
-      document.getElementById("finalatk").textContent = finalatk;
-      document.getElementById("finaldmg").textContent = finaldmg;
-      document.getElementById("finalspd").textContent = finalspd;
-  
-      let mode = document.querySelector('input[name="mode"]:checked').value;
-      let level = calculateLevel(hp, def, atk, dmg, spd);
-      updateLevelColor(level, mode);
-  
-      let lvlField = document.getElementById("lvl");
-      lvlField.value = level;
-    }
+  let ringBonuses = getRingBonuses(selectedRing);
+  let auraBonus = getAuraBonus(selectedAura);
+
+  let finalhp = hp + ringBonuses.hp;
+  let finaldef = def + ringBonuses.def + auraBonus.def; // Add aura bonus to final def
+  let finalatk = atk + spellatk + ringBonuses.atk;
+  let finaldmg = dmg + spelldmg + ringBonuses.dmg;
+  let finalspd = spd + ringBonuses.spd;
+
+  document.getElementById("finalhp").textContent = finalhp;
+  document.getElementById("finaldef").textContent = finaldef;
+  document.getElementById("finalatk").textContent = finalatk;
+  document.getElementById("finaldmg").textContent = finaldmg;
+  document.getElementById("finalspd").textContent = finalspd;
+
+  let mode = document.querySelector('input[name="mode"]:checked').value;
+  let level = calculateLevel(hp, def, atk, dmg, spd);
+  updateLevelColor(level, mode);
+
+  let lvlField = document.getElementById("lvl");
+  lvlField.value = level;
+}
+
+function getAuraBonus(selectedAura) {
+  let bonuses = {
+    def: 0
+  };
+
+  switch (selectedAura) {
+    case "DEF +0":
+      bonuses.def = 0;
+      break;
+    case "DEF +1":
+      bonuses.def = 1;
+      break;
+    case "DEF +2":
+      bonuses.def = 2;
+      break;
+    case "DEF +3":
+      bonuses.def = 3;
+      break;
+    case "DEF +4":
+      bonuses.def = 4;
+      break;
+  }
+
+  return bonuses;
+}
+
+const selectAura = document.getElementById("aura");
+selectAura.addEventListener("change", calculateStats);
+
   
     function getRingBonuses(selectedRing) {
       let bonuses = {
@@ -464,13 +556,19 @@
     function updateLevelColor(level, mode) {
       let lvlField = document.getElementById("lvl");
       if (mode === "apprentice") {
-        if (level > 295) {
+        if (level > 300) {
           lvlField.classList.add("red");
         } else {
           lvlField.classList.remove("red");
         }
-      } else {
+      } else if (mode === "elite") {
         if (level > 375) {
+          lvlField.classList.add("red");
+        } else {
+          lvlField.classList.remove("red");
+        }
+      } else if (mode === "farmer") {
+        if (level > 190) {
           lvlField.classList.add("red");
         } else {
           lvlField.classList.remove("red");
