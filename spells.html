@@ -1,156 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Ron's Spell Tracker</title>
-	<meta name="description" content="Find all Wizards Arena spells by element with Ron's Spell Tracker">
-	<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/favicon-cleric.ico">
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-	<link rel="manifest" href="manifest.json">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<style>
-      .tooltip {
-    position: relative;
-    display: block;
-    height: 50%;
-    margin-bottom: 0;
-  }
-  /* Define tooltip text */
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 210px;
-    background-color: #ffff;
-    color: #000;
-    text-align: center;
-    border-radius: 6px;
-    padding: 10px 10px;
-    position: absolute;
-    z-index: 1;
-    bottom: 100%;
-    left: -120%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.5s;
-  }
-  /* Show tooltip text on hover */
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
-		body {
-			font-family: 'VT323', monospace;
-			background-color: #222034;
-			color: #22c6e9;
-			margin: 0;
-			padding: 0;
-		}
-		nav {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			height: 30px;
-			background-color: #2a2a44;
-			padding: 0 0px;
-		}
-		nav a {
-			color: white;
-			text-decoration: none;
-			font-size: 20px;
-			margin: 0 2px;
-			text-transform: uppercase;
-			letter-spacing: 2px;
-			font-weight: bold;
-		}
-		nav a:hover {
-  			color: #22c6e9;
-      		}
-		nav a.active {
-  			color: #22c6e9;
-      		}
-		h1 {
-			font-size: 50px;
-			text-align: center;
-			margin-top: 0px;
-			margin-bottom: 10px;
-			text-transform: uppercase;
-			letter-spacing: 2px;
-		}
-    table caption {
-      font-size: 32px;
-      text-align: left;
-      margin-bottom: 5px;
-      color: white
-    }
-		table {
-			border-collapse: collapse;
-			width: 40%;
-			margin-bottom: 20px;
-      display: flex;
-      flex-direction: column;
-      float: center;
-		}
-    .-table {
-        float: right;
-        display: flex;
-  flex-direction: column;
-     }
-		th, td {
-			text-align: center;
-			padding: 4px 20px;
-			border-bottom: ;
-			color: #22c6e9;
-			font-size: 20px;
-			font-weight: normal;
-		}
-		th {
-			background-color: #2a2a44;
-			color: white;
-			font-weight: bold;
-		}
-		.element {
-			padding: 10px;
-			margin-bottom: 40px;
-		}
-		.element h2 {
-			margin-top: 0;
-		}
-		@media only screen and (max-width: 768px) {
-			table {
-    font-size: 16px;
-    width: 80%;
-    max-width: 80%;
-    float: none; /* override float property */
-    display: table; /* override display property */
-    margin: 0 auto; /* center the table */
-  }
-			}
-			.-table {
-        		float: center;
-        		display: flex;
-  			flex-direction: column;
-     }
-		}
-	</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ron's Spell Tracker</title>
+    <meta name="description" content="Find all Wizards Arena spells by element with Ron's Spell Tracker">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/favicon-cleric.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <style>
+        .tooltip {
+            position: relative;
+            display: block;
+            height: 50%;
+            margin-bottom: 0;
+        }
+        /* Define tooltip text */
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 210px;
+            background-color: #ffff;
+            color: #000;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 0%;
+            left: 80%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        /* Show tooltip text on hover */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        body {
+            font-family: 'VT323', monospace;
+            background-color: #222034;
+            color: #22c6e9;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 30px;
+            background-color: #2a2a44;
+            padding: 0 0px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            margin: 0 2px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #22c6e9;
+        }
+        nav a.active {
+            color: #22c6e9;
+        }
+        h1 {
+            font-size: 50px;
+            text-align: center;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        td {
+            text-align: center;
+            padding: 8px;
+            border-bottom: 1px solid grey;
+            color: #22c6e9;
+            font-size: 20px;
+            font-weight: normal;
+        }
+        th {
+            background-color: #2a2a44;
+            color: white;
+            font-weight: bold;
+            padding: 5px;
+            font-size: 24px;
+        }
+        th:hover {
+            color: #22c6e9;
+        }
+        .element {
+            padding: 10px;
+            margin-bottom: 0px;
+        }
+        @media only screen and (max-width: 768px) {
+            table {
+                font-size: 16px;
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+        }
+    </style>
 </head>
 <body>
-	<nav>
-		<a href="http://ronrank.xyz/">Info</a>
-	     	<a href="http://ronrank.xyz/rank/">Rank</a>
-        	<a href="http://ronrank.xyz/calculator/">Calculator</a>
-	  	<a class="active" href="http://ronrank.xyz/spells/">Spells</a>
-        	<a href="http://ronrank.xyz/tournament/">Tournament</a>
-    </nav>
-	<h1>Spell Tracker</h1>
-	<div class="element">
-		<table class="-table">
-      <caption>Dark</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+<nav>
+    <a href="http://ronrank.xyz/">Info</a>
+    <a href="http://ronrank.xyz/rank/">Rank</a>
+    <a href="http://ronrank.xyz/calculator/">Calculator</a>
+    <a class="active" href="http://ronrank.xyz/spells/">Spells</a>
+    <a href="http://ronrank.xyz/tournament/">Tournament</a>
+</nav>
+<h1>Spell Tracker</h1>
+<div class="element">
+    <table id="spellsTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">SPELL</th>
+                <th onclick="sortTable(1)">PERK</th>
+                <th onclick="sortTable(2)">BASE ATK</th>
+                <th onclick="sortTable(3)">BASE DMG</th>
+            </tr>
+        </thead>
+        <tbody>
+          <!-- ########################### DARK SPELLS HERE ######################### -->
 			<tr>
 				<td>Vindicate</td>
 				<td>None</td>
@@ -203,15 +186,7 @@
 				<td>6</td>
 				<td>6</td>
       </tr>
-      </table>
-      <table class="-table">  
-      <caption>Acid</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+          <!-- ########################### ACID SPELLS HERE ######################### -->
 			<tr>
 				<td>Acid Beam</td>
 				<td>None</td>
@@ -264,14 +239,7 @@
 				<td>7</td>
 				<td>7</td>
       </tr>
-        <table class="-table">
-      <caption>Ice</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+          <!-- ########################### ICE SPELLS HERE ######################### -->
 			<tr>
 				<td>Frost Missiles</td>
 				<td>None</td>
@@ -316,15 +284,7 @@
 				<td>6</td>
 				<td>7</td>
       </tr>
-          </table>
-      <table class="-table">
-      <caption>Fire</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+          <!-- ########################### FIRE SPELLS HERE ######################### -->
 			<tr>
 				<td>Hellfire Strike</td>
 				<td>None</td>
@@ -369,14 +329,7 @@
 				<td>6</td>
 				<td>7</td>
       </tr>
-            <table class="-table">
-      <caption>Wind</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+          <!-- ########################### WIND SPELLS HERE ######################### -->
 			<tr>
 				<td>Wind Strike</td>
 				<td>None</td>
@@ -427,14 +380,7 @@
 				<td>7</td>
 				<td>7</td>
       </tr>
-               <table class="-table">
-      <caption>Thunder</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+          <!-- ########################### THUNDER SPELLS HERE ######################### -->
 			<tr>
 				<td>Lightning</td>
 				<td>None</td>
@@ -479,14 +425,7 @@
 				<td>5</td>
 				<td>8</td>
       </tr>
-		<table class="-table">
-      <caption>Psycho</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+          <!-- ########################### PSYCHO SPELLS HERE ######################### -->
 			<tr>
 				<td>Nightmare</td>
 				<td>None</td>
@@ -531,14 +470,7 @@
 				<td>6</td>
 				<td>5</td>
       </tr>
-      <table class="-table">  
-      <caption>Earth</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+          <!-- ########################### EARTH SPELLS HERE ######################### -->
 			<tr>
 				<td>Flesh to Stone</td>
 				<td>None</td>
@@ -589,14 +521,7 @@
 				<td>7</td>
 				<td>7</td>
       </tr>
-        <table class="-table">
-      <caption>Sun</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+        <!-- ########################### SUN SPELLS HERE ######################### -->
 			<tr>
 				<td>Sacred Flame</td>
 				<td>None</td>
@@ -641,14 +566,7 @@
 				<td>6</td>
 				<td>6</td>
       </tr>
-          <table class="-table">
-      <caption>Spirit</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+          <!-- ########################### SPIRIT SPELLS HERE ######################### -->
 			<tr>
 				<td>Summon Spirit</td>
 				<td>None</td>
@@ -693,14 +611,7 @@
 				<td>6</td>
 				<td>8</td>
       </tr>
-            <table class="-table">
-      <caption>Water</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+            <!-- ########################### WATER SPELLS HERE ######################### -->
 			<tr>
 				<td>Maelstrom</td>
 				<td>None</td>
@@ -745,14 +656,7 @@
 				<td>6</td>
 				<td>6</td>
       </tr>
-               <table class="-table">
-      <caption>Undead</caption>
-			<tr>
-				<th>SPELL</th>
-				<th>PERK</th>
-				<th>BASE ATK</th>
-				<th>BASE DMG</th>
-			</tr>
+              <!-- ########################### UNDEAD SPELLS HERE ######################### -->
 			<tr>
 				<td>Circle of Death</td>
 				<td>None</td>
@@ -797,5 +701,49 @@
 				<td>6</td>
 				<td>6</td>
       </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Object to keep track of current sort order for each column
+    var sortOrder = {};
+
+    // Function to sort table by column
+    function sortTable(colIndex) {
+        var table = document.getElementById("spellsTable");
+        var rows = Array.from(table.rows).slice(1); // Skip the header row
+        var isNumColumn = colIndex >= 2; // Check if it's a numeric column
+
+        // Get the current sort order for this column
+        var order = sortOrder[colIndex] || 'asc';
+
+        // Toggle the sort order
+        order = order === 'asc' ? 'desc' : 'asc';
+        sortOrder[colIndex] = order;
+
+        rows.sort((a, b) => {
+            var aValue = a.cells[colIndex].textContent.trim();
+            var bValue = b.cells[colIndex].textContent.trim();
+
+            // Convert values to numbers if necessary
+            if (isNumColumn) {
+                aValue = parseFloat(aValue);
+                bValue = parseFloat(bValue);
+            }
+
+            // Compare values based on sort order
+            if (order === 'asc') {
+                return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+            } else {
+                return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+            }
+        });
+
+        // Reorder the table rows
+        table.tBodies[0].append(...rows);
+    }
+</script>
+
 </body>
 </html>
