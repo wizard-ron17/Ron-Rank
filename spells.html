@@ -9,35 +9,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
     <style>
-        .tooltip {
-            position: relative;
-            display: block;
-            height: 50%;
-            margin-bottom: 0;
-        }
-        /* Define tooltip text */
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 210px;
-            background-color: #ffff;
-            color: #000;
-            text-align: center;
-            border-radius: 6px;
-            padding: 10px 10px;
-            position: absolute;
-            z-index: 1;
-            bottom: 0%;
-            left: 80%;
-            margin-left: -60px;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-        /* Show tooltip text on hover */
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
         body {
             font-family: 'VT323', monospace;
             background-color: #222034;
@@ -76,41 +49,50 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 10px;
+        /* CSS to style the table */
+        .tabulator {
+            background-color: #222034; /* Change background color */
+            color: white; /* Change text color */
         }
-        td {
-            text-align: center;
-            padding: 8px;
-            border-bottom: 1px solid grey;
+
+        /* CSS to style the table header */
+        .tabulator-col-title {
+            background-color: #2a2a44; /* Change header background color */
             color: #22c6e9;
-            font-size: 20px;
-            font-weight: normal;
+            font-size: 22px;
+            padding: 0;
+            border: none;
+            height: 25px;
         }
-        th {
+      
+      .tabulator-col-content {
             background-color: #2a2a44;
+        }
+
+        /* CSS to style the table rows */
+        .tabulator-row {
+            background-color: #222034; /* Change row background color */
             color: white;
-            font-weight: bold;
-            padding: 5px;
-            font-size: 24px;
+            font-size: 20px;
         }
-        th:hover {
-            color: #22c6e9;
+      
+        .tabulator-row.tabulator-selectable:hover {
+            background-color: #4c5270; /* Change row background color */
+            color: white;
+            font-size: 20px;           
         }
-        .element {
-            padding: 10px;
-            margin-bottom: 0px;
+
+        /* CSS to style alternate rows differently */
+        .tabulator-row:nth-child(even) {
+            background-color: #2a2a44; /* Change background color of even rows */
         }
-        @media only screen and (max-width: 768px) {
-            table {
-                font-size: 16px;
-                width: 100%;
-                max-width: 100%;
-                margin: 0 auto;
-            }
+      
+        .spell-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
         }
+      
     </style>
 </head>
 <body>
@@ -122,628 +104,168 @@
     <a href="http://ronrank.xyz/tournament/">Tournament</a>
 </nav>
 <h1>Spell Tracker</h1>
-<div class="element">
-    <table id="spellsTable">
-        <thead>
-            <tr>
-                <th onclick="sortTable(0)">SPELL</th>
-                <th onclick="sortTable(1)">PERK</th>
-                <th onclick="sortTable(2)">BASE ATK</th>
-                <th onclick="sortTable(3)">BASE DMG</th>
-            </tr>
-        </thead>
-        <tbody>
-          <!-- ########################### DARK SPELLS HERE ######################### -->
-			<tr>
-				<td>Vindicate</td>
-				<td>None</td>
-				<td>5</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Unholy Nova</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Bane</td>
-				<td class="tooltip">Slow
-      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's attack - Chance of success: 35%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Hallucination</td>
-				<td class="tooltip">Paralyze
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 30%</span>
-    </td>
-				<td>3</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Blight</td>
-				<td class="tooltip">Exhaust
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
-    </td>
-				<td>6</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Hex</td>
-				<td class="tooltip">Curse
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's defense - Chance of success: 60%</span>
-    </td>
-				<td>6</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Abyss</td>
-				<td class="tooltip">Poison 3
-      <span class="tooltiptext">The opponent is so poisoned that he misses his turn - Chance of success: 40%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-          <!-- ########################### ACID SPELLS HERE ######################### -->
-			<tr>
-				<td>Acid Beam</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Acid Arrow</td>
-				<td class="tooltip">Poison 1
-      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's defense - Chance of success: 40%</span>
-    </td>
-				<td>5</td>
-				<td>4</td>
-      </tr>
-      <tr>
-				<td>Poison Barrage</td>
-				<td class="tooltip">Poison 2
-      <span class="tooltiptext">Inflicts a penalty of 2 on the opponent's defense - Chance of success: 50%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Cloudkill</td>
-				<td class="tooltip">Poison 3
-      <span class="tooltiptext">The opponent is so poisoned that he misses his turn - Chance of success: 40%</span>
-    </td>
-				<td>2</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Corrosion</td>
-				<td>None</td>
-				<td>7</td>
-				<td>9</td>
-      </tr>
-      <tr>
-				<td>Infestation</td>
-				<td class="tooltip">Disease
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's defense - Chance of success: 70%</span>
-    </td>
-				<td>6</td>
-				<td>7</td>
-      </tr>
-	 <tr>
-				<td>Necrosis</td>
-				<td class="tooltip">Poison 4
-      <span class="tooltiptext">Inflicts a penalty of 8 on the opponent's defense - Chance of success: 80%</span>
-    </td>
-				<td>7</td>
-				<td>7</td>
-      </tr>
-          <!-- ########################### ICE SPELLS HERE ######################### -->
-			<tr>
-				<td>Frost Missiles</td>
-				<td>None</td>
-				<td>5</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Ice Spear</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Ice Storm</td>
-				<td class="tooltip">Freeze
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 30%</span>
-    </td>
-				<td>3</td>
-				<td>2</td>
-      </tr>
-      <tr>
-				<td>Frostbite</td>
-				<td class="tooltip">Slow
-      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's attack - Chance of success: 40%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Ice Shield</td>
-				<td class="tooltip">Harden
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's damage - Chance of success: 70%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Avalanche</td>
-				<td class="tooltip">Paralyze 2
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
-    </td>
-				<td>6</td>
-				<td>7</td>
-      </tr>
-          <!-- ########################### FIRE SPELLS HERE ######################### -->
-			<tr>
-				<td>Hellfire Strike</td>
-				<td>None</td>
-				<td>5</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Fireball</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Fiery Smoke</td>
-				<td class="tooltip">Confuse
-      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
-    </td>
-				<td>3</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Ignite</td>
-				<td class="tooltip">Burn
-      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's damage - Chance of success: 30%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Hellish Flame</td>
-				<td class="tooltip">Burn 2
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's defense - Chance of success: 60%</span>
-    </td>
-				<td>6</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Dragon's Breath</td>
-				<td class="tooltip">Fear 2
-      <span class="tooltiptext">The opponent is too scared to move and loses the turn - Chance of success: 30%</span>
-    </td>
-				<td>6</td>
-				<td>7</td>
-      </tr>
-          <!-- ########################### WIND SPELLS HERE ######################### -->
-			<tr>
-				<td>Wind Strike</td>
-				<td>None</td>
-				<td>5</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Tornado</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Wave of Nature</td>
-				<td class="tooltip">Confuse
-      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Wind Rupture</td>
-				<td class="tooltip">Slow
-      <span class="tooltiptext">Inflicts a penalty of 1 on the opponent's attack - Chance of success: 35%</span>
-    </td>
-				<td>4</td>
-				<td>4</td>
-      </tr>
-      <tr>
-				<td>Whirl</td>
-				<td>None</td>
-				<td>7</td>
-				<td>9</td>
-      </tr>
-      <tr>
-				<td>Wind Barrier</td>
-				<td class="tooltip">Protection
-      <span class="tooltiptext">Inflicts a penalty of 3 on the opponent's damage - Chance of success: 75%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-	 <tr>
-				<td>Vortex</td>
-				<td class="tooltip">Slow 3
-      <span class="tooltiptext">Inflicts a penalty of 7 on the opponent's attack - Chance of success: 70%</span>
-    </td>
-				<td>7</td>
-				<td>7</td>
-      </tr>
-          <!-- ########################### THUNDER SPELLS HERE ######################### -->
-			<tr>
-				<td>Lightning</td>
-				<td>None</td>
-				<td>5</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Storm</td>
-				<td>None</td>
-				<td>6</td>
-				<td>5</td>
-      </tr>
-      <tr>
-				<td>Thunder</td>
-				<td class="tooltip">Paralyze
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 35%</span>
-    </td>
-				<td>3</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Thunder Spike</td>
-				<td class="tooltip">Confuse
-      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Shatter</td>
-				<td class="tooltip">Exhaust
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Shock</td>
-				<td class="tooltip">Confuse
-      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
-    </td>
-				<td>5</td>
-				<td>8</td>
-      </tr>
-          <!-- ########################### PSYCHO SPELLS HERE ######################### -->
-			<tr>
-				<td>Nightmare</td>
-				<td>None</td>
-				<td>7</td>
-				<td>5</td>
-      </tr>
-      <tr>
-				<td>Madness</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Fear</td>
-				<td class="tooltip">Fear
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 55%</span>
-    </td>
-				<td>3</td>
-				<td>4</td>
-      </tr>
-      <tr>
-				<td>Command</td>
-				<td class="tooltip">Paralyze 2
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Deadly Illusion</td>
-				<td class="tooltip">Paralyze 2
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
-    </td>
-				<td>5</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Maddening Darkness</td>
-				<td class="tooltip">Fear 3
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's defense - Chance of success: 70%</span>
-    </td>
-				<td>6</td>
-				<td>5</td>
-      </tr>
-          <!-- ########################### EARTH SPELLS HERE ######################### -->
-			<tr>
-				<td>Flesh to Stone</td>
-				<td>None</td>
-				<td>5</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Erupting Earth</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Earthquake</td>
-				<td class="tooltip">Shock
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
-    </td>
-				<td>3</td>
-				<td>4</td>
-      </tr>
-      <tr>
-				<td>Earth Tremor</td>
-				<td class="tooltip">Slow 2
-      <span class="tooltiptext">Inflicts a penalty of 3 on the opponent's attack - Chance of success: 90%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Meteors</td>
-				<td>None</td>
-				<td>7</td>
-				<td>9</td>
-      </tr>
-      <tr>
-				<td>Rock Shield</td>
-				<td class="tooltip">Harden
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's damage - Chance of success: 70%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Bones of the Earth</td>
-				<td class="tooltip">Shock
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
-    </td>
-				<td>7</td>
-				<td>7</td>
-      </tr>
-        <!-- ########################### SUN SPELLS HERE ######################### -->
-			<tr>
-				<td>Sacred Flame</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Solar Faith</td>
-				<td class="tooltip">Exhaust
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
-    </td>
-				<td>3</td>
-				<td>4</td>
-      </tr>
-      <tr>
-				<td>Dawn</td>
-				<td class="tooltip">Blind
-      <span class="tooltiptext">The opponent cannot see anything and loses the turn - Chance of success: 50%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Sunbeam</td>
-				<td class="tooltip">Confuse
-      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
-    </td>
-				<td>5</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Divine Light</td>
-				<td>None</td>
-				<td>7</td>
-				<td>9</td>
-      </tr>
-      <tr>
-				<td>Light Shield</td>
-				<td class="tooltip">Protection
-      <span class="tooltiptext">Inflicts a penalty of 3 on the opponent's damage - Chance of success: 75%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-          <!-- ########################### SPIRIT SPELLS HERE ######################### -->
-			<tr>
-				<td>Summon Spirit</td>
-				<td>None</td>
-				<td>7</td>
-				<td>5</td>
-      </tr>
-      <tr>
-				<td>Wail of Spirits</td>
-				<td>None</td>
-				<td>6</td>
-				<td>7</td>
-      </tr>
-      <tr>
-				<td>Cursed Whispers</td>
-				<td class="tooltip">Fear
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 55%</span>
-    </td>
-				<td>3</td>
-				<td>4</td>
-      </tr>
-      <tr>
-				<td>Mental Prison</td>
-				<td class="tooltip">Paralyze 2
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Phantasmal Force</td>
-				<td class="tooltip">Exhaust
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Possession</td>
-				<td class="tooltip">Confuse
-      <span class="tooltiptext">The opponent is so confused that he misses his turn - Chance of success: 20%</span>
-    </td>
-				<td>6</td>
-				<td>8</td>
-      </tr>
-            <!-- ########################### WATER SPELLS HERE ######################### -->
-			<tr>
-				<td>Maelstrom</td>
-				<td>None</td>
-				<td>7</td>
-				<td>5</td>
-      </tr>
-      <tr>
-				<td>Tsunami</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Drown </td>
-				<td class="tooltip">Exhaust
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
-    </td>
-				<td>3</td>
-				<td>4</td>
-      </tr>
-      <tr>
-				<td>Watery Sphere </td>
-				<td class="tooltip">Paralyze 2
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
-    </td>
-				<td>4</td>
-				<td>3</td>
-      </tr>
-      <tr>
-				<td>Flood</td>
-				<td class="tooltip">Paralyze 2
-      <span class="tooltiptext">The opponent cannot move and loses the turn - Chance of success: 40%</span>
-    </td>
-				<td>5</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Water Barrier</td>
-				<td class="tooltip">Protection
-      <span class="tooltiptext">Inflicts a penalty of 3 on the opponent's damage - Chance of success: 75%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-              <!-- ########################### UNDEAD SPELLS HERE ######################### -->
-			<tr>
-				<td>Circle of Death</td>
-				<td>None</td>
-				<td>7</td>
-				<td>5</td>
-      </tr>
-      <tr>
-				<td>Summon Undead</td>
-				<td>None</td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-    <td>Decay</td>
-    <td class="tooltip">Exhaust
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 60%</span>
-    </td>
-    <td>4</td>
-    <td>3</td>
-  </tr>
-      <tr>
-				<td>Whiter</td>
-				<td class="tooltip">Poison 3
-      <span class="tooltiptext">The opponent is so poisoned that he misses his turn - Chance of success: 40%</span>
-    </td>
-				<td>3</td>
-				<td>4</td>
-      </tr>
-      <tr>
-				<td>Danse Macabre</td>
-				<td class="tooltip">Fear
-      <span class="tooltiptext">Inflicts a penalty of 4 on the opponent's attack - Chance of success: 55%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-      <tr>
-				<td>Finger of Death</td>
-				<td class="tooltip">Fear 2
-      <span class="tooltiptext">The opponent is too scared to move and loses the turn - Chance of success: 30%</span>
-    </td>
-				<td>6</td>
-				<td>6</td>
-      </tr>
-        </tbody>
-    </table>
-</div>
-
+<div id="tabulator"></div> <!-- This will be replaced by Tabulator -->
 <script>
-    // Object to keep track of current sort order for each column
-    var sortOrder = {};
+    document.addEventListener('DOMContentLoaded', function () {
+        // Define your spell data
+        var spellsData = [
+  { spell: "Acid Beam", perk: "None", base_atk: 6, base_dmg: 6, element: "Acid" },
+  { spell: "Acid Arrow", perk: "Poison 1", base_atk: 5, base_dmg: 4, element: "Acid" },
+  { spell: "Poison Barrage", perk: "Poison 2", base_atk: 4, base_dmg: 3, element: "Acid" },
+  { spell: "Cloudkill", perk: "Poison 3", base_atk: 2, base_dmg: 3, element: "Acid" },
+  { spell: "Corrosion", perk: "None", base_atk: 7, base_dmg: 9, element: "Acid" },
+  { spell: "Infestation", perk: "Disease", base_atk: 6, base_dmg: 7, element: "Acid" },
+  { spell: "Necrosis", perk: "Poison 4", base_atk: 7, base_dmg: 7, element: "Acid" },
+  { spell: "Vindicate", perk: "None", base_atk: 5, base_dmg: 7, element: "Dark" },
+  { spell: "Unholy Nova", perk: "None", base_atk: 6, base_dmg: 6, element: "Dark" },
+  { spell: "Bane", perk: "Slow", base_atk: 4, base_dmg: 3, element: "Dark" },
+  { spell: "Hallucination", perk: "Paralyze", base_atk: 3, base_dmg: 3, element: "Dark" },
+  { spell: "Blight", perk: "Exhaust", base_atk: 6, base_dmg: 7, element: "Dark" },
+  { spell: "Hex", perk: "Curse", base_atk: 6, base_dmg: 7, element: "Dark" },
+  { spell: "Abyss", perk: "Poison 3", base_atk: 6, base_dmg: 6, element: "Dark" },
+  { spell: "Flesh to Stone", perk: "None", base_atk: 5, base_dmg: 7, element: "Earth" },
+  { spell: "Erupting Earth", perk: "None", base_atk: 6, base_dmg: 6, element: "Earth" },
+  { spell: "Earthquake", perk: "Shock", base_atk: 3, base_dmg: 4, element: "Earth" },
+  { spell: "Earth Tremor", perk: "Slow 2", base_atk: 4, base_dmg: 3, element: "Earth" },
+  { spell: "Meteors", perk: "None", base_atk: 7, base_dmg: 9, element: "Earth" },
+  { spell: "Rock Shield", perk: "Harden", base_atk: 6, base_dmg: 6, element: "Earth" },
+  { spell: "Bones of the Earth", perk: "Shock", base_atk: 7, base_dmg: 7, element: "Earth" },
+  { spell: "Hellfire Strike", perk: "None", base_atk: 5, base_dmg: 7, element: "Fire" },
+  { spell: "Fireball", perk: "None", base_atk: 6, base_dmg: 6, element: "Fire" },
+  { spell: "Fiery Smoke", perk: "Confuse", base_atk: 3, base_dmg: 3, element: "Fire" },
+  { spell: "Ignite", perk: "Burn", base_atk: 4, base_dmg: 3, element: "Fire" },
+  { spell: "Hellish Flame", perk: "Burn 2", base_atk: 6, base_dmg: 7, element: "Fire" },
+  { spell: "Dragon's Breath", perk: "Fear 2", base_atk: 6, base_dmg: 7, element: "Fire" },
+  { spell: "Frost Missiles", perk: "None", base_atk: 5, base_dmg: 7, element: "Ice" },
+  { spell: "Ice Spear", perk: "None", base_atk: 6, base_dmg: 6, element: "Ice" },
+  { spell: "Ice Storm", perk: "Freeze", base_atk: 3, base_dmg: 2, element: "Ice" },
+  { spell: "Frostbite", perk: "Slow", base_atk: 4, base_dmg: 3, element: "Ice" },
+  { spell: "Ice Shield", perk: "Harden", base_atk: 6, base_dmg: 6, element: "Ice" },
+  { spell: "Avalanche", perk: "Paralyze 2", base_atk: 6, base_dmg: 7, element: "Ice" },
+  { spell: "Nightmare", perk: "None", base_atk: 7, base_dmg: 5, element: "Psycho" },
+  { spell: "Madness", perk: "None", base_atk: 6, base_dmg: 6, element: "Psycho" },
+  { spell: "Fear", perk: "Fear", base_atk: 3, base_dmg: 4, element: "Psycho" },
+  { spell: "Command", perk: "Paralyze 2", base_atk: 4, base_dmg: 3, element: "Psycho" },
+  { spell: "Deadly Illusion", perk: "Paralyze 2", base_atk: 5, base_dmg: 6, element: "Psycho" },
+  { spell: "Maddening Darkness", perk: "Fear 3", base_atk: 6, base_dmg: 5, element: "Psycho" },
+  { spell: "Summon Spirit", perk: "None", base_atk: 7, base_dmg: 5, element: "Spirit" },
+  { spell: "Wail of Spirits", perk: "None", base_atk: 6, base_dmg: 7, element: "Spirit" },
+  { spell: "Cursed Whispers", perk: "Fear", base_atk: 3, base_dmg: 4, element: "Spirit" },
+  { spell: "Mental Prison", perk: "Paralyze 2", base_atk: 4, base_dmg: 3, element: "Spirit" },
+  { spell: "Phantasmal Force", perk: "Exhaust", base_atk: 6, base_dmg: 6, element: "Spirit" },
+  { spell: "Possession", perk: "Confuse", base_atk: 6, base_dmg: 8, element: "Spirit" },
+  { spell: "Sacred Flame", perk: "None", base_atk: 6, base_dmg: 6, element: "Sun" },
+  { spell: "Solar Faith", perk: "Exhaust", base_atk: 3, base_dmg: 4, element: "Sun" },
+  { spell: "Dawn", perk: "Blind", base_atk: 4, base_dmg: 3, element: "Sun" },
+  { spell: "Sunbeam", perk: "Confuse", base_atk: 5, base_dmg: 7, element: "Sun" },
+  { spell: "Divine Light", perk: "None", base_atk: 7, base_dmg: 9, element: "Sun" },
+  { spell: "Light Shield", perk: "Protection", base_atk: 6, base_dmg: 6, element: "Sun" },
+  { spell: "Lightning", perk: "None", base_atk: 5, base_dmg: 6, element: "Thunder" },
+  { spell: "Storm", perk: "None", base_atk: 6, base_dmg: 5, element: "Thunder" },
+  { spell: "Thunder", perk: "Paralyze", base_atk: 3, base_dmg: 3, element: "Thunder" },
+  { spell: "Thunder Spike", perk: "Confuse", base_atk: 4, base_dmg: 3, element: "Thunder" },
+  { spell: "Shatter", perk: "Exhaust", base_atk: 6, base_dmg: 6, element: "Thunder" },
+  { spell: "Shock", perk: "Confuse", base_atk: 5, base_dmg: 8, element: "Thunder" },
+  { spell: "Circle of Death", perk: "None", base_atk: 7, base_dmg: 5, element: "Undead" },
+  { spell: "Summon Undead", perk: "None", base_atk: 6, base_dmg: 6, element: "Undead" },
+  { spell: "Decay", perk: "Exhaust", base_atk: 4, base_dmg: 3, element: "Undead" },
+  { spell: "Whiter", perk: "Poison 3", base_atk: 3, base_dmg: 4, element: "Undead" },
+  { spell: "Danse Macabre", perk: "Fear", base_atk: 6, base_dmg: 6, element: "Undead" },
+  { spell: "Finger of Death", perk: "Fear 2", base_atk: 6, base_dmg: 6, element: "Undead" },
+  { spell: "Maelstrom", perk: "None", base_atk: 7, base_dmg: 5, element: "Water" },
+  { spell: "Tsunami", perk: "None", base_atk: 6, base_dmg: 6, element: "Water" },
+  { spell: "Drown", perk: "Exhaust", base_atk: 3, base_dmg: 4, element: "Water" },
+  { spell: "Watery Sphere", perk: "Paralyze 2", base_atk: 4, base_dmg: 3, element: "Water" },
+  { spell: "Flood", perk: "Paralyze 2 - 40% Skip", base_atk: 5, base_dmg: 6, element: "Water" },
+  { spell: "Water Barrier", perk: "Protection", base_atk: 6, base_dmg: 6, element: "Water" },
+  { spell: "Wind Strike", perk: "None", base_atk: 5, base_dmg: 7, element: "Wind" },
+  { spell: "Tornado", perk: "None", base_atk: 6, base_dmg: 6, element: "Wind" },
+  { spell: "Wave of Nature", perk: "Confuse", base_atk: 4, base_dmg: 3, element: "Wind" },
+  { spell: "Wind Rupture", perk: "Slow", base_atk: 4, base_dmg: 4, element: "Wind" },
+  { spell: "Whirl", perk: "None", base_atk: 7, base_dmg: 9, element: "Wind" },
+  { spell: "Wind Barrier", perk: "Protection", base_atk: 6, base_dmg: 6, element: "Wind" },
+  { spell: "Vortex", perk: "Slow 3", base_atk: 7, base_dmg: 7, element: "Wind" },
+];
 
-    // Function to sort table by column
-    function sortTable(colIndex) {
-        var table = document.getElementById("spellsTable");
-        var rows = Array.from(table.rows).slice(1); // Skip the header row
-        var isNumColumn = colIndex >= 2; // Check if it's a numeric column
-
-        // Get the current sort order for this column
-        var order = sortOrder[colIndex] || 'asc';
-
-        // Toggle the sort order
-        order = order === 'asc' ? 'desc' : 'asc';
-        sortOrder[colIndex] = order;
-
-        rows.sort((a, b) => {
-            var aValue = a.cells[colIndex].textContent.trim();
-            var bValue = b.cells[colIndex].textContent.trim();
-
-            // Convert values to numbers if necessary
-            if (isNumColumn) {
-                aValue = parseFloat(aValue);
-                bValue = parseFloat(bValue);
-            }
-
-            // Compare values based on sort order
-            if (order === 'asc') {
-                return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-            } else {
-                return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+        // Define Tabulator table
+        var table = new Tabulator("#tabulator", {
+            data: spellsData,
+            layout: "fitColumns",
+            columns: [
+                {
+                    title: "ELEMENT",
+                    field: "element",
+                    align: "center",
+                    formatter: function(cell, formatterParams, onRendered) {
+                        var value = cell.getValue();
+                        var icon = "<img class='spell-icon' src='https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/wizard-elements-svg/" +                             value.toLowerCase() + "-element.svg'>";
+                        return value + icon;
+                    }
+                },
+                {title: "SPELL", field: "spell"},
+                {title: "PERK", field: "perk"},
+                {title: "BASE ATK", field: "base_atk", align: "center"},
+                {title: "BASE DMG", field: "base_dmg", align: "center"}
+            ],
+            tooltips: true,
+            tooltipsHeader: true,
+            rowFormatter: function(row) {
+                var data = row.getData();
+                var elementCell = row.getCell("element");
+                var spellCell = row.getCell("spell");
+                // Add conditional formatting to change text color based on spell name
+                if (data.element === "Acid") {
+                    elementCell.getElement().style.color = "#88f71d";
+                    spellCell.getElement().style.color = "#88f71d";
+                } else if (data.element === "Dark") {
+                    elementCell.getElement().style.color = "#7c54d0";
+                    spellCell.getElement().style.color = "#7c54d0";
+                }
+                else if (data.element === "Earth") {
+                    elementCell.getElement().style.color = "#6e5752";
+                    spellCell.getElement().style.color = "#6e5752";
+                }
+                else if (data.element === "Fire") {
+                    elementCell.getElement().style.color = "#cc191a";
+                    spellCell.getElement().style.color = "#cc191a";
+                }
+                else if (data.element === "Ice") {
+                    elementCell.getElement().style.color = "#11c8ee";
+                    spellCell.getElement().style.color = "#11c8ee";
+                }
+                else if (data.element === "Psycho") {
+                    elementCell.getElement().style.color = "#c84ff8";
+                    spellCell.getElement().style.color = "#c84ff8";
+                }
+                else if (data.element === "Spirit") {
+                    elementCell.getElement().style.color = "#6b7c86";
+                    spellCell.getElement().style.color = "#6b7c86";
+                }
+                else if (data.element === "Sun") {
+                    elementCell.getElement().style.color = "#fd9f02";
+                    spellCell.getElement().style.color = "#fd9f02";
+                }
+                else if (data.element === "Thunder") {
+                    elementCell.getElement().style.color = "#85cad9";
+                    spellCell.getElement().style.color = "#85cad9";
+                }
+                else if (data.element === "Undead") {
+                    elementCell.getElement().style.color = "#960303";
+                    spellCell.getElement().style.color = "#960303";
+                }
+                else if (data.element === "Water") {
+                    elementCell.getElement().style.color = "#167ccc";
+                    spellCell.getElement().style.color = "#167ccc";
+                }
+                else if (data.element === "Wind") {
+                    elementCell.getElement().style.color = "#afb9cc";
+                    spellCell.getElement().style.color = "#afb9cc";
+                }
+                // Add more conditions as needed for other spells
             }
         });
-
-        // Reorder the table rows
-        table.tBodies[0].append(...rows);
-    }
+    });
 </script>
-
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
 </body>
 </html>
