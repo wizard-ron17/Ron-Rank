@@ -17,16 +17,18 @@
             height: 100vh;
         }
         h1 {
-            margin-top: 0;
+            margin: auto;
             color: #fff;
         }
         #gameContainer {
             background-color: #333;
             border-radius: 10px;
             padding: 20px;
+            margin: auto;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             color: #fff;
-       }
+            height: auto; /* Change height to auto */
+        }
         input {
             padding: 10px 20px;
             max-width: 60px;
@@ -47,6 +49,9 @@
         .betButton {
             background-color: #008CBA;
             color: white;
+        }
+        .selected {
+            background-color: #4CAF50 !important;
         }
         .balance {
             font-weight: bold;
@@ -80,9 +85,17 @@
             color: red;
             font-weight: bold;
         }
+        .winningClass {
+            color: green;
+            font-weight: bold;
+        }
+        .losingClass {
+            color: red;
+            font-weight: bold;
+        }
         #messageBox {
-            max-height: 100px;
-            height: 100px;
+            max-height: 90px;
+            height: 90px;
             overflow-y: scroll;
             text-align: left;
             padding: 5px;
@@ -102,17 +115,15 @@
         </div>
         <div id="betSection">
             <p>Your balance: <span id="balance" class="balance">100</span> tokens</p>
-            <p>Place your bet:<div id="betIndicator" class="betNotPlaced">No bet placed</div></p>
+            <p>Place your bet:<div id="betIndicator" class="betNotPlaced">No bet selected</div></p>
             <input type="number" id="betAmount" min="1" placeholder="Bet amount">
             <button class="button playButton" onclick="playGame()" id="playButton" disabled>BET</button>
-            <button class="button betButton" onclick="setBet('wizard')">Wizard (1 in 3 odds)</button>
-            <button class="button betButton" onclick="setBet('cleric')">Cleric (1 in 3 odds)</button>
-            <button class="button betButton" onclick="setBet('druid')">Druid (1 in 3 odds)</button>
-            <button class="button betButton" onclick="setBet('elder')">Elder (1 in 333 odds)</button>
+            <button class="button betButton" onclick="setBet('wizard')" data-bet="wizard">Wizard (1 in 3 odds)</button>
+            <button class="button betButton" onclick="setBet('cleric')" data-bet="cleric">Cleric (1 in 3 odds)</button>
+            <button class="button betButton" onclick="setBet('druid')" data-bet="druid">Druid (1 in 3 odds)</button>
+            <button class="button betButton" onclick="setBet('elder')" data-bet="elder">Elder (1 in 333 odds)</button>
         </div>
-  Result Log:
         <div id="messageBox"></div>
-        
     </div>
 
     <script>
@@ -143,38 +154,49 @@
             var wizardImageDiv = document.getElementById('wizardImage');
             var wizardIdParagraph = document.getElementById('imageId');
             wizardImageDiv.innerHTML = `<img src="https://storage.googleapis.com/wizarena/generated_imgs/${randomNumber}.png" alt="Wizard ${randomNumber}" width="256" height="256">`;
-            wizardIdParagraph.innerText = "ID: #" + randomNumber;
+            
             var messageDiv = document.getElementById('messageBox');
             var winAmount = 0;
+            var winningClass = "";
+            if (randomNumber >= 0 && randomNumber <= 1023) {
+                winningClass = "Wizard";
+            } else if (randomNumber >= 1024 && randomNumber <= 2047) {
+                winningClass = "Cleric";
+            } else if (randomNumber >= 2048 && randomNumber <= 3071) {
+                winningClass = "Druid";
+            } else {
+                winningClass = "Elder";
+            }
             if (currentBet === 'wizard') {
                 if (randomNumber >= 0 && randomNumber <= 1023) {
                     winAmount = betAmount * 3;
                     showMessage("You win! It's a Wizard! You earned " + winAmount + " tokens.", "green");
                 } else {
-                    showMessage("You lose! It's not a Wizard. You lost " + betAmount + " tokens.", "red");
+                    showMessage("You lose! It's a " + winningClass + ", not a Wizard. You lost " + betAmount + " tokens.", "red");
                 }
             } else if (currentBet === 'cleric') {
                 if (randomNumber >= 1024 && randomNumber <= 2047) {
                     winAmount = betAmount * 3;
                     showMessage("You win! It's a Cleric! You earned " + winAmount + " tokens.", "green");
                 } else {
-                    showMessage("You lose! It's not a Cleric. You lost " + betAmount + " tokens.", "red");
+                    showMessage("You lose! It's a " + winningClass + ", not a Cleric. You lost " + betAmount + " tokens.", "red");
                 }
             } else if (currentBet === 'druid') {
                 if (randomNumber >= 2048 && randomNumber <= 3071) {
                     winAmount = betAmount * 3;
                     showMessage("You win! It's a Druid! You earned " + winAmount + " tokens.", "green");
                 } else {
-                    showMessage("You lose! It's not a Druid. You lost " + betAmount + " tokens.", "red");
+                    showMessage("You lose! It's a " + winningClass + ", not a Druid. You lost " + betAmount + " tokens.", "red");
                 }
             } else if (currentBet === 'elder') {
                 if (randomNumber >= 3072 && randomNumber <= 3080) {
                     winAmount = betAmount * 333;
                     showMessage("You win! It's an Elder! You earned " + winAmount + " tokens.", "green");
                 } else {
-                    showMessage("You lose! It's not an Elder. You lost " + betAmount + " tokens.", "red");
+                    showMessage("You lose! It's a " + winningClass + ", not an Elder. You lost " + betAmount + " tokens.", "red");
                 }
             }
+          wizardIdParagraph.innerText = winningClass + " ID: #" + randomNumber;
             balance += (winAmount - betAmount);
             document.getElementById('balance').innerText = balance;
             betPlaced = false;
@@ -199,18 +221,27 @@
             var p = document.createElement("p");
             p.innerHTML = "Bet #" + (++betCounter) + " - " + message;
             p.style.color = color;
-            messageDiv.appendChild(p);
             messageDiv.insertBefore(p, messageDiv.firstChild);
         }
 
         function updateBetIndicator() {
             var betIndicatorDiv = document.getElementById('betIndicator');
             if (betPlaced) {
-                betIndicatorDiv.innerText = "Bet placed: " + capitalizeFirstLetter(currentBet);
+                betIndicatorDiv.innerText = "Bet selected: " + capitalizeFirstLetter(currentBet);
                 betIndicatorDiv.className = "betPlaced";
             } else {
-                betIndicatorDiv.innerText = "No bet placed";
+                betIndicatorDiv.innerText = "No bet selected";
                 betIndicatorDiv.className = "betNotPlaced";
+            }
+            // Remove 'selected' class from all bet buttons
+            var betButtons = document.querySelectorAll('.betButton');
+            betButtons.forEach(function(button) {
+                button.classList.remove('selected');
+            });
+            // Add 'selected' class to the current bet button
+            var selectedBetButton = document.querySelector('.betButton[data-bet="' + currentBet + '"]');
+            if (selectedBetButton) {
+                selectedBetButton.classList.add('selected');
             }
         }
     </script>
