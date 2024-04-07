@@ -51,9 +51,23 @@
         .balance {
             font-weight: bold;
         }
-        #wizardImage {
+        #wizardImageContainer {
             margin-top: 20px;
+            margin: auto;
             border-radius: 5px;
+            background-color: #444;
+            padding: 22px 0px 5px 0px; /*top right bottom left*/
+            width: 300px;
+            align-items: center;
+        }
+        #wizardImage {
+            width: 256px;
+            height: 256px;
+            padding: 0px;
+            background-color: #333;
+            margin: auto;
+            border-radius: 5px; /* Example border radius */
+            border: 2px solid #fff;
         }
         .betIndicator {
             margin-top: 10px;
@@ -67,29 +81,37 @@
             font-weight: bold;
         }
         #messageBox {
-            max-height: 50px;
+            max-height: 100px;
+            height: 100px;
             overflow-y: scroll;
             text-align: left;
-            padding: 10px;
-            margin-top: 10px;
+            padding: 5px;
+            margin-top: 5px;
+            background-color: #444;
+            border-radius: 5px;
+            border-outline: 1px solid #fff;
         }
     </style>
 </head>
 <body>
     <div id="gameContainer">
         <h1>Wizard Roulette</h1>
-      <div id="wizardImage"></div>
+        <div id="wizardImageContainer">
+            <div id="wizardImage"></div>
+            <p id="imageId">ID: #</p>
+        </div>
         <div id="betSection">
             <p>Your balance: <span id="balance" class="balance">100</span> tokens</p>
             <p>Place your bet:<div id="betIndicator" class="betNotPlaced">No bet placed</div></p>
             <input type="number" id="betAmount" min="1" placeholder="Bet amount">
+            <button class="button playButton" onclick="playGame()" id="playButton" disabled>BET</button>
             <button class="button betButton" onclick="setBet('wizard')">Wizard (1 in 3 odds)</button>
             <button class="button betButton" onclick="setBet('cleric')">Cleric (1 in 3 odds)</button>
             <button class="button betButton" onclick="setBet('druid')">Druid (1 in 3 odds)</button>
             <button class="button betButton" onclick="setBet('elder')">Elder (1 in 333 odds)</button>
-            <button class="button playButton" onclick="playGame()" id="playButton" disabled>Play</button>
         </div>
-  <div id="messageBox"></div>
+  Result Log:
+        <div id="messageBox"></div>
         
     </div>
 
@@ -119,7 +141,9 @@
             }
             var randomNumber = getRandomNumber(0, 3080);
             var wizardImageDiv = document.getElementById('wizardImage');
+            var wizardIdParagraph = document.getElementById('imageId');
             wizardImageDiv.innerHTML = `<img src="https://storage.googleapis.com/wizarena/generated_imgs/${randomNumber}.png" alt="Wizard ${randomNumber}" width="256" height="256">`;
+            wizardIdParagraph.innerText = "ID: #" + randomNumber;
             var messageDiv = document.getElementById('messageBox');
             var winAmount = 0;
             if (currentBet === 'wizard') {
@@ -176,7 +200,7 @@
             p.innerHTML = "Bet #" + (++betCounter) + " - " + message;
             p.style.color = color;
             messageDiv.appendChild(p);
-            messageDiv.scrollTop = messageDiv.scrollHeight;
+            messageDiv.insertBefore(p, messageDiv.firstChild);
         }
 
         function updateBetIndicator() {
