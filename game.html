@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizard Roulette</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #222;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            margin-top: 0;
+            color: #fff;
+        }
+        #gameContainer {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: #fff;
+       }
+        input {
+            padding: 10px 20px;
+            max-width: 60px;
+            border-radius: 5px;
+        }  
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .playButton {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .betButton {
+            background-color: #008CBA;
+            color: white;
+        }
+        .balance {
+            font-weight: bold;
+        }
+        #wizardImage {
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .betIndicator {
+            margin-top: 10px;
+        }
+        .betPlaced {
+            color: green;
+            font-weight: bold;
+        }
+        .betNotPlaced {
+            color: red;
+            font-weight: bold;
+        }
+        #messageBox {
+            max-height: 50px;
+            overflow-y: scroll;
+            text-align: left;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <h1>Wizard Roulette</h1>
+      <div id="wizardImage"></div>
+        <div id="betSection">
+            <p>Your balance: <span id="balance" class="balance">100</span> tokens</p>
+            <p>Place your bet:<div id="betIndicator" class="betNotPlaced">No bet placed</div></p>
+            <input type="number" id="betAmount" min="1" placeholder="Bet amount">
+            <button class="button betButton" onclick="setBet('wizard')">Wizard (1 in 3 odds)</button>
+            <button class="button betButton" onclick="setBet('cleric')">Cleric (1 in 3 odds)</button>
+            <button class="button betButton" onclick="setBet('druid')">Druid (1 in 3 odds)</button>
+            <button class="button betButton" onclick="setBet('elder')">Elder (1 in 333 odds)</button>
+            <button class="button playButton" onclick="playGame()" id="playButton" disabled>Play</button>
+        </div>
+  <div id="messageBox"></div>
+        
+    </div>
+
+    <script>
+        var betPlaced = false;
+        var currentBet = "";
+        var betCounter = 0;
+
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function playGame() {
+            if (!betPlaced) {
+                showMessage("You must place your bet first!", "red");
+                return;
+            }
+            var betAmount = parseInt(document.getElementById('betAmount').value);
+            if (isNaN(betAmount) || betAmount <= 0) {
+                showMessage("Invalid bet amount!", "red");
+                return;
+            }
+            var balance = parseInt(document.getElementById('balance').innerText);
+            if (balance < betAmount) {
+                showMessage("Insufficient balance!", "red");
+                return;
+            }
+            var randomNumber = getRandomNumber(0, 3080);
+            var wizardImageDiv = document.getElementById('wizardImage');
+            wizardImageDiv.innerHTML = `<img src="https://storage.googleapis.com/wizarena/generated_imgs/${randomNumber}.png" alt="Wizard ${randomNumber}" width="256" height="256">`;
+            var messageDiv = document.getElementById('messageBox');
+            var winAmount = 0;
+            if (currentBet === 'wizard') {
+                if (randomNumber >= 0 && randomNumber <= 1023) {
+                    winAmount = betAmount * 3;
+                    showMessage("You win! It's a Wizard! You earned " + winAmount + " tokens.", "green");
+                } else {
+                    showMessage("You lose! It's not a Wizard. You lost " + betAmount + " tokens.", "red");
+                }
+            } else if (currentBet === 'cleric') {
+                if (randomNumber >= 1024 && randomNumber <= 2047) {
+                    winAmount = betAmount * 3;
+                    showMessage("You win! It's a Cleric! You earned " + winAmount + " tokens.", "green");
+                } else {
+                    showMessage("You lose! It's not a Cleric. You lost " + betAmount + " tokens.", "red");
+                }
+            } else if (currentBet === 'druid') {
+                if (randomNumber >= 2048 && randomNumber <= 3071) {
+                    winAmount = betAmount * 3;
+                    showMessage("You win! It's a Druid! You earned " + winAmount + " tokens.", "green");
+                } else {
+                    showMessage("You lose! It's not a Druid. You lost " + betAmount + " tokens.", "red");
+                }
+            } else if (currentBet === 'elder') {
+                if (randomNumber >= 3072 && randomNumber <= 3080) {
+                    winAmount = betAmount * 333;
+                    showMessage("You win! It's an Elder! You earned " + winAmount + " tokens.", "green");
+                } else {
+                    showMessage("You lose! It's not an Elder. You lost " + betAmount + " tokens.", "red");
+                }
+            }
+            balance += (winAmount - betAmount);
+            document.getElementById('balance').innerText = balance;
+            betPlaced = false;
+            currentBet = "";
+            updateBetIndicator();
+            document.getElementById('playButton').disabled = true;
+        }
+
+        function setBet(betType) {
+            betPlaced = true;
+            currentBet = betType;
+            updateBetIndicator();
+            document.getElementById('playButton').disabled = false;
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function showMessage(message, color) {
+            var messageDiv = document.getElementById('messageBox');
+            var p = document.createElement("p");
+            p.innerHTML = "Bet #" + (++betCounter) + " - " + message;
+            p.style.color = color;
+            messageDiv.appendChild(p);
+            messageDiv.scrollTop = messageDiv.scrollHeight;
+        }
+
+        function updateBetIndicator() {
+            var betIndicatorDiv = document.getElementById('betIndicator');
+            if (betPlaced) {
+                betIndicatorDiv.innerText = "Bet placed: " + capitalizeFirstLetter(currentBet);
+                betIndicatorDiv.className = "betPlaced";
+            } else {
+                betIndicatorDiv.innerText = "No bet placed";
+                betIndicatorDiv.className = "betNotPlaced";
+            }
+        }
+    </script>
+</body>
+</html>
