@@ -359,7 +359,7 @@
     <div class="mode">
       <label>
         <input type="radio" name="mode" value="farmer">
-        LVL 190
+        LVL 200
       </label>
       <label class="active">
         <input type="radio" name="mode" value="apprentice" checked>
@@ -367,7 +367,7 @@
       </label>
       <label>
         <input type="radio" name="mode" value="elite">
-        LVL 375
+        LVL 400
       </label>
     </div>
     <div class="form-group">
@@ -585,13 +585,13 @@ selectAura.addEventListener("change", calculateStats);
           lvlField.classList.remove("red");
         }
       } else if (mode === "elite") {
-        if (level > 375) {
+        if (level > 400) {
           lvlField.classList.add("red");
         } else {
           lvlField.classList.remove("red");
         }
       } else if (mode === "farmer") {
-        if (level > 190) {
+        if (level > 200) {
           lvlField.classList.add("red");
         } else {
           lvlField.classList.remove("red");
