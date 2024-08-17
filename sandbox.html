@@ -108,12 +108,13 @@
 
         .algo-ratio-container {
             position: fixed;
-            bottom: 5px;
+            bottom: 0px;
             left: 61%;
             transform: translateX(-50%);
             background: #333;
             padding: 15px;
             border-radius: 8px;
+            border: #fff 1px solid;
             color: white;
             display: flex;
             align-items: center;
@@ -158,6 +159,26 @@
 
         #startFight:active {
             background-color: #3d8b40;
+        }
+
+        #resetFight {
+            margin-left: 15px;
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        #resetFight:hover {
+            background-color: #d32f2f;
+        }
+
+        #resetFight:active {
+            background-color: #b71c1c;
         }
         
         .player-container img {
@@ -299,9 +320,10 @@
 
     <!-- AlgoRatio Input -->
     <div class="algo-ratio-container">
-        <label for="algoRatio">Algo Ratio:</label>
+        <label for="algoRatio">Algo:</label>
         <input type="number" id="algoRatio" value="1.7" step="0.1" min="0.1" max="10">
-        <button id="startFight" onclick="startFight()">Start Fight</button>
+        <button id="startFight" onclick="startFight()">Start</button>
+        <button id="resetFight" onclick="resetFight()">Reset</button>
     </div>
 
     <script>
@@ -310,6 +332,8 @@
         let playerStats = { hp: 92, maxHp: 92, def: 56, atk: 24, dmg: 33, speed: 0 };
         let enemyStats = { hp: 101, maxHp: 101, def: 14, atk: 44, dmg: 49, speed: 8 };
         let fightStarted = false;
+        let originalPlayerStats = { ...playerStats };
+        let originalEnemyStats = { ...enemyStats };
 
         function openModal(character) {
             document.getElementById('modal-overlay').style.display = 'flex';
@@ -445,12 +469,25 @@
         function startFight() {
             if (!fightStarted) {
                 fightStarted = true;
+                originalPlayerStats = { ...playerStats };
+                originalEnemyStats = { ...enemyStats };
                 let firstTurn = determineFirstTurn();
                 updateBattleLog(`${firstTurn.charAt(0).toUpperCase() + firstTurn.slice(1)} goes first! (Player speed: ${playerStats.speed}, Enemy speed: ${enemyStats.speed})`);
                 turn = firstTurn === 'player' ? 0 : 1;
                 setTimeout(attack, 1000); // Start the first turn after 1 second
             }
         }
+
+        function resetFight() {
+            fightStarted = false;
+            turn = 0;
+            playerStats = { ...originalPlayerStats };
+            enemyStats = { ...originalEnemyStats };
+            updateStatus('player', playerStats);
+            updateStatus('enemy', enemyStats);
+            document.getElementById('battle-log').innerHTML = '';
+            updateBattleLog('Fight reset. Click "Start Fight" to begin a new battle.');
+}
 
         document.getElementById('algoRatio').addEventListener('change', () => {
             let algoRatio = parseFloat(document.getElementById('algoRatio').value);
