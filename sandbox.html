@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/wizard-ron17/Ron-Rank/main/favicon-cleric.ico">
     <title>WA Sandbox</title>
     <style>
-        /* Existing styles */
         body {
             margin: 0;
             padding: 0;
@@ -228,13 +227,14 @@
         }
 
         .open-modal {
-            background: #4caf50;
+            background: #555;
             border: none;
             padding: 8px 16px;
             color: white;
             cursor: pointer;
             border-radius: 4px;
             margin-top: 5px;
+            border: #fff 1px solid;
         }
 
         .form-group {
@@ -253,6 +253,78 @@
         .form-group input {
             padding: 8px;
         }
+
+        @media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+        height: auto;
+        padding-bottom: 60px;
+    }
+
+    .battlefield {
+        flex-direction: column-reverse;
+        margin: 10px 0;
+    }
+
+    .player-container, .enemy-container {
+        position: static;
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .character {
+        width: 150px;
+        margin: 0;
+    }
+
+    .status-bar {
+        position: static;
+        width: 90%;
+        max-width: 300px;
+        margin: 10px auto;
+        font-size: 12px;
+    }
+
+    .player-status, .enemy-status {
+        left: auto;
+        right: auto;
+        margin: 10px auto;
+    }
+
+    .battle-log {
+        position: static;
+        width: 90%;
+        height: 100px;
+        font-size: 14px;
+        margin: 10px auto;
+    }
+
+    .algo-ratio-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        transform: none;
+        border-radius: 0;
+        display: flex;
+        justify-content: space-around;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+
+    #algoRatio {
+        width: 50px;
+    }
+
+    #startFight, #resetFight {
+        padding: 8px 12px;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 300px;
+    }
+}
 
     </style>
 </head>
