@@ -466,7 +466,7 @@
             }
 
             turn++;
-            setTimeout(attack, 2000); // Simulate next turn after 2 seconds
+            setTimeout(attack, 1500); // Simulate next turn after 2 seconds
         }
 
         function startFight() {
@@ -476,7 +476,7 @@
                 originalEnemyStats = { ...enemyStats };
                 turn = determineFirstTurn() === 'player' ? 0 : 1;
                 document.getElementById('battle-log').innerHTML = '';
-                setTimeout(attack, 1000); // Start the first turn after 1 second
+                setTimeout(attack, 100); // Start the first turn after 1 second
             }
         }
 
