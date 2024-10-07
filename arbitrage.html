@@ -1,0 +1,289 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEX Arbitrage Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+        .dashboard {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+        }
+        .refresh-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .refresh-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .refresh-button:hover {
+            background-color: #2980b9;
+        }
+        .refresh-button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .pair-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .pair-card {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .pair-card:hover {
+            transform: translateY(-5px);
+        }
+        .pair-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .pair-logos {
+            display: flex;
+            margin-right: 10px;
+        }
+        .pair-logos img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: -10px;
+            border: 1px solid #777;
+        }
+        .pair-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .price-label {
+            font-size: 0.9em;
+            color: #b0b0b0;
+        }
+        .price-value {
+            font-weight: bold;
+        }
+        .difference {
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .significant-difference {
+            color: #4caf50;
+        }
+        .dex-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .dex-link {
+            color: #64b5f6;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .dex-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Kadena Arbitrage Dashboard</h1>
+        <div class="refresh-section">
+            <button id="refreshButton" class="refresh-button" onclick="handleRefresh()">
+                Refresh Data
+            </button>
+        </div>
+        <div id="pairGrid" class="pair-grid"></div>
+    </div>
+
+    <script>
+    const pairs = [
+        { 
+            name: "WIZA/KDA", 
+            mercatusApi: "https://rons-server.netlify.app/.netlify/functions/server/api/account/jWqHjsx7lZDQIA9uRHy3abj0PXRk5fAuEDYflvv8wdE",
+            mercatusLink: "https://www.mercatus.works/?token0=KDA&token1=WIZA",
+            assetId: "free.wiza",
+            coinId: "coin",
+            kdswapApi: "https://kdswap-fd-prod-cpeabrdfgdg9hzen.z01.azurefd.net/graphql?query={price(token:\"free.wiza\",period:1){priceInKda}}",
+            kdswapLink: "https://www.kdswap.exchange/swap/kda/wiza",
+            logo1: "https://ronrank.xyz/wiz-hat.jpg",
+            logo2: "https://pbs.twimg.com/profile_images/1820556208455172096/PQHyA3TU_400x400.jpg",
+            precision: 4
+        },
+        { 
+            name: "MAGA/KDA", 
+            mercatusApi: "https://rons-server.netlify.app/.netlify/functions/server/api/account/-ltwdC5Q2R17tKzObZ4GbJw5hAQrjJmG3JN7uMl5OJw",
+            mercatusLink: "https://www.mercatus.works/?token0=KDA&token1=MAGA",
+            assetId: "free.maga",
+            coinId: "coin",
+            kdswapApi: "https://kdswap-fd-prod-cpeabrdfgdg9hzen.z01.azurefd.net/graphql?query={price(token:\"free.maga\",period:1){priceInKda}}",
+            kdswapLink: "https://www.kdswap.exchange/swap/kda/maga",
+            logo1: "https://raw.githubusercontent.com/CryptoPascal31/kadena_tokens/main/img/maga.png",
+            logo2: "https://pbs.twimg.com/profile_images/1820556208455172096/PQHyA3TU_400x400.jpg",
+            precision: 5
+        },
+        { 
+            name: "FLUX/KDA", 
+            mercatusApi: "https://rons-server.netlify.app/.netlify/functions/server/api/account/xfS-eHFuzE72619KflxCn0FKSa5BhvvhyR9THumhdOE",
+            mercatusLink: "https://www.mercatus.works/?token0=KDA&token1=FLUX",
+            assetId: "runonflux.flux",
+            coinId: "coin",
+            kdswapApi: "https://kdswap-fd-prod-cpeabrdfgdg9hzen.z01.azurefd.net/graphql?query={price(token:\"runonflux.flux\",period:1){priceInKda}}",
+            kdswapLink: "https://www.kdswap.exchange/swap/kda/flux",
+            logo1: "https://kdswapassets.blob.core.windows.net/public/tokens/flux-logo.svg",
+            logo2: "https://pbs.twimg.com/profile_images/1820556208455172096/PQHyA3TU_400x400.jpg",
+            precision: 4
+        },
+        { 
+            name: "KISHK/KDA", 
+            mercatusApi: "https://rons-server.netlify.app/.netlify/functions/server/api/account/Zr-vo5w_gFUHSO1Hbo0TFlQr39pygrghAs_N335uMVA",
+            mercatusLink: "https://www.mercatus.works/?token0=KDA&token1=KISHK",
+            assetId: "free.kishu-ken",
+            coinId: "coin",
+            kdswapApi: "https://kdswap-fd-prod-cpeabrdfgdg9hzen.z01.azurefd.net/graphql?query={price(token:\"free.kishu-ken\",period:1){priceInKda}}",
+            kdswapLink: "https://www.kdswap.exchange/swap/kda/kishk",
+            logo1: "https://kdswapassets.blob.core.windows.net/public/tokens/kishu-logo.png",
+            logo2: "https://pbs.twimg.com/profile_images/1820556208455172096/PQHyA3TU_400x400.jpg",
+            precision: 12
+        }
+    ];
+
+    async function fetchBalance(url, assetId) {
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const asset = data.assets.find(a => a.assetId === assetId);
+            return asset ? parseFloat(asset.totalBalance) : null;
+        } catch (error) {
+            console.error(`Error fetching balance for asset ${assetId}:`, error);
+            return null;
+        }
+    }
+
+    async function fetchKdswapPrice(url) {
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            return data?.data?.price[0]?.priceInKda ? parseFloat(data.data.price[0].priceInKda) : null;
+        } catch (error) {
+            console.error("Error fetching KDSwap price:", error);
+            return null;
+        }
+    }
+
+    async function generatePairData(pair) {
+        const assetBalance = await fetchBalance(pair.mercatusApi, pair.assetId);
+        const coinBalance = await fetchBalance(pair.mercatusApi, pair.coinId);
+        const kdswapPrice = await fetchKdswapPrice(pair.kdswapApi);
+
+        if (assetBalance === null || coinBalance === null) {
+            return {
+                name: pair.name,
+                mercatusPrice: "N/A",
+                kdswapPrice: "N/A",
+                difference: "N/A",
+                percentDifference: "N/A"
+            };
+        }
+
+        const mercatusPrice = coinBalance / assetBalance;
+        const difference = Math.abs(mercatusPrice - kdswapPrice);
+        const percentDifference = (difference / Math.min(mercatusPrice, kdswapPrice)) * 100;
+
+        return {
+            name: pair.name,
+            mercatusPrice: mercatusPrice.toFixed(pair.precision),
+            kdswapPrice: kdswapPrice ? kdswapPrice.toFixed(pair.precision) : "N/A",
+            difference: difference.toFixed(4),
+            percentDifference: percentDifference.toFixed(2),
+            mercatusLower: mercatusPrice < kdswapPrice
+        };
+    }
+
+    async function createPairCard(pair) {
+        const pairData = await generatePairData(pair);
+        const card = document.createElement('div');
+        card.className = 'pair-card';
+        card.innerHTML = `
+            <div class="pair-header">
+                <div class="pair-logos">
+                    <img src="${pair.logo1}" alt="${pair.name.split('/')[0]} logo" />
+                    <img src="${pair.logo2}" alt="${pair.name.split('/')[1]} logo" />
+                </div>
+                <div class="pair-name">${pairData.name}</div>
+            </div>
+            <div class="price-info">
+                <div>
+                    <div class="price-label">Mercatus Price</div>
+                    <div class="price-value" style="color: ${pairData.mercatusLower ? '#ff4136' : '#2ecc40'}">${pairData.mercatusPrice} KDA</div>
+                </div>
+                <div>
+                    <div class="price-label">KDSwap Price</div>
+                    <div class="price-value" style="color: ${pairData.mercatusLower ? '#2ecc40' : '#ff4136'}">${pairData.kdswapPrice} KDA</div>
+                </div>
+            </div>
+            <div class="difference ${parseFloat(pairData.percentDifference) > 10 ? 'significant-difference' : ''}">
+                Difference: ${pairData.percentDifference}%
+            </div>
+            <div class="dex-links">
+                <a href="${pair.mercatusLink}" target="_blank" class="dex-link">Trade on Mercatus</a>
+                <a href="${pair.kdswapLink}" target="_blank" class="dex-link">Trade on KDSwap</a>
+            </div>
+        `;
+        return card;
+    }
+
+    async function renderDashboard() {
+        const button = document.getElementById('refreshButton');
+        button.disabled = true;
+        button.textContent = 'Refreshing...';
+        
+        const pairGrid = document.getElementById('pairGrid');
+        pairGrid.innerHTML = '';
+        
+        for (const pair of pairs) {
+            const card = await createPairCard(pair);
+            pairGrid.appendChild(card);
+        }
+        
+        button.disabled = false;
+        button.textContent = 'Refresh Data';
+    }
+
+    async function handleRefresh() {
+        await renderDashboard();
+    }
+
+    // Initial render
+    renderDashboard();
+    </script>
+</body>
+</html> -->
