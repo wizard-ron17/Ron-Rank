@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Probability Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-color: #ecf0f1;
+            --card-color: #ffffff;
+            --text-color: #2c3e50;
+            --miss-color: #e74c3c;
+            --hit-color: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .simulator-card {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr) auto;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .input-group input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        #simulate-btn {
+            align-self: flex-end;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #simulate-btn:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .results-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .chart-container {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-title {
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .chart-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chart-bar-fill {
+            width: 50px;
+            border-radius: 5px;
+            transition: height 0.5s ease;
+        }
+
+        .chart-bar-label {
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: var(--text-color);
+        }
+
+        .results-text {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .results-text h3 {
+            grid-column: 1 / -1;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="simulator-card">
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="attack">Attack</label>
+                    <input type="number" id="attack" value="50">
+                </div>
+                <div class="input-group">
+                    <label for="defense">Defense</label>
+                    <input type="number" id="defense" value="50">
+                </div>
+                <div class="input-group">
+                    <label for="simulations">Simulations</label>
+                    <input type="number" id="simulations" value="1000">
+                </div>
+                <button id="simulate-btn">Simulate</button>
+            </div>
+
+            <div id="results-wrapper" style="display: none;">
+                <div class="results-text">
+                    <h3>Simulation Results</h3>
+                    <div class="stat-item">
+                        <span>Hit Rate</span>
+                        <span id="hit-rate">0%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Successful Hits</span>
+                        <span id="successful-hits">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Missed Hits</span>
+                        <span id="missed-hits">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Max Consecutive Misses</span>
+                        <span id="max-consecutive-misses">0</span>
+                    </div>
+                    <div class="stat-item" id="chance-to-hit" style="display: none;">
+                        <span>Chance to Hit</span>
+                        <span id="chance-to-hit-value">100%</span>
+                    </div>
+                </div>
+
+                <div class="results-section">
+                    <div class="chart-container">
+                        <h2 class="chart-title">Hit vs Miss Distribution</h2>
+                        <div id="hit-miss-chart" class="chart-content"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h2 class="chart-title">Consecutive Misses</h2>
+                        <div id="consecutive-miss-chart" class="chart-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calcHitFight(attack, defense, missTimes) {
+            const baseAtk = 50;
+            const tierScale = 3;
+            let finalPct;
+            let diff = attack - defense;
+            
+            if (diff === 0) {
+                finalPct = baseAtk;
+            } else {
+                const mod = (diff / 5) * tierScale;
+                finalPct = baseAtk + mod + diff;
+            }
+            
+            finalPct = finalPct + missTimes;
+            
+            if (finalPct < 2) {
+                finalPct = 2;
+            }
+            if (finalPct > 98) {
+                finalPct = 98;
+            }
+            
+            let result = Math.floor(Math.random() * 100) + 1;
+            return result <= finalPct;
+        }
+
+        document.getElementById('simulate-btn').addEventListener('click', () => {
+            // Reset and show results wrapper
+            const resultsWrapper = document.getElementById('results-wrapper');
+            resultsWrapper.style.display = 'block';
+
+            const attack = Number(document.getElementById('attack').value);
+            const defense = Number(document.getElementById('defense').value);
+            const numSimulations = Number(document.getElementById('simulations').value);
+
+            let successCount = 0;
+            let totalHits = 0;
+            let consecutiveMissTracker = {};
+            let currentConsecutiveMisses = 0;
+            let maxConsecutiveMisses = 0;
+
+            for (let i = 0; i < numSimulations; i++) {
+                let hit = calcHitFight(attack, defense, currentConsecutiveMisses);
+                
+                if (hit) {
+                    successCount++;
+                currentConsecutiveMisses = 0;
+            } else {
+                currentConsecutiveMisses++;
+                if (currentConsecutiveMisses > maxConsecutiveMisses) {
+                    maxConsecutiveMisses = currentConsecutiveMisses;
+                }
+
+                if (!consecutiveMissTracker[currentConsecutiveMisses]) {
+                    consecutiveMissTracker[currentConsecutiveMisses] = 1;
+                } else {
+                    consecutiveMissTracker[currentConsecutiveMisses]++;
+                }
+            }
+        }
+
+        const hitRate = ((successCount / numSimulations) * 100).toFixed(2);
+
+        // Update Results
+        document.getElementById('hit-rate').textContent = hitRate + '%';
+        document.getElementById('successful-hits').textContent = successCount;
+        document.getElementById('missed-hits').textContent = numSimulations - successCount;
+        document.getElementById('max-consecutive-misses').textContent = maxConsecutiveMisses;
+
+        // Display "Chance to Hit" if all hits were successful
+        const chanceToHitUI = document.getElementById('chance-to-hit');
+        if (successCount === numSimulations) {
+            chanceToHitUI.style.display = 'block';
+            document.getElementById('chance-to-hit-value').textContent = '100%';
+        } else {
+            chanceToHitUI.style.display = 'none';
+        }
+
+        // Update Charts
+        const hitMissChart = document.getElementById('hit-miss-chart');
+        const consecutiveMissChart = document.getElementById('consecutive-miss-chart');
+
+        hitMissChart.innerHTML = '';
+        consecutiveMissChart.innerHTML = '';
+
+        const hitBar = createChartBar(successCount, numSimulations, 'Hits', 'var(--hit-color)');
+        const missBar = createChartBar(numSimulations - successCount, numSimulations, 'Misses', 'var(--miss-color)');
+        hitMissChart.appendChild(hitBar);
+        hitMissChart.appendChild(missBar);
+
+        Object.entries(consecutiveMissTracker).forEach(([missCount, occurrences]) => {
+            const bar = createChartBar(occurrences, numSimulations, `${missCount} Misses`, 'var(--miss-color)');
+            consecutiveMissChart.appendChild(bar);
+        });
+    });
+
+    function createChartBar(value, total, label, color) {
+    const barContainer = document.createElement('div');
+    barContainer.className = 'chart-bar';
+
+    const barFill = document.createElement('div');
+    barFill.className = 'chart-bar-fill';
+    barFill.style.height = `${(value / total) * 100}%`;
+    barFill.style.backgroundColor = color;
+
+    const barLabel = document.createElement('div');
+    barLabel.className = 'chart-bar-label';
+    barLabel.textContent = label;
+
+    barContainer.appendChild(barFill);
+    barContainer.appendChild(barLabel);
+
+    return barContainer;
+}
+</script>
+
