@@ -198,7 +198,7 @@
     .mode {
       display: flex;
       justify-content: center;
-      margin: 20px 0px;
+      margin: 20px 20px;
       font-size: 18px;
       font-weight: bold;
       text-transform: uppercase;
@@ -358,8 +358,12 @@
     </form>
     <div class="mode">
       <label>
+        <input type="radio" name="mode" value="160">
+        LVL 160
+      </label>
+      <label>
         <input type="radio" name="mode" value="farmer">
-        LVL 200
+        LVL 225
       </label>
       <label class="active">
         <input type="radio" name="mode" value="apprentice" checked>
@@ -591,7 +595,13 @@ selectAura.addEventListener("change", calculateStats);
           lvlField.classList.remove("red");
         }
       } else if (mode === "farmer") {
-        if (level > 200) {
+        if (level > 225) {
+          lvlField.classList.add("red");
+        } else {
+          lvlField.classList.remove("red");
+        }
+        } else if (mode === "160") {
+        if (level > 160) {
           lvlField.classList.add("red");
         } else {
           lvlField.classList.remove("red");
