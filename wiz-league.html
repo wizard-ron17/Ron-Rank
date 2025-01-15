@@ -2,43 +2,52 @@
 <html>
 <head>
   <style>
-    /* Previous styles remain the same until .wizard-avatar */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    
+    .tab-content {
+      display: none; /* Hide all tab content by default */
+    }
+
+    .tab-content.active {
+      display: block; /* Show active tab content */
+    }
 
     body {
       background: #1a1b2e;
-      padding: 20px;
+      padding: 0;
       color: #fff;
       background-image: 
         radial-gradient(circle at 10% 20%, rgba(91, 37, 195, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 90% 80%, rgba(124, 45, 185, 0.1) 0%, transparent 50%);
+      min-height: 100vh;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       background: rgba(28, 29, 49, 0.95);
-      border-radius: 16px;
+      border-radius: 0;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
+      min-height: 100vh;
     }
 
     .tabs {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       border-bottom: 2px solid rgba(255, 255, 255, 0.1);
       background: rgba(28, 29, 49, 0.98);
-      border-radius: 16px 16px 0 0;
-      padding: 0 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .tab {
-      padding: 20px 32px;
+      padding: 16px 4px;
       cursor: pointer;
       font-weight: 600;
       color: #8e8ea0;
@@ -46,7 +55,9 @@
       transition: all 0.3s ease;
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-size: 14px;
+      font-size: 13px;
+      text-align: center;
+      white-space: nowrap;
     }
 
     .tab:hover {
@@ -69,65 +80,30 @@
     }
 
     .content {
-      padding: 24px;
-      min-height: 400px;
-    }
-
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.5s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .tab-content.active {
-      display: block;
+      padding: 16px;
     }
 
     .wizard-profile {
       display: flex;
-      gap: 20px;
-      padding: 20px;
+      gap: 16px;
+      padding: 16px;
       background: rgba(255, 255, 255, 0.05);
       border-radius: 12px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       align-items: center;
     }
 
     .wizard-profile img {
-      width: 100px; /* Reduced from 200px */
-      height: 100px; /* Reduced from 200px */
+      width: 80px;
+      height: 80px;
       border-radius: 8px;
       border: 2px solid rgba(167, 139, 250, 0.3);
       object-fit: cover;
     }
 
-    .wizard-name {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .wizard-name img {
-      width: 32px; /* Reduced from 48px */
-      height: 32px; /* Reduced from 48px */
-      border-radius: 6px;
-      border: 1px solid rgba(167, 139, 250, 0.3);
-      object-fit: cover;
-    }
-
-    .wizard-profile-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
     .wizard-profile-info h2 {
-      font-size: 24px;
-      margin-bottom: 8px;
+      font-size: 18px;
+      margin-bottom: 4px;
       background: linear-gradient(90deg, #a78bfa, #8b5cf6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -135,35 +111,30 @@
 
     .dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
       margin-bottom: 20px;
     }
 
     .stat-card {
       background: rgba(255, 255, 255, 0.05);
-      padding: 24px;
+      padding: 16px;
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       transition: transform 0.3s ease;
     }
 
-    .stat-card:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
     .stat-card h3 {
       color: #8e8ea0;
-      margin-bottom: 10px;
-      font-size: 14px;
+      margin-bottom: 8px;
+      font-size: 13px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     .stat-card p {
       color: #fff;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 600;
       background: linear-gradient(90deg, #a78bfa, #8b5cf6);
       -webkit-background-clip: text;
@@ -175,16 +146,13 @@
     }
 
     .schedule-item {
-      padding: 20px;
+      padding: 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background 0.3s ease;
-    }
-
-    .schedule-item:hover {
-      background: rgba(255, 255, 255, 0.05);
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .wizard-name {
@@ -194,18 +162,22 @@
     }
 
     .wizard-name img {
-      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
       border: 1px solid rgba(167, 139, 250, 0.3);
+      object-fit: cover;
     }
 
     .standings-table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 14px;
     }
 
     .standings-table th,
     .standings-table td {
-      padding: 16px;
+      padding: 12px 8px;
       text-align: left;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -219,10 +191,6 @@
       font-size: 12px;
     }
 
-    .standings-table tr:hover td {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
     .match-status {
       padding: 4px 12px;
       border-radius: 12px;
@@ -230,6 +198,56 @@
       font-weight: 600;
       background: rgba(167, 139, 250, 0.1);
       color: #a78bfa;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        border-radius: 16px;
+        margin: 20px auto;
+        min-height: calc(100vh - 40px);
+      }
+
+      .tabs {
+        border-radius: 16px 16px 0 0;
+      }
+
+      .content {
+        padding: 24px;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+      }
+
+      .wizard-profile {
+        padding: 24px;
+        gap: 24px;
+      }
+
+      .wizard-profile img {
+        width: 100px;
+        height: 100px;
+      }
+
+      .wizard-profile-info h2 {
+        font-size: 24px;
+      }
+
+      .tab {
+        padding: 20px 4px;
+        font-size: 14px;
+      }
+
+      .standings-table {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
