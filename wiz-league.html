@@ -2,6 +2,7 @@
 <html>
 <head>
   <style>
+    /* Previous styles remain the same until .wizard-avatar */
     * {
       margin: 0;
       padding: 0;
@@ -86,6 +87,52 @@
       display: block;
     }
 
+    .wizard-profile {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      margin-bottom: 24px;
+      align-items: center;
+    }
+
+    .wizard-profile img {
+      width: 100px; /* Reduced from 200px */
+      height: 100px; /* Reduced from 200px */
+      border-radius: 8px;
+      border: 2px solid rgba(167, 139, 250, 0.3);
+      object-fit: cover;
+    }
+
+    .wizard-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wizard-name img {
+      width: 32px; /* Reduced from 48px */
+      height: 32px; /* Reduced from 48px */
+      border-radius: 6px;
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      object-fit: cover;
+    }
+
+    .wizard-profile-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .wizard-profile-info h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #a78bfa, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
     .dashboard-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -140,6 +187,17 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
+    .wizard-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wizard-name img {
+      border-radius: 8px;
+      border: 1px solid rgba(167, 139, 250, 0.3);
+    }
+
     .standings-table {
       width: 100%;
       border-collapse: collapse;
@@ -165,19 +223,6 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
-    .wizard-name {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .wizard-avatar {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(45deg, #a78bfa, #8b5cf6);
-      border-radius: 50%;
-    }
-
     .match-status {
       padding: 4px 12px;
       border-radius: 12px;
@@ -199,14 +244,21 @@
     
     <div class="content">
       <div id="dashboard" class="tab-content active">
+        <div class="wizard-profile">
+          <img src="https://storage.googleapis.com/wizarena/generated_imgs/3081.png" alt="#3081 Ron's Elder Wizard of Earth" />
+          <div class="wizard-profile-info">
+            <h2>#3081 Ron's Elder Wizard of Earth</h2>
+            <p>Current Rank: #2</p>
+          </div>
+        </div>
         <div class="dashboard-grid">
           <div class="stat-card">
             <h3>Battle Record</h3>
             <p>28-14</p>
           </div>
           <div class="stat-card">
-            <h3>Mana Rating</h3>
-            <p>2,847</p>
+            <h3>Rank</h3>
+            <p>#2</p>
           </div>
           <div class="stat-card">
             <h3>Win Streak</h3>
@@ -214,7 +266,7 @@
           </div>
           <div class="stat-card">
             <h3>Next Battle</h3>
-            <p>vs DarkMage</p>
+            <p>vs Larloch</p>
           </div>
         </div>
       </div>
@@ -223,22 +275,22 @@
         <ul class="schedule-list">
           <li class="schedule-item">
             <span class="wizard-name">
-              <div class="wizard-avatar"></div>
-              vs DarkMage NFT #1337
+              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3079.png" alt="Larloch" />
+              vs #3079 Larloch
             </span>
             <span class="match-status">Upcoming</span>
           </li>
           <li class="schedule-item">
             <span class="wizard-name">
-              <div class="wizard-avatar"></div>
-              vs CryptoWizard NFT #892
+              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3078.png" alt="Elder Wizard of Undead" />
+              vs #3078 Elder Wizard of Undead
             </span>
             <span class="match-status">2 Days</span>
           </li>
           <li class="schedule-item">
             <span class="wizard-name">
-              <div class="wizard-avatar"></div>
-              vs ManaLord NFT #456
+              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3083.png" alt="Golden Croc" />
+              vs #3083 Golden Croc
             </span>
             <span class="match-status">4 Days</span>
           </li>
@@ -256,8 +308,8 @@
           </tr>
           <tr>
             <td class="wizard-name">
-              <div class="wizard-avatar"></div>
-              CryptoMage #892
+              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3078.png" alt="Elder Wizard of Undead" />
+              #3078 Elder Wizard of Undead
             </td>
             <td>24,580</td>
             <td>145</td>
@@ -266,8 +318,8 @@
           </tr>
           <tr>
             <td class="wizard-name">
-              <div class="wizard-avatar"></div>
-              SpellMaster #447
+              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3079.png" alt="Larloch" />
+              #3079 Larloch
             </td>
             <td>18,925</td>
             <td>132</td>
@@ -283,28 +335,43 @@
             <th>Wizard</th>
             <th>Wins</th>
             <th>Losses</th>
-            <th>Mana Rating</th>
             <th>Rank</th>
           </tr>
           <tr>
             <td class="wizard-name">
-              <div class="wizard-avatar"></div>
-              ArcaneLord #001
+              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3078.png" alt="Elder Wizard of Undead" />
+              #3078 Elder Wizard of Undead
             </td>
             <td>35</td>
             <td>10</td>
-            <td>3,248</td>
             <td>#1</td>
           </tr>
           <tr>
             <td class="wizard-name">
-              <div class="wizard-avatar"></div>
-              Your Wizard
+              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3081.png" alt="Ron's Elder Wizard of Earth" />
+              #3081 Ron's Elder Wizard of Earth
             </td>
             <td>28</td>
             <td>14</td>
-            <td>2,847</td>
             <td>#2</td>
+          </tr>
+          <tr>
+            <td class="wizard-name">
+              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3079.png" alt="Larloch" />
+              #3079 Larloch
+            </td>
+            <td>25</td>
+            <td>18</td>
+            <td>#3</td>
+          </tr>
+          <tr>
+            <td class="wizard-name">
+              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3083.png" alt="Golden Croc" />
+              #3083 Golden Croc
+            </td>
+            <td>22</td>
+            <td>20</td>
+            <td>#4</td>
           </tr>
         </table>
       </div>
