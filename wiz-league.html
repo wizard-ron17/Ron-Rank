@@ -248,6 +248,121 @@
       .standings-table {
         font-size: 16px;
       }
+      .calendar {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .calendar-header h2 {
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, #a78bfa, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .calendar-day-header {
+      text-align: center;
+      color: #8e8ea0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 8px;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 8px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .calendar-day:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .calendar-day-number {
+      font-size: 0.9rem;
+      color: #8e8ea0;
+    }
+
+    .calendar-day.has-battle {
+      background: rgba(167, 139, 250, 0.1);
+      border-color: rgba(167, 139, 250, 0.2);
+    }
+
+    .calendar-day.has-battle .calendar-day-number {
+      color: #a78bfa;
+    }
+
+    .battle-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      background: rgba(167, 139, 250, 0.2);
+      padding: 4px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .upcoming-battles {
+      margin-top: 20px;
+    }
+
+    .upcoming-battles h3 {
+      color: #8e8ea0;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Update schedule-item for better calendar integration */
+    .schedule-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      border: none;
+    }
+
+    @media (max-width: 768px) {
+      .calendar-grid {
+        gap: 4px;
+      }
+
+      .calendar-day {
+        padding: 4px;
+      }
+
+      .battle-indicator {
+        padding: 2px;
+        bottom: 4px;
+        left: 4px;
+        right: 4px;
+      }
     }
   </style>
 </head>
@@ -290,30 +405,69 @@
       </div>
 
       <div id="schedule" class="tab-content">
-        <ul class="schedule-list">
-          <li class="schedule-item">
-            <span class="wizard-name">
-              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3079.png" alt="Larloch" />
-              vs #3079 Larloch
-            </span>
-            <span class="match-status">Upcoming</span>
-          </li>
-          <li class="schedule-item">
-            <span class="wizard-name">
-              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3078.png" alt="Elder Wizard of Undead" />
-              vs #3078 Elder Wizard of Undead
-            </span>
-            <span class="match-status">2 Days</span>
-          </li>
-          <li class="schedule-item">
-            <span class="wizard-name">
-              <img src="https://storage.googleapis.com/wizarena/generated_imgs/3083.png" alt="Golden Croc" />
-              vs #3083 Golden Croc
-            </span>
-            <span class="match-status">4 Days</span>
-          </li>
-        </ul>
+    <div class="calendar">
+      <div class="calendar-header">
+        <h2>January 2025</h2>
       </div>
+      <div class="calendar-grid">
+        <div class="calendar-day-header">Sun</div>
+        <div class="calendar-day-header">Mon</div>
+        <div class="calendar-day-header">Tue</div>
+        <div class="calendar-day-header">Wed</div>
+        <div class="calendar-day-header">Thu</div>
+        <div class="calendar-day-header">Fri</div>
+        <div class="calendar-day-header">Sat</div>
+        
+        <!-- Previous month days -->
+        <div class="calendar-day">
+          <div class="calendar-day-number">31</div>
+        </div>
+        
+        <!-- Current month days -->
+        <div class="calendar-day">
+          <div class="calendar-day-number">1</div>
+        </div>
+        <div class="calendar-day">
+          <div class="calendar-day-number">2</div>
+        </div>
+        <div class="calendar-day">
+          <div class="calendar-day-number">3</div>
+        </div>
+        <div class="calendar-day has-battle">
+          <div class="calendar-day-number">4</div>
+          <div class="battle-indicator">@ Larloch</div>
+        </div>
+        <div class="calendar-day">
+          <div class="calendar-day-number">5</div>
+        </div>
+        <div class="calendar-day has-battle">
+          <div class="calendar-day-number">6</div>
+          <div class="battle-indicator">vs Elder Wizard</div>
+        </div>
+        <!-- Add more days as needed -->
+      </div>
+    </div>
+
+    <div class="upcoming-battles">
+      <h3>Upcoming Battles</h3>
+      <ul class="schedule-list">
+        <li class="schedule-item">
+          <span class="wizard-name">
+            <img src="https://storage.googleapis.com/wizarena/generated_imgs/3079.png" alt="Larloch" />
+            @ #3079 Larloch
+          </span>
+          <span class="match-status">Jan 4</span>
+        </li>
+        <li class="schedule-item">
+          <span class="wizard-name">
+            <img src="https://storage.googleapis.com/wizarena/generated_imgs/3078.png" alt="Elder Wizard of Undead" />
+            vs #3078 Elder Wizard of Undead
+          </span>
+          <span class="match-status">Jan 6</span>
+        </li>
+      </ul>
+    </div>
+  </div>
 
       <div id="stats" class="tab-content">
         <table class="standings-table">
