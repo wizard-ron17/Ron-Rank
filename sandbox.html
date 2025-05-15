@@ -182,6 +182,30 @@
         #resetFight:active {
             background-color: #b71c1c;
         }
+
+        #skipFight {
+            margin-left: 5px;
+            padding: 8px 8px;
+            background-color: #ffeb3b;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        #skipFight:hover {
+            background-color: #ffe066;
+        }
+        #skipFight:active {
+            background-color: #ffd600;
+        }
+        #skipFight:disabled {
+            background-color: #bdbdbd;
+            color: #888;
+            cursor: not-allowed;
+        }
         
         .player-container img {
             margin-bottom: 0;
@@ -393,12 +417,11 @@
         </div>
     </div>
 
-    <!-- AlgoRatio Input -->
+    <!-- Fight Control Buttons (no AlgoRatio input) -->
     <div class="algo-ratio-container">
-        <label for="algoRatio">Algo:</label>
-        <input type="number" id="algoRatio" value="1.7" step="0.05" min="0.1" max="10">
         <button id="startFight" onclick="startFight()">Start</button>
         <button id="resetFight" onclick="resetFight()">Reset</button>
+        <button id="skipFight" onclick="skipFight()">Skip</button>
     </div>
 
     <script>
@@ -409,6 +432,7 @@
         let fightStarted = false;
         let originalPlayerStats = { ...playerStats };
         let originalEnemyStats = { ...enemyStats };
+        let skipping = false;
 
         function openModal(character) {
             document.getElementById('modal-overlay').style.display = 'flex';
@@ -475,18 +499,17 @@
             `;
         }
 
-        function calcHitFight(attack, defense, missTimes, algoRatio) {
-            const baseAtk = 50;
-            let diff = Math.round((attack - defense) * algoRatio);
-            let finalPct = diff + baseAtk + missTimes;
-            
+        function calcHitFight(attack, defense, missTimes) {
+            const delta = 3;
+            let difference = attack - defense;
+            let modifier = (difference / 5) * delta;
+            let finalPct = 50 + modifier + difference + missTimes;
             if (finalPct < 2) {
                 finalPct = 2;
             }
             if (finalPct > 98) {
                 finalPct = 98;
             }
-
             return finalPct;
         }
 
@@ -509,14 +532,14 @@
             log.innerHTML = message + '<br>' + log.innerHTML;
         }
 
-        function attack() {
-            let algoRatio = parseFloat(document.getElementById('algoRatio').value);
+        function attack(skipMode = false) {
+            if (!fightStarted) return; // Prevent extra calls after fight ends
             let attacker = turn % 2 === 0 ? playerStats : enemyStats;
             let defender = turn % 2 === 0 ? enemyStats : playerStats;
             let attackerName = turn % 2 === 0 ? 'Player' : 'Dummy';
             let defenderName = turn % 2 === 0 ? 'Dummy' : 'Player';
 
-            let hitChance = calcHitFight(attacker.atk, defender.def, 0, algoRatio);
+            let hitChance = calcHitFight(attacker.atk, defender.def, 0);
             let hit = Math.random() * 100 < hitChance;
             let damage = hit ? attacker.dmg : 0;
 
@@ -528,22 +551,33 @@
                 } else {
                     updateStatus('player', playerStats);
                 }
-            }, 100);
+            }, skipMode ? 0 : 100);
 
-            updateBattleLog(`Turn ${turn}: ${attackerName} ${hit ? 'lands,' : 'misses.'} ${damage ? `dealing ${damage} damage.` : ''} ${defender.hp === 0 ? `${defenderName} is K.O.` : ''}`);
+            let koMessage = defender.hp === 0 ? `${defenderName} is K.O.` : '';
+            let logMsg = `Turn ${turn}: ${attackerName} ${hit ? 'lands,' : 'misses.'} ${damage ? `dealing ${damage} damage.` : ''} ${koMessage}`;
+            updateBattleLog(logMsg);
 
             if (defender.hp === 0) {
                 updateBattleLog(`${attacker === playerStats ? 'Player' : 'Dummy'} wins!`);
+                fightStarted = false;
+                skipping = false;
+                document.getElementById('skipFight').disabled = true;
                 return;
             }
 
             turn++;
-            setTimeout(attack, 1500); // Simulate next turn after 2 seconds
+            if (skipping) {
+                setTimeout(() => attack(true), 50); // Fast skip
+            } else {
+                setTimeout(attack, 1500); // Normal turn
+            }
         }
 
         function startFight() {
             if (!fightStarted) {
                 fightStarted = true;
+                skipping = false;
+                document.getElementById('skipFight').disabled = false;
                 originalPlayerStats = { ...playerStats };
                 originalEnemyStats = { ...enemyStats };
                 turn = determineFirstTurn() === 'player' ? 0 : 1;
@@ -554,6 +588,7 @@
 
         function resetFight() {
             fightStarted = false;
+            skipping = false;
             turn = 0;
             playerStats = { ...originalPlayerStats };
             enemyStats = { ...originalEnemyStats };
@@ -561,17 +596,19 @@
             updateStatus('enemy', enemyStats);
             document.getElementById('battle-log').innerHTML = '';
             updateBattleLog('Fight reset. Click "Start Fight" to begin a new battle.');
-}
+            document.getElementById('skipFight').disabled = true;
+        }
 
-        document.getElementById('algoRatio').addEventListener('change', () => {
-            let algoRatio = parseFloat(document.getElementById('algoRatio').value);
-            if (isNaN(algoRatio) || algoRatio <= 0) {
-                document.getElementById('algoRatio').value = 1.7;
-            }
-        });
+        function skipFight() {
+            if (!fightStarted) return;
+            skipping = true;
+            document.getElementById('skipFight').disabled = true;
+            attack(true);
+        }
 
         updateStatus('player', playerStats);
         updateStatus('enemy', enemyStats);
+        document.getElementById('skipFight').disabled = true;
     </script>
 </body>
 </html>
