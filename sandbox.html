@@ -9,7 +9,8 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #2b2b2b;
+            background: #333;
+            background-size: cover;
             font-family: Arial, sans-serif;
             color: white;
             display: flex;
@@ -78,7 +79,7 @@
         .health-bar-inner {
             background-color: #4caf50;
             height: 100%;
-            transition: width 0.1s ease-out, background-color 0.1s ease-out;
+            transition: width 0.5s ease-out, background-color 0.5s ease-out;
         }
         .quartile-marker {
             position: absolute;
@@ -101,15 +102,15 @@
             height: 150px;
             overflow-y: auto;
             position: absolute;
-            bottom: 0;
+            bottom: 2%;
             border: solid 1px #fff;
             left: 20%;
         }
 
         .algo-ratio-container {
             position: fixed;
-            bottom: 0px;
-            left: 64%;
+            bottom: 2%;
+            left: 65.7%;
             transform: translateX(-50%);
             background: #000;
             padding: 10px;
@@ -283,6 +284,7 @@
         overflow-y: auto;
         height: auto;
         padding-bottom: 60px;
+        background-attachment: scroll;
     }
 
     .battlefield {
@@ -349,6 +351,73 @@
         max-width: 300px;
     }
 }
+
+        .options-bar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 100vh;
+            background: rgba(30, 30, 30, 0.85);
+            border-left: 2px solid #444;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+            z-index: 1000;
+        }
+        .option-group {
+            margin-bottom: 30px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .option-group label {
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .option-group select {
+            width: 100%;
+            padding: 6px 4px;
+            border-radius: 4px;
+            border: 1px solid #888;
+            background: #222;
+            color: #fff;
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .options-bar {
+                width: 100vw;
+                height: auto;
+                position: static;
+                flex-direction: row;
+                border-left: none;
+                border-top: 2px solid #444;
+                padding-top: 0;
+                padding-bottom: 10px;
+                justify-content: center;
+            }
+            .option-group {
+                margin: 10px 10px 0 10px;
+                width: auto;
+            }
+        }
+
+        .character-name {
+            background: rgba(20, 20, 20, 0.85);
+            padding: 6px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            letter-spacing: 1px;
+            text-align: center;
+            color: #fff;
+        }
 
     </style>
 </head>
@@ -424,10 +493,32 @@
         <button id="skipFight" onclick="skipFight()">Skip</button>
     </div>
 
+    <!-- Vertical Options Bar -->
+    <div class="options-bar">
+        <div class="option-group">
+            <label for="locationSelect">Location</label>
+            <select id="locationSelect" onchange="changeLocation()">
+                <option value="">None</option>
+                <option value="arena_bg_hd.jpg">Arena</option>
+                <option value="pvp_bg_hd.jpg">PvP</option>
+                <option value="dungeons_bg_hd.jpg">Dungeons</option>
+                <option value="bremonon_bg_hd.jpg">Bremonon</option>
+                <option value="druggorial_bg_hd.jpg">Druggorial</option>
+                <option value="oceorah_bg_hd.jpg">Oceorah</option>
+                <option value="opherus_bg_hd.jpg">Opherus</option>
+                <option value="sitenor_bg_hd.jpg">Sitenor</option>
+                <option value="ulanara_bg_hd.jpg">Ulanara</option>
+                <option value="ulidalar_bg_hd.jpg">Ulidalar</option>
+                <option value="vedrenon_bg_hd.jpg">Vedrenon</option>
+                <option value="wastiaxus_bg_hd.jpg">Wastiaxus</option>
+            </select>
+        </div>
+    </div>
+
     <script>
         let turn = 0;
         let currentPlayer = 'player';
-        let playerStats = { hp: 92, maxHp: 92, def: 56, atk: 24, dmg: 33, speed: 0 };
+        let playerStats = { hp: 77, maxHp: 77, def: 60, atk: 24, dmg: 27, speed: 0 };
         let enemyStats = { hp: 101, maxHp: 101, def: 14, atk: 44, dmg: 49, speed: 8 };
         let fightStarted = false;
         let originalPlayerStats = { ...playerStats };
@@ -545,13 +636,11 @@
 
             defender.hp = Math.max(0, defender.hp - damage);
 
-            setTimeout(() => {
-                if (turn % 2 === 0) {
-                    updateStatus('enemy', enemyStats);
-                } else {
-                    updateStatus('player', playerStats);
-                }
-            }, skipMode ? 0 : 100);
+            if (turn % 2 === 0) {
+                updateStatus('enemy', enemyStats);
+            } else {
+                updateStatus('player', playerStats);
+            }
 
             let koMessage = defender.hp === 0 ? `${defenderName} is K.O.` : '';
             let logMsg = `Turn ${turn}: ${attackerName} ${hit ? 'lands,' : 'misses.'} ${damage ? `dealing ${damage} damage.` : ''} ${koMessage}`;
@@ -606,9 +695,29 @@
             attack(true);
         }
 
+        function changeLocation() {
+            const baseUrl = 'https://github.com/ilariowiz/wizarena/blob/master/src/assets/bg_fights/';
+            const select = document.getElementById('locationSelect');
+            const value = select.value;
+            if (!value) {
+                document.body.style.background = '#23232b';
+                document.body.style.backgroundImage = '';
+            } else {
+                const url = baseUrl + value + '?raw=true';
+                document.body.style.background = `url('${url}') no-repeat center center fixed`;
+                document.body.style.backgroundSize = 'cover';
+            }
+        }
+
         updateStatus('player', playerStats);
         updateStatus('enemy', enemyStats);
         document.getElementById('skipFight').disabled = true;
+
+        // Set initial background to dark grey if Default is selected
+        if (!document.getElementById('locationSelect').value) {
+            document.body.style.background = '#23232b';
+            document.body.style.backgroundImage = '';
+        }
     </script>
 </body>
 </html>
