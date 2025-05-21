@@ -184,6 +184,12 @@
             background-color: #b71c1c;
         }
 
+        #resetFight:disabled {
+            background-color: #bdbdbd;
+            color: #888;
+            cursor: not-allowed;
+        }
+
         #skipFight {
             margin-left: 5px;
             padding: 8px 8px;
@@ -481,6 +487,7 @@
                 <label for="speed">SPEED:</label>
                 <input type="number" id="speed" placeholder="SPEED">
             </div>
+            <div id="modal-error" style="color:#ff4444; margin:8px 0 0 0; font-weight:bold; display:none;"></div>
             <button onclick="saveStats()">Save</button>
             <button class="cancel" onclick="closeModal()">Cancel</button>
         </div>
@@ -489,7 +496,7 @@
     <!-- Fight Control Buttons (no AlgoRatio input) -->
     <div class="algo-ratio-container">
         <button id="startFight" onclick="startFight()">Start</button>
-        <button id="resetFight" onclick="resetFight()">Reset</button>
+        <button id="resetFight" onclick="resetFight()" disabled>Reset</button>
         <button id="skipFight" onclick="skipFight()">Skip</button>
     </div>
 
@@ -529,15 +536,31 @@
             document.getElementById('modal-overlay').style.display = 'flex';
             currentPlayer = character;
             let stats = currentPlayer === 'player' ? playerStats : enemyStats;
+            var modalTitle = document.querySelector('#modal-content h2');
+            if (modalTitle) {
+                modalTitle.textContent = currentPlayer === 'player' ? 'Edit Player Stats' : 'Edit Opponent Stats';
+            }
+            document.getElementById('id').value = stats.id || '';
             document.getElementById('hp').value = stats.hp;
             document.getElementById('def').value = stats.def;
             document.getElementById('atk').value = stats.atk;
             document.getElementById('dmg').value = stats.dmg;
             document.getElementById('speed').value = stats.speed;
+            document.getElementById('modal-error').style.display = 'none';
         }
 
         function closeModal() {
             document.getElementById('modal-overlay').style.display = 'none';
+        }
+
+        function getOpponentDisplayName(id) {
+            id = parseInt(id);
+            if (isNaN(id)) return 'Dummy';
+            if (id >= 0 && id <= 1023) return `Wizard #${id}`;
+            if (id >= 1024 && id <= 2047) return `Cleric #${id}`;
+            if (id >= 2048 && id <= 3071) return `Druid #${id}`;
+            if (id >= 3072 && id <= 3083) return `Elder #${id}`;
+            return `#${id}`;
         }
 
         function saveStats() {
@@ -548,15 +571,27 @@
             let dmg = parseInt(document.getElementById('dmg').value);
             let speed = parseInt(document.getElementById('speed').value);
 
+            // Validate ID range for both player and opponent
+            let idNum = parseInt(id);
+            if (!isNaN(idNum) && idNum >= 3084) {
+                const errorDiv = document.getElementById('modal-error');
+                errorDiv.textContent = 'ID must be less than 3084.';
+                errorDiv.style.display = 'block';
+                return;
+            } else {
+                document.getElementById('modal-error').style.display = 'none';
+            }
+
             if (currentPlayer === 'player') {
                 playerStats = { id, hp, maxHp: hp, def, atk, dmg, speed };
                 updateStatus('player', playerStats);
                 document.querySelector('.player-container .character').src = `https://storage.googleapis.com/wizarena/wizards_nobg_back/${id}.png`;
                 document.querySelector('.player-container .character-name').textContent = `Player`;
             } else {
-                enemyStats = { hp, maxHp: hp, def, atk, dmg, speed };
+                enemyStats = { id, hp, maxHp: hp, def, atk, dmg, speed };
                 updateStatus('enemy', enemyStats);
-                document.querySelector('.enemy-container .character-name').textContent = `Dummy`;
+                document.querySelector('.enemy-container .character').src = `https://storage.googleapis.com/wizarena/wizards_nobg/${id}.png`;
+                document.querySelector('.enemy-container .character-name').textContent = getOpponentDisplayName(id);
             }
             closeModal();
         }
@@ -579,7 +614,7 @@
     
             // Update status bar
             statusBar.innerHTML = `
-                hp ${stats.hp} - def ${stats.def} - atk ${stats.atk} - dmg ${stats.dmg} - speed ${stats.speed}<br>
+                hp ${stats.hp}/${stats.maxHp} - def ${stats.def} - atk ${stats.atk} - dmg ${stats.dmg} - speed ${stats.speed}<br>
                 <div class="health-bar">
                     <div class="health-bar-inner" style="width: ${healthPercentage}%; background-color: ${hpColor};"></div>
                     <div class="quartile-marker quartile-25"></div>
@@ -627,8 +662,14 @@
             if (!fightStarted) return; // Prevent extra calls after fight ends
             let attacker = turn % 2 === 0 ? playerStats : enemyStats;
             let defender = turn % 2 === 0 ? enemyStats : playerStats;
-            let attackerName = turn % 2 === 0 ? 'Player' : 'Dummy';
-            let defenderName = turn % 2 === 0 ? 'Dummy' : 'Player';
+            let attackerName, defenderName;
+            if (turn % 2 === 0) {
+                attackerName = 'Player';
+                defenderName = (enemyStats.id !== undefined && enemyStats.id !== '' && !isNaN(parseInt(enemyStats.id))) ? getOpponentDisplayName(enemyStats.id) : 'Dummy';
+            } else {
+                attackerName = (enemyStats.id !== undefined && enemyStats.id !== '' && !isNaN(parseInt(enemyStats.id))) ? getOpponentDisplayName(enemyStats.id) : 'Dummy';
+                defenderName = 'Player';
+            }
 
             let hitChance = calcHitFight(attacker.atk, defender.def, 0);
             let hit = Math.random() * 100 < hitChance;
@@ -647,10 +688,12 @@
             updateBattleLog(logMsg);
 
             if (defender.hp === 0) {
-                updateBattleLog(`${attacker === playerStats ? 'Player' : 'Dummy'} wins!`);
+                let winnerName = (attacker === playerStats) ? 'Player' : ((enemyStats.id !== undefined && enemyStats.id !== '' && !isNaN(parseInt(enemyStats.id))) ? getOpponentDisplayName(enemyStats.id) : 'Dummy');
+                updateBattleLog(`${winnerName} wins!`);
                 fightStarted = false;
                 skipping = false;
                 document.getElementById('skipFight').disabled = true;
+                document.getElementById('resetFight').disabled = false;
                 return;
             }
 
@@ -667,6 +710,7 @@
                 fightStarted = true;
                 skipping = false;
                 document.getElementById('skipFight').disabled = false;
+                document.getElementById('resetFight').disabled = false;
                 originalPlayerStats = { ...playerStats };
                 originalEnemyStats = { ...enemyStats };
                 turn = determineFirstTurn() === 'player' ? 0 : 1;
@@ -686,6 +730,7 @@
             document.getElementById('battle-log').innerHTML = '';
             updateBattleLog('Fight reset. Click "Start Fight" to begin a new battle.');
             document.getElementById('skipFight').disabled = true;
+            document.getElementById('resetFight').disabled = true;
         }
 
         function skipFight() {
@@ -712,6 +757,7 @@
         updateStatus('player', playerStats);
         updateStatus('enemy', enemyStats);
         document.getElementById('skipFight').disabled = true;
+        document.getElementById('resetFight').disabled = true;
 
         // Set initial background to dark grey if Default is selected
         if (!document.getElementById('locationSelect').value) {
